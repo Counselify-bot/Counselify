@@ -32,7 +32,7 @@ const Services = () => {
 
         try {
             // 1. Create Order
-            const orderRes = await fetch('http://localhost:5001/api/payment/create-order', {
+            const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount })
@@ -56,7 +56,7 @@ const Services = () => {
                 handler: async function (response) {
                     // 3. Verify Payment
                     try {
-                        const verifyRes = await fetch('http://localhost:5001/api/payment/verify', {
+                        const verifyRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
@@ -92,9 +92,9 @@ const Services = () => {
                     }
                 }
             };
-            
+
             const rzp = new window.Razorpay(options);
-            rzp.on('payment.failed', function (response){
+            rzp.on('payment.failed', function (response) {
                 console.error(response.error.description);
                 setProcessingIdx(null);
             });
@@ -255,13 +255,13 @@ const Services = () => {
                                 ))}
                             </ul>
 
-                            <button 
+                            <button
                                 onClick={() => handlePayment(plan, idx)}
                                 disabled={processingIdx === idx}
                                 className={`w-full py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${plan.popular
-                                ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
-                                : 'bg-slate-100 text-brand-dark hover:bg-slate-200 border border-slate-200'
-                                } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                    ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
+                                    : 'bg-slate-100 text-brand-dark hover:bg-slate-200 border border-slate-200'
+                                    } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
                                 {processingIdx === idx ? 'Processing...' : plan.cta}
                             </button>
                         </div>
