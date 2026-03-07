@@ -268,6 +268,20 @@ const Services = () => {
                     ))}
                 </div>
 
+                {/* No Refund Policy */}
+                <div className="mt-20 text-center max-w-2xl mx-auto">
+                    <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-6 py-3 rounded-full text-xs font-black uppercase tracking-[0.15em]">
+                        <ShieldCheck size={16} />
+                        Strict No Refund Policy
+                    </div>
+                    <p className="text-sm text-slate-500 font-medium mt-4 leading-relaxed">
+                        All payments made for Counselify services are <span className="font-bold text-slate-700">final and non-refundable</span>. 
+                        By purchasing any plan, you acknowledge and agree that no refunds will be issued under any circumstances, 
+                        including but not limited to dissatisfaction with the service, change of mind, or unused sessions. 
+                        Please review your plan carefully before making a purchase.
+                    </p>
+                </div>
+
             </div>
         </div>
     );

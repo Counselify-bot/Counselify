@@ -4,15 +4,27 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
+import cookieParser from 'cookie-parser';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:5173',
+        'http://localhost:5174',
+        'https://counselify.vercel.app' // Update with your actual frontend domain
+    ],
+    credentials: true,
+    methods: ['GET', 'POST'],
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 // MongoDB Connection
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://counselify25:counselify@cluster0.rpnkaaz.mongodb.net/?appName=Cluster0';
@@ -38,7 +50,7 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
-// Lead Schema (Optional, can be merged with User)
+// Lead Schema
 const leadSchema = new mongoose.Schema({
     name: String,
     phone: String,
@@ -51,12 +63,28 @@ const leadSchema = new mongoose.Schema({
 
 const Lead = mongoose.model('Lead', leadSchema);
 
+// Helper: Generate JWT and set as HTTP-only cookie
+const setAuthCookie = (res, user) => {
+    const token = jwt.sign(
+        { id: user._id, name: user.name, email: user.email },
+        JWT_SECRET,
+        { expiresIn: '7d' }
+    );
+    res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    });
+    return token;
+};
+
 // Routes
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'Counselify AI Engine is Online' });
 });
 
-// Auth Endpoints
+// Auth: Register
 app.post('/api/auth/register', async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
@@ -65,23 +93,60 @@ app.post('/api/auth/register', async (req, res) => {
 
         const newUser = new User({ name, email, password, phone });
         await newUser.save();
-        res.status(201).json({ message: 'Account created successfully', success: true });
+
+        setAuthCookie(res, newUser);
+
+        res.status(201).json({
+            message: 'Account created successfully',
+            success: true,
+            user: { name: newUser.name, email: newUser.email }
+        });
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).json({ message: 'Registration failed', success: false });
     }
 });
 
+// Auth: Login
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await User.findOne({ email, password }); // Simplified for demo
+        const user = await User.findOne({ email, password });
         if (!user) return res.status(401).json({ message: 'Invalid credentials' });
 
-        res.json({ message: 'Login successful', user: { name: user.name, email: user.email }, success: true });
+        setAuthCookie(res, user);
+
+        res.json({
+            message: 'Login successful',
+            user: { name: user.name, email: user.email },
+            success: true
+        });
     } catch (error) {
         res.status(500).json({ message: 'Login failed', success: false });
     }
+});
+
+// Auth: Get current user (reads cookie)
+app.get('/api/auth/me', (req, res) => {
+    try {
+        const token = req.cookies.token;
+        if (!token) return res.status(401).json({ success: false, message: 'Not authenticated' });
+
+        const decoded = jwt.verify(token, JWT_SECRET);
+        res.json({ success: true, user: { name: decoded.name, email: decoded.email } });
+    } catch (error) {
+        res.status(401).json({ success: false, message: 'Invalid or expired token' });
+    }
+});
+
+// Auth: Logout (clears cookie)
+app.post('/api/auth/logout', (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+    });
+    res.json({ success: true, message: 'Logged out successfully' });
 });
 
 // Lead Capture Endpoint
@@ -100,7 +165,6 @@ app.post('/api/leads', async (req, res) => {
 // AI Explanation Mock Endpoint
 app.post('/api/ai/explain', (req, res) => {
     const { rank, category, homeState } = req.body;
-    // Simulate AI logic
     const explanation = `Based on your ${rank} rank for ${category} in ${homeState}, our AI recommends prioritizing top-tier NIT mechanical and electronics over lower-tier IIIT CSE for better R.O.I.`;
     res.json({ explanation });
 });
@@ -114,7 +178,7 @@ app.post('/api/payment/create-order', async (req, res) => {
         });
 
         const options = {
-            amount: req.body.amount * 100, // amount in smallest currency unit (paise)
+            amount: req.body.amount * 100,
             currency: "INR",
             receipt: "receipt_order_" + Date.now()
         };
@@ -145,7 +209,6 @@ app.post('/api/payment/verify', (req, res) => {
         const isAuthentic = expectedSignature === razorpay_signature;
 
         if (isAuthentic) {
-            // Save logic to database goes here if needed.
             res.json({ success: true, message: "Payment successfully verified." });
         } else {
             res.status(400).json({ success: false, message: "Invalid Signature." });
@@ -156,6 +219,12 @@ app.post('/api/payment/verify', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+// For Vercel serverless deployment
+export default app;

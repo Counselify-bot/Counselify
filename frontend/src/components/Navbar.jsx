@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Menu, X, LogOut } from 'lucide-react';
 import logo from '../assets/logo.svg';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -15,6 +18,19 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    const handleLogout = async () => {
+        await logout();
+        navigate('/');
+    };
+
+    const handleAdvisorClick = (e) => {
+        if (!user) {
+            e.preventDefault();
+            navigate('/login?redirect=/advisor');
+        }
+        setIsMobileMenuOpen(false);
+    };
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -53,10 +69,36 @@ const Navbar = () => {
                 </div>
 
                 {/* Desktop Auth & CTAs */}
-                <div className="hidden lg:flex items-center">
-                    <Link to="/advisor" className="px-8 py-3 bg-[#0462C3] text-white text-[17px] serif-font italic font-medium transition-all hover:bg-[#005536] flex items-center justify-center rounded-full">
+                <div className="hidden lg:flex items-center gap-4">
+                    <Link
+                        to="/advisor"
+                        onClick={handleAdvisorClick}
+                        className="px-8 py-3 bg-[#0462C3] text-white text-[17px] serif-font italic font-medium transition-all hover:bg-[#0351a1] flex items-center justify-center rounded-full"
+                    >
                         Speak to an Advisor
                     </Link>
+
+                    {user ? (
+                        <div className="flex items-center gap-3">
+                            <span className="text-sm font-black text-slate-700 bg-slate-100 px-4 py-2.5 rounded-full">
+                                Hi, {user.name?.split(' ')[0]}
+                            </span>
+                            <button
+                                onClick={handleLogout}
+                                className="p-3 bg-red-50 text-red-500 hover:bg-red-100 rounded-full transition-all"
+                                title="Logout"
+                            >
+                                <LogOut size={18} />
+                            </button>
+                        </div>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className="px-6 py-3 bg-slate-900 text-white text-sm font-black uppercase tracking-widest rounded-full hover:bg-slate-800 transition-all"
+                        >
+                            Login
+                        </Link>
+                    )}
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -91,10 +133,27 @@ const Navbar = () => {
                         <Link
                             to="/advisor"
                             className="w-full py-4 rounded-full bg-[#0462C3] text-white serif-font italic text-center font-medium"
-                            onClick={() => setIsMobileMenuOpen(false)}
+                            onClick={handleAdvisorClick}
                         >
                             Speak to an Advisor
                         </Link>
+
+                        {user ? (
+                            <button
+                                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                                className="w-full py-4 rounded-full bg-red-50 text-red-500 text-center font-black text-sm uppercase tracking-widest"
+                            >
+                                Logout ({user.name?.split(' ')[0]})
+                            </button>
+                        ) : (
+                            <Link
+                                to="/login"
+                                className="w-full py-4 rounded-full bg-slate-900 text-white text-center font-black text-sm uppercase tracking-widest"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                            >
+                                Login
+                            </Link>
+                        )}
                     </div>
                 </div>
             )}

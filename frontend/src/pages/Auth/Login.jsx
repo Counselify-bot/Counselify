@@ -1,9 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Mail, Lock, LogIn, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
+    const [searchParams] = useSearchParams();
+    const redirectPath = searchParams.get('redirect') || '/';
+
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
@@ -17,13 +22,13 @@ const Login = () => {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                credentials: 'include'
             });
             const data = await res.json();
             if (data.success) {
-                localStorage.setItem('user', JSON.stringify(data.user));
-                navigate('/');
-                window.location.reload(); // To update Navbar
+                login(data.user);
+                navigate(redirectPath);
             } else {
                 alert(data.message);
             }

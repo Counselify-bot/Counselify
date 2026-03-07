@@ -1,9 +1,11 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Phone, Trophy, UserPlus, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
@@ -19,12 +21,13 @@ const Signup = () => {
             const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                credentials: 'include'
             });
             const data = await res.json();
             if (data.success) {
-                alert('Account created! Please login.');
-                navigate('/login');
+                login(data.user);
+                navigate('/');
             } else {
                 alert(data.message);
             }
