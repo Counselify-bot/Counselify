@@ -1,0 +1,47 @@
+[
+    {
+        "college_name": "VIT Vellore",
+        "branch": "CSE",
+        "accepts_jee": "No",
+        "rank_range": "1 - 5000",
+        "fees": "1.98 LPA - 4.98 LPA",
+        "avg_package": "12 LPA",
+        "location": "Tamil Nadu"
+    },
+    {
+        "college_name": "Manipal (MIT)",
+        "branch": "CSE",
+        "accepts_jee": "No (Mainly MET)",
+        "rank_range": "1 - 1000",
+        "fees": "4.5 LPA",
+        "avg_package": "14 LPA",
+        "location": "Karnataka"
+    },
+    {
+        "college_name": "Jaypee Noida",
+        "branch": "CSE",
+        "accepts_jee": "Yes",
+        "rank_range": "50000 - 80000",
+        "fees": "3 LPA",
+        "avg_package": "8 LPA",
+        "location": "UP"
+    },
+    {
+        "college_name": "Shiv Nadar",
+        "branch": "CSE",
+        "accepts_jee": "Yes (limited seats)",
+        "rank_range": "40000 - 60000",
+        "fees": "5 LPA",
+        "avg_package": "11 LPA",
+        "location": "Greater Noida"
+    },
+    {
+        "college_name": "Thapar University",
+        "branch": "COE",
+        "accepts_jee": "Yes (50% seats)",
+        "rank_range": "10000 - 35000",
+        "fees": "4 LPA",
+        "avg_package": "10 LPA",
+        "location": "Patiala, Punjab"
+    }
+]

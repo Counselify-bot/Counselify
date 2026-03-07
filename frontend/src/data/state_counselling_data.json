@@ -1,0 +1,50 @@
+[
+    {
+        "college_name": "IET Lucknow",
+        "branch": "CSE",
+        "accepts_jee": "Yes",
+        "closing_rank": 35000,
+        "state_quota": "UP",
+        "counselling": "UPTAC"
+    },
+    {
+        "college_name": "COEP Pune",
+        "branch": "Computer Science",
+        "accepts_jee": "Yes (AI Quota)",
+        "closing_rank": 5000,
+        "state_quota": "Maharashtra",
+        "counselling": "MHT CET"
+    },
+    {
+        "college_name": "HBTU Kanpur",
+        "branch": "Mechanical Engineering",
+        "accepts_jee": "Yes",
+        "closing_rank": 55000,
+        "state_quota": "UP",
+        "counselling": "UPTAC"
+    },
+    {
+        "college_name": "JEC Jabalpur",
+        "branch": "Electronics and Communication",
+        "accepts_jee": "Yes",
+        "closing_rank": 75000,
+        "state_quota": "MP",
+        "counselling": "MPDTE"
+    },
+    {
+        "college_name": "Jadavpur University",
+        "branch": "IT",
+        "accepts_jee": "Yes (limited)",
+        "closing_rank": 1200,
+        "state_quota": "WB",
+        "counselling": "WBJEE"
+    },
+    {
+        "college_name": "YMCA Faridabad",
+        "branch": "CSE",
+        "accepts_jee": "Yes",
+        "closing_rank": 45000,
+        "state_quota": "Haryana",
+        "counselling": "HSTES"
+    }
+]

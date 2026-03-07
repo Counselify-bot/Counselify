@@ -1,0 +1,101 @@
+[
+    {
+        "college_name": "NIT Trichy",
+        "institute_type": "NIT",
+        "branch": "Computer Science and Engineering",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 1,
+        "closing_rank": 1000,
+        "year": 2024
+    },
+    {
+        "college_name": "NIT Trichy",
+        "institute_type": "NIT",
+        "branch": "Electrical and Electronics Engineering",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 2000,
+        "closing_rank": 8000,
+        "year": 2024
+    },
+    {
+        "college_name": "NIT Warangal",
+        "institute_type": "NIT",
+        "branch": "Computer Science",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 500,
+        "closing_rank": 2500,
+        "year": 2024
+    },
+    {
+        "college_name": "IIIT Allahabad",
+        "institute_type": "IIIT",
+        "branch": "Information Technology",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "AI",
+        "opening_rank": 1000,
+        "closing_rank": 6000,
+        "year": 2024
+    },
+    {
+        "college_name": "NIT Bhopal",
+        "institute_type": "NIT",
+        "branch": "CSE",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 3000,
+        "closing_rank": 12000,
+        "year": 2024
+    },
+    {
+        "college_name": "NIT Rourkela",
+        "institute_type": "NIT",
+        "branch": "Mechanical",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 15000,
+        "closing_rank": 25000,
+        "year": 2024
+    },
+    {
+        "college_name": "IIIT Gwalior",
+        "institute_type": "IIIT",
+        "branch": "IT",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "AI",
+        "opening_rank": 5000,
+        "closing_rank": 10000,
+        "year": 2024
+    },
+    {
+        "college_name": "NIT Jaipur",
+        "institute_type": "NIT",
+        "branch": "Civil Engineering",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "OS",
+        "opening_rank": 25000,
+        "closing_rank": 40000,
+        "year": 2024
+    },
+    {
+        "college_name": "IIIT Pune",
+        "institute_type": "IIIT",
+        "branch": "Computer Engineering",
+        "category": "General",
+        "gender": "Gender-Neutral",
+        "home_state": "AI",
+        "opening_rank": 8000,
+        "closing_rank": 18000,
+        "year": 2024
+    }
+]
