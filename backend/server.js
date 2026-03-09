@@ -131,7 +131,8 @@ app.post('/api/auth/register', async (req, res) => {
         res.status(500).json({ 
             message: 'Registration failed due to server error', 
             success: false,
-            error: process.env.NODE_ENV !== 'production' ? error.message : undefined
+            error: error.message,
+            stack: process.env.NODE_ENV !== 'production' ? error.stack : undefined
         });
     }
 });
