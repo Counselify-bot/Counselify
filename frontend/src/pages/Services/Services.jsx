@@ -10,8 +10,8 @@ const Services = () => {
 
     const handlePayment = async (plan, idx) => {
         // Defensive check for the API key
-        if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
-            console.error("CRITICAL: VITE_RAZORPAY_KEY_ID is missing from environment variables!");
+        if (!import.meta.env.RAZORPAY_KEY_ID) {
+            console.error("CRITICAL: RAZORPAY_KEY_ID is missing from environment variables!");
             alert("Payment system is currently under maintenance. Please try again later.");
             return;
         }
@@ -41,7 +41,7 @@ const Services = () => {
 
             // 2. Open Razorpay Checkout Modal
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+                key: import.meta.env.RAZORPAY_KEY_ID,
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Counselify Info",
