@@ -1,9 +1,28 @@
 import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// Loads the Razorpay script only once, on first payment attempt
+let razorpayScriptLoaded = false;
+const loadRazorpayScript = () => {
+    return new Promise((resolve, reject) => {
+        if (razorpayScriptLoaded || window.Razorpay) {
+            razorpayScriptLoaded = true;
+            resolve();
+            return;
+        }
+        const script = document.createElement('script');
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+        script.onload = () => {
+            razorpayScriptLoaded = true;
+            resolve();
+        };
+        script.onerror = () => reject(new Error('Failed to load Razorpay SDK'));
+        document.head.appendChild(script);
+    });
+};
+
 const Services = () => {
-    console.log("Services Component Rendered"); // Debugging render loop
     const navigate = useNavigate();
 
     const [processingIdx, setProcessingIdx] = useState(null);
@@ -21,6 +40,17 @@ const Services = () => {
         }
 
         setProcessingIdx(idx);
+
+        try {
+            // Load Razorpay script on first payment attempt
+            await loadRazorpayScript();
+        } catch (err) {
+            console.error("Failed to load payment gateway:", err);
+            alert("Could not load payment system. Please check your internet connection and try again.");
+            setProcessingIdx(null);
+            return;
+        }
+
         const amountDisplay = plan.price.replace(/[^0-9]/g, '');
         const amount = parseInt(amountDisplay);
 
