@@ -3,21 +3,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
+    console.log("Services Component Rendered"); // Debugging render loop
     const navigate = useNavigate();
-    // Load Razorpay script dynamically with guard
-    useEffect(() => {
-        const scriptSrc = "https://checkout.razorpay.com/v1/checkout.js";
-        if (document.querySelector(`script[src="${scriptSrc}"]`)) return;
-
-        const script = document.createElement('script');
-        script.src = scriptSrc;
-        script.async = true;
-        document.body.appendChild(script);
-    }, []);
 
     const [processingIdx, setProcessingIdx] = useState(null);
 
     const handlePayment = async (plan, idx) => {
+        // Defensive check for the API key
+        if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
+            console.error("CRITICAL: VITE_RAZORPAY_KEY_ID is missing from environment variables!");
+            alert("Payment system is currently under maintenance. Please try again later.");
+            return;
+        }
         if (plan.price === "₹0") {
             navigate('/signup');
             return;
