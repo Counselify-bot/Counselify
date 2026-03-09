@@ -47,7 +47,7 @@ const Services = () => {
 
             // 2. Open Razorpay Checkout Modal
             const options = {
-                key: "rzp_test_SORRPlkvsroJrW",
+                key: import.meta.env.RAZORPAY_KEY_ID,
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Counselify Info",
@@ -275,9 +275,9 @@ const Services = () => {
                         Strict No Refund Policy
                     </div>
                     <p className="text-sm text-slate-500 font-medium mt-4 leading-relaxed">
-                        All payments made for Counselify services are <span className="font-bold text-slate-700">final and non-refundable</span>. 
-                        By purchasing any plan, you acknowledge and agree that no refunds will be issued under any circumstances, 
-                        including but not limited to dissatisfaction with the service, change of mind, or unused sessions. 
+                        All payments made for Counselify services are <span className="font-bold text-slate-700">final and non-refundable</span>.
+                        By purchasing any plan, you acknowledge and agree that no refunds will be issued under any circumstances,
+                        including but not limited to dissatisfaction with the service, change of mind, or unused sessions.
                         Please review your plan carefully before making a purchase.
                     </p>
                 </div>
