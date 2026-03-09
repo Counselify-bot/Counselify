@@ -45,7 +45,12 @@ const connectDB = async () => {
     if (mongoose.connection.readyState >= 1) return;
     try {
         console.log('Attempting to connect to MongoDB...');
-        await mongoose.connect(mongoURI);
+        await mongoose.connect(mongoURI, {
+            maxPoolSize: 10, // Maintain up to 10 socket connections
+            minPoolSize: 2,  // Keep at least 2 connections ready
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        });
         console.log('✅ Connected to MongoDB Atlas Successfully');
     } catch (err) {
         console.error('❌ MongoDB Connection Failed!');
@@ -112,7 +117,8 @@ app.post('/api/auth/register', async (req, res) => {
             return res.status(400).json({ message: 'Email and password are required', success: false });
         }
 
-        const existingUser = await User.findOne({ email });
+        // Optimization: Use .lean() for faster read-only queries
+        const existingUser = await User.findOne({ email }).lean();
         if (existingUser) return res.status(400).json({ message: 'User already exists', success: false });
 
         const newUser = new User({ name, email, password, phone });
@@ -141,7 +147,8 @@ app.post('/api/auth/login', async (req, res) => {
     try {
         await connectDB();
         const { email, password } = req.body;
-        const user = await User.findOne({ email, password });
+        // Optimization: Use .lean() for faster authentication checks
+        const user = await User.findOne({ email, password }).lean();
         if (!user) return res.status(401).json({ message: 'Invalid credentials', success: false });
 
         setAuthCookie(res, user);
