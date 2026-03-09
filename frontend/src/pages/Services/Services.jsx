@@ -4,18 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
     const navigate = useNavigate();
-    // Load Razorpay script dynamically
+    // Load Razorpay script dynamically with guard
     useEffect(() => {
-        const loadScript = src => {
-            return new Promise(resolve => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = () => resolve(true);
-                script.onerror = () => resolve(false);
-                document.body.appendChild(script);
-            });
-        };
-        loadScript("https://checkout.razorpay.com/v1/checkout.js");
+        const scriptSrc = "https://checkout.razorpay.com/v1/checkout.js";
+        if (document.querySelector(`script[src="${scriptSrc}"]`)) return;
+
+        const script = document.createElement('script');
+        script.src = scriptSrc;
+        script.async = true;
+        document.body.appendChild(script);
     }, []);
 
     const [processingIdx, setProcessingIdx] = useState(null);
@@ -47,7 +44,7 @@ const Services = () => {
 
             // 2. Open Razorpay Checkout Modal
             const options = {
-                key: import.meta.env.RAZORPAY_KEY_ID,
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: orderData.order.amount,
                 currency: "INR",
                 name: "Counselify Info",
