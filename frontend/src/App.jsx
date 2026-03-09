@@ -10,6 +10,7 @@ import Contact from './pages/Contact/Contact';
 import Advisor from './pages/Advisor/Advisor';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
+import Transaction from './pages/Transaction/Transaction';
 import Ebooks from './pages/Resources/SubPages/Ebooks';
 import Videos from './pages/Resources/SubPages/Videos';
 import CutoffData from './pages/Resources/SubPages/CutoffData';
@@ -69,6 +70,11 @@ function AppContent() {
           } />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/transaction" element={
+            <ProtectedRoute redirectTo="/login?redirect=/transaction">
+              <Transaction />
+            </ProtectedRoute>
+          } />
           <Route path="/resources/ebooks" element={<Ebooks />} />
           <Route path="/resources/videos" element={<Videos />} />
           <Route path="/resources/cutoff-data" element={<CutoffData />} />

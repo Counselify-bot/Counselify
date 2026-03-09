@@ -1,6 +1,7 @@
-import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X } from 'lucide-react';
-import { useState } from 'react';
+import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X, ChevronDown } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 // Loads the Razorpay script only once, on first payment attempt
 let razorpayScriptLoaded = false;
@@ -22,27 +23,102 @@ const loadRazorpayScript = () => {
     });
 };
 
+const INDIAN_STATES = [
+    "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+    "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+    "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+    "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+    "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+    "Uttar Pradesh", "Uttarakhand", "West Bengal",
+    "Andaman & Nicobar", "Chandigarh", "Delhi", "J&K", "Ladakh",
+    "Lakshadweep", "Puducherry"
+];
+
+const CATEGORIES = ["General", "OBC-NCL", "SC", "ST", "EWS", "PwD"];
+
 const Services = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const [processingIdx, setProcessingIdx] = useState(null);
+    const [purchasedPlans, setPurchasedPlans] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [selectedPlan, setSelectedPlan] = useState(null);
+    const [selectedIdx, setSelectedIdx] = useState(null);
 
-    const handlePayment = async (plan, idx) => {
+    // Form fields
+    const [formData, setFormData] = useState({
+        studentName: '',
+        whatsapp: '',
+        category: '',
+        rank: '',
+        examType: 'JEE Mains',
+        state: '',
+        gender: ''
+    });
+
+    const API_URL = import.meta.env.VITE_API_URL;
+
+    // Fetch user's existing transactions on mount
+    useEffect(() => {
+        if (user?.email) {
+            fetch(`${API_URL}/api/payment/transactions/${user.email}`, {
+                credentials: 'include'
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        setPurchasedPlans(data.transactions.map(t => t.planName));
+                    }
+                })
+                .catch(err => console.error('Failed to check purchases:', err));
+        }
+    }, [user]);
+
+    const handlePlanClick = (plan, idx) => {
+        // If user already purchased this plan, redirect to transaction page
+        if (purchasedPlans.includes(plan.name)) {
+            navigate('/transaction');
+            return;
+        }
+
+        // Show enrollment form
+        setSelectedPlan(plan);
+        setSelectedIdx(idx);
+        setShowModal(true);
+    };
+
+    const handleFormChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const isFormValid = () => {
+        return formData.studentName.trim() &&
+            formData.whatsapp.trim() &&
+            formData.category &&
+            formData.rank.trim() &&
+            formData.state &&
+            formData.gender;
+    };
+
+    const handleProceedToPayment = async () => {
+        if (!isFormValid()) {
+            alert("Please fill in all fields before proceeding.");
+            return;
+        }
+
         // Defensive check for the API key
         if (!import.meta.env.VITE_RAZORPAY_KEY_ID) {
             console.error("CRITICAL: VITE_RAZORPAY_KEY_ID is missing from environment variables!");
             alert("Payment system is currently under maintenance. Please try again later.");
             return;
         }
-        if (plan.price === "₹0") {
-            navigate('/signup');
-            return;
-        }
 
+        const plan = selectedPlan;
+        const idx = selectedIdx;
         setProcessingIdx(idx);
 
         try {
-            // Load Razorpay script on first payment attempt
             await loadRazorpayScript();
         } catch (err) {
             console.error("Failed to load payment gateway:", err);
@@ -56,7 +132,7 @@ const Services = () => {
 
         try {
             // 1. Create Order
-            const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/create-order`, {
+            const orderRes = await fetch(`${API_URL}/api/payment/create-order`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ amount })
@@ -78,34 +154,43 @@ const Services = () => {
                 description: `Payment for ${plan.name}`,
                 order_id: orderData.order.id,
                 handler: async function (response) {
-                    // 3. Verify Payment
+                    // 3. Verify Payment & Save Transaction
                     try {
-                        const verifyRes = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/verify`, {
+                        const verifyRes = await fetch(`${API_URL}/api/payment/verify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 razorpay_order_id: response.razorpay_order_id,
                                 razorpay_payment_id: response.razorpay_payment_id,
-                                razorpay_signature: response.razorpay_signature
+                                razorpay_signature: response.razorpay_signature,
+                                planName: plan.name,
+                                amount,
+                                email: user?.email || '',
+                                ...formData
                             })
                         });
                         const verifyData = await verifyRes.json();
 
                         if (verifyData.success) {
-                            console.log("Payment Successful! Welcome to Counselify.");
+                            setShowModal(false);
+                            navigate('/transaction', {
+                                state: { transaction: verifyData.transaction }
+                            });
                         } else {
                             console.error("Payment verification failed.");
+                            alert("Payment verification failed. Please contact support.");
                         }
                     } catch (err) {
                         console.error("Error during payment verification.");
+                        alert("Something went wrong during verification. Please contact support.");
                     } finally {
                         setProcessingIdx(null);
                     }
                 },
                 prefill: {
-                    name: "",
-                    email: "",
-                    contact: ""
+                    name: formData.studentName,
+                    email: user?.email || '',
+                    contact: formData.whatsapp
                 },
                 theme: {
                     color: "#0462C3"
@@ -133,8 +218,8 @@ const Services = () => {
 
     const plans = [
         {
-            name: "Free Plan",
-            price: "₹0",
+            name: "Basic Plan",
+            price: "₹1",
             desc: "Best for students who just want prediction.",
             features: [
                 { text: "AI Rank Predictor (IIT/NIT/IIIT/GFTI/State/Private)", inc: true },
@@ -144,7 +229,7 @@ const Services = () => {
                 { text: "No personalized strategy", inc: false },
                 { text: "No support", inc: false }
             ],
-            cta: "Get Started Free",
+            cta: "Get Started for ₹1",
             icon: <Zap size={28} className="text-slate-400" />
         },
         {
@@ -280,13 +365,20 @@ const Services = () => {
                             </ul>
 
                             <button
-                                onClick={() => handlePayment(plan, idx)}
+                                onClick={() => handlePlanClick(plan, idx)}
                                 disabled={processingIdx === idx}
-                                className={`w-full py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${plan.popular
-                                    ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
-                                    : 'bg-slate-100 text-brand-dark hover:bg-slate-200 border border-slate-200'
-                                    } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                                {processingIdx === idx ? 'Processing...' : plan.cta}
+                                className={`w-full py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${
+                                    purchasedPlans.includes(plan.name)
+                                        ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-900/20'
+                                        : plan.popular
+                                            ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
+                                            : 'bg-slate-100 text-brand-dark hover:bg-slate-200 border border-slate-200'
+                                } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                {processingIdx === idx
+                                    ? 'Processing...'
+                                    : purchasedPlans.includes(plan.name)
+                                        ? '✓ View Transaction'
+                                        : plan.cta}
                             </button>
                         </div>
                     ))}
@@ -307,6 +399,192 @@ const Services = () => {
                 </div>
 
             </div>
+
+            {/* ── Enrollment Form Modal ── */}
+            {showModal && selectedPlan && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    onClick={(e) => { if (e.target === e.currentTarget) { setShowModal(false); setProcessingIdx(null); } }}>
+                    {/* Backdrop */}
+                    <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+                    {/* Modal */}
+                    <div className="relative bg-white rounded-[32px] w-full max-w-lg max-h-[90vh] overflow-y-auto shadow-2xl p-8 md:p-10 animate-fadeIn">
+                        {/* Close button */}
+                        <button
+                            onClick={() => { setShowModal(false); setProcessingIdx(null); }}
+                            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
+                        >
+                            <X size={18} className="text-slate-500" />
+                        </button>
+
+                        {/* Modal header */}
+                        <div className="mb-8">
+                            <span className="text-[10px] uppercase tracking-[0.3em] font-black text-[#0462C3] bg-[#0462C3]/10 px-3 py-1.5 rounded-full">
+                                Enrollment Form
+                            </span>
+                            <h2 className="text-2xl md:text-3xl font-black text-brand-dark tracking-tight mt-4">
+                                {selectedPlan.name}
+                            </h2>
+                            <p className="text-sm text-slate-500 font-bold mt-1">
+                                {selectedPlan.price} • Fill your details to proceed
+                            </p>
+                        </div>
+
+                        {/* Form */}
+                        <div className="space-y-5">
+                            {/* Name */}
+                            <div>
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    Full Name <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="studentName"
+                                    value={formData.studentName}
+                                    onChange={handleFormChange}
+                                    placeholder="Enter your full name"
+                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                />
+                            </div>
+
+                            {/* WhatsApp Number */}
+                            <div>
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    WhatsApp Number <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    name="whatsapp"
+                                    value={formData.whatsapp}
+                                    onChange={handleFormChange}
+                                    placeholder="e.g. 9876543210"
+                                    maxLength={10}
+                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                />
+                            </div>
+
+                            {/* Exam Type Toggle */}
+                            <div>
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    Exam Type <span className="text-red-400">*</span>
+                                </label>
+                                <div className="flex gap-3">
+                                    {['JEE Mains', 'JEE Advanced'].map((exam) => (
+                                        <button
+                                            key={exam}
+                                            type="button"
+                                            onClick={() => setFormData({ ...formData, examType: exam })}
+                                            className={`flex-1 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${
+                                                formData.examType === exam
+                                                    ? 'bg-[#0462C3] text-white shadow-md'
+                                                    : 'bg-slate-50 text-slate-500 border border-slate-200 hover:bg-slate-100'
+                                            }`}
+                                        >
+                                            {exam}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Rank */}
+                            <div>
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    Rank ({formData.examType}) <span className="text-red-400">*</span>
+                                </label>
+                                <input
+                                    type="number"
+                                    name="rank"
+                                    value={formData.rank}
+                                    onChange={handleFormChange}
+                                    placeholder="Enter your rank"
+                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                />
+                            </div>
+
+                            {/* Category & Gender - side by side */}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                        Category <span className="text-red-400">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="category"
+                                            value={formData.category}
+                                            onChange={handleFormChange}
+                                            className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                        >
+                                            <option value="">Select</option>
+                                            {CATEGORIES.map(c => (
+                                                <option key={c} value={c}>{c}</option>
+                                            ))}
+                                        </select>
+                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                        Gender <span className="text-red-400">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <select
+                                            name="gender"
+                                            value={formData.gender}
+                                            onChange={handleFormChange}
+                                            className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                        >
+                                            <option value="">Select</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* State */}
+                            <div>
+                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    Home State <span className="text-red-400">*</span>
+                                </label>
+                                <div className="relative">
+                                    <select
+                                        name="state"
+                                        value={formData.state}
+                                        onChange={handleFormChange}
+                                        className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                    >
+                                        <option value="">Select your state</option>
+                                        {INDIAN_STATES.map(s => (
+                                            <option key={s} value={s}>{s}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Proceed to Payment Button */}
+                        <button
+                            onClick={handleProceedToPayment}
+                            disabled={!isFormValid() || processingIdx !== null}
+                            className={`w-full mt-8 py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-lg ${
+                                isFormValid() && processingIdx === null
+                                    ? 'bg-[#0462C3] text-white hover:bg-brand-dark cursor-pointer'
+                                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                            }`}
+                        >
+                            {processingIdx !== null ? 'Processing...' : `Proceed to Payment — ${selectedPlan.price}`}
+                        </button>
+
+                        <p className="text-[11px] text-slate-400 text-center mt-4 font-medium">
+                            Your details will be used for personalized counselling. Payments are secure & encrypted.
+                        </p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

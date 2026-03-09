@@ -6,6 +6,8 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import cookieParser from 'cookie-parser';
 import jwt from 'jsonwebtoken';
+import User from './models/User.js';
+import Transaction from './models/Transaction.js';
 
 dotenv.config();
 
@@ -59,32 +61,7 @@ const connectDB = async () => {
     }
 };
 
-// User Schema
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: { type: String, unique: true, required: true },
-    password: { type: String, required: true }, // In production, hash this!
-    phone: String,
-    rank: String,
-    category: String,
-    homeState: String,
-    createdAt: { type: Date, default: Date.now }
-});
-
-const User = mongoose.model('User', userSchema);
-
-// Lead Schema
-const leadSchema = new mongoose.Schema({
-    name: String,
-    phone: String,
-    email: String,
-    rank: String,
-    category: String,
-    homeState: String,
-    createdAt: { type: Date, default: Date.now }
-});
-
-const Lead = mongoose.model('Lead', leadSchema);
+// Models are imported from ./models/
 
 // Helper: Generate JWT and set as HTTP-only cookie
 const setAuthCookie = (res, user) => {
@@ -229,12 +206,23 @@ app.post('/api/payment/create-order', async (req, res) => {
     }
 });
 
-app.post('/api/payment/verify', (req, res) => {
+app.post('/api/payment/verify', async (req, res) => {
     try {
+        await connectDB();
         const {
             razorpay_order_id,
             razorpay_payment_id,
-            razorpay_signature
+            razorpay_signature,
+            planName,
+            amount,
+            email,
+            studentName,
+            whatsapp,
+            category,
+            rank,
+            examType,
+            state,
+            gender
         } = req.body;
 
         const body = razorpay_order_id + "|" + razorpay_payment_id;
@@ -247,12 +235,44 @@ app.post('/api/payment/verify', (req, res) => {
         const isAuthentic = expectedSignature === razorpay_signature;
 
         if (isAuthentic) {
-            res.json({ success: true, message: "Payment successfully verified." });
+            // Save the transaction
+            const transaction = new Transaction({
+                email,
+                planName,
+                amount: amount || 0,
+                razorpayOrderId: razorpay_order_id,
+                razorpayPaymentId: razorpay_payment_id,
+                status: 'success',
+                studentName,
+                whatsapp,
+                category,
+                rank,
+                examType,
+                state,
+                gender
+            });
+            await transaction.save();
+
+            res.json({ success: true, message: "Payment successfully verified.", transaction });
         } else {
             res.status(400).json({ success: false, message: "Invalid Signature." });
         }
     } catch (error) {
         console.error("Verification Error:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+    }
+});
+
+// Get all transactions for a user
+app.get('/api/payment/transactions/:email', async (req, res) => {
+    try {
+        await connectDB();
+        const transactions = await Transaction.find({ email: req.params.email })
+            .sort({ createdAt: -1 })
+            .lean();
+        res.json({ success: true, transactions });
+    } catch (error) {
+        console.error("Fetch transactions error:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
 });
