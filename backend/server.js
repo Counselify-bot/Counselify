@@ -17,15 +17,14 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:5174',
-    'https://counselify.vercel.app',
-    'https://counselify-55cf2gbse-counselify25-9407s-projects.vercel.app'
+    'https://counselify.vercel.app'
 ];
 
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
-        
+
         if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
             return callback(null, true);
         } else {
@@ -108,7 +107,7 @@ app.post('/api/auth/register', async (req, res) => {
     try {
         await connectDB();
         const { name, email, password, phone } = req.body;
-        
+
         if (!email || !password) {
             return res.status(400).json({ message: 'Email and password are required', success: false });
         }
@@ -128,8 +127,8 @@ app.post('/api/auth/register', async (req, res) => {
         });
     } catch (error) {
         console.error('CRITICAL Registration error:', error);
-        res.status(500).json({ 
-            message: 'Registration failed due to server error', 
+        res.status(500).json({
+            message: 'Registration failed due to server error',
             success: false,
             error: error.message,
             stack: process.env.NODE_ENV !== 'production' ? error.stack : undefined
