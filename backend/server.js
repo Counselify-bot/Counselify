@@ -14,14 +14,27 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key';
 
 // Middleware
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'https://counselify.vercel.app',
+    'https://counselify-55cf2gbse-counselify25-9407s-projects.vercel.app'
+];
+
 app.use(cors({
-    origin: [
-        'http://localhost:5173',
-        'http://localhost:5174',
-        'https://counselify.vercel.app' // Update with your actual frontend domain
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        if (allowedOrigins.indexOf(origin) !== -1 || origin.endsWith('.vercel.app')) {
+            return callback(null, true);
+        } else {
+            return callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 app.use(express.json());
 app.use(cookieParser());
