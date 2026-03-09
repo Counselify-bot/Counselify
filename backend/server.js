@@ -41,13 +41,19 @@ app.use(cookieParser());
 
 // MongoDB Connection
 const mongoURI = process.env.MONGODB_URI || 'mongodb+srv://counselify25:counselify@cluster0.rpnkaaz.mongodb.net/?appName=Cluster0';
-console.log('Attempting to connect to MongoDB...');
-mongoose.connect(mongoURI)
-    .then(() => console.log('✅ Connected to MongoDB Atlas Successfully'))
-    .catch((err) => {
+
+const connectDB = async () => {
+    if (mongoose.connection.readyState >= 1) return;
+    try {
+        console.log('Attempting to connect to MongoDB...');
+        await mongoose.connect(mongoURI);
+        console.log('✅ Connected to MongoDB Atlas Successfully');
+    } catch (err) {
         console.error('❌ MongoDB Connection Failed!');
         console.error('Error Details:', err.message);
-    });
+        throw err;
+    }
+};
 
 // User Schema
 const userSchema = new mongoose.Schema({
@@ -100,9 +106,15 @@ app.get('/api/health', (req, res) => {
 // Auth: Register
 app.post('/api/auth/register', async (req, res) => {
     try {
+        await connectDB();
         const { name, email, password, phone } = req.body;
+        
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required', success: false });
+        }
+
         const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(400).json({ message: 'User already exists' });
+        if (existingUser) return res.status(400).json({ message: 'User already exists', success: false });
 
         const newUser = new User({ name, email, password, phone });
         await newUser.save();
@@ -115,17 +127,22 @@ app.post('/api/auth/register', async (req, res) => {
             user: { name: newUser.name, email: newUser.email }
         });
     } catch (error) {
-        console.error('Registration error:', error);
-        res.status(500).json({ message: 'Registration failed', success: false });
+        console.error('CRITICAL Registration error:', error);
+        res.status(500).json({ 
+            message: 'Registration failed due to server error', 
+            success: false,
+            error: process.env.NODE_ENV !== 'production' ? error.message : undefined
+        });
     }
 });
 
 // Auth: Login
 app.post('/api/auth/login', async (req, res) => {
     try {
+        await connectDB();
         const { email, password } = req.body;
         const user = await User.findOne({ email, password });
-        if (!user) return res.status(401).json({ message: 'Invalid credentials' });
+        if (!user) return res.status(401).json({ message: 'Invalid credentials', success: false });
 
         setAuthCookie(res, user);
 
@@ -135,12 +152,13 @@ app.post('/api/auth/login', async (req, res) => {
             success: true
         });
     } catch (error) {
+        console.error('Login error:', error);
         res.status(500).json({ message: 'Login failed', success: false });
     }
 });
 
 // Auth: Get current user (reads cookie)
-app.get('/api/auth/me', (req, res) => {
+app.get('/api/auth/me', async (req, res) => {
     try {
         const token = req.cookies.token;
         if (!token) return res.status(401).json({ success: false, message: 'Not authenticated' });
