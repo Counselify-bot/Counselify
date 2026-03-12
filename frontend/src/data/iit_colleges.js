@@ -1,0 +1,188 @@
+const iitColleges = [
+    {
+        name: "IIT Bombay",
+        location: "Mumbai, Maharashtra",
+        nirf: 3,
+        established: 1958,
+        campus: "/colleges/campus1.png",
+        color: "#1a5276"
+    },
+    {
+        name: "IIT Delhi",
+        location: "New Delhi, Delhi",
+        nirf: 2,
+        established: 1961,
+        campus: "/colleges/campus2.png",
+        color: "#0d47a1"
+    },
+    {
+        name: "IIT Madras",
+        location: "Chennai, Tamil Nadu",
+        nirf: 1,
+        established: 1959,
+        campus: "/colleges/campus3.png",
+        color: "#880e4f"
+    },
+    {
+        name: "IIT Kanpur",
+        location: "Kanpur, Uttar Pradesh",
+        nirf: 4,
+        established: 1959,
+        campus: "/colleges/campus4.png",
+        color: "#e65100"
+    },
+    {
+        name: "IIT Kharagpur",
+        location: "Kharagpur, West Bengal",
+        nirf: 5,
+        established: 1951,
+        campus: "/colleges/campus1.png",
+        color: "#1b5e20"
+    },
+    {
+        name: "IIT Roorkee",
+        location: "Roorkee, Uttarakhand",
+        nirf: 6,
+        established: 1847,
+        campus: "/colleges/campus2.png",
+        color: "#004d40"
+    },
+    {
+        name: "IIT Guwahati",
+        location: "Guwahati, Assam",
+        nirf: 7,
+        established: 1994,
+        campus: "/colleges/campus4.png",
+        color: "#1565c0"
+    },
+    {
+        name: "IIT Hyderabad",
+        location: "Hyderabad, Telangana",
+        nirf: 8,
+        established: 2008,
+        campus: "/colleges/campus3.png",
+        color: "#6a1b9a"
+    },
+    {
+        name: "IIT (BHU) Varanasi",
+        location: "Varanasi, Uttar Pradesh",
+        nirf: 10,
+        established: 1919,
+        campus: "/colleges/campus1.png",
+        color: "#b71c1c"
+    },
+    {
+        name: "IIT Indore",
+        location: "Indore, Madhya Pradesh",
+        nirf: 11,
+        established: 2009,
+        campus: "/colleges/campus2.png",
+        color: "#0277bd"
+    },
+    {
+        name: "IIT (ISM) Dhanbad",
+        location: "Dhanbad, Jharkhand",
+        nirf: 14,
+        established: 1926,
+        campus: "/colleges/campus4.png",
+        color: "#33691e"
+    },
+    {
+        name: "IIT Bhubaneswar",
+        location: "Bhubaneswar, Odisha",
+        nirf: 21,
+        established: 2008,
+        campus: "/colleges/campus3.png",
+        color: "#ff6f00"
+    },
+    {
+        name: "IIT Ropar",
+        location: "Rupnagar, Punjab",
+        nirf: 22,
+        established: 2008,
+        campus: "/colleges/campus1.png",
+        color: "#ad1457"
+    },
+    {
+        name: "IIT Gandhinagar",
+        location: "Gandhinagar, Gujarat",
+        nirf: 16,
+        established: 2008,
+        campus: "/colleges/campus2.png",
+        color: "#f57f17"
+    },
+    {
+        name: "IIT Patna",
+        location: "Patna, Bihar",
+        nirf: 25,
+        established: 2008,
+        campus: "/colleges/campus4.png",
+        color: "#4527a0"
+    },
+    {
+        name: "IIT Jodhpur",
+        location: "Jodhpur, Rajasthan",
+        nirf: 26,
+        established: 2008,
+        campus: "/colleges/campus3.png",
+        color: "#c62828"
+    },
+    {
+        name: "IIT Mandi",
+        location: "Mandi, Himachal Pradesh",
+        nirf: 24,
+        established: 2009,
+        campus: "/colleges/campus4.png",
+        color: "#2e7d32"
+    },
+    {
+        name: "IIT Tirupati",
+        location: "Tirupati, Andhra Pradesh",
+        nirf: 30,
+        established: 2015,
+        campus: "/colleges/campus1.png",
+        color: "#00838f"
+    },
+    {
+        name: "IIT Palakkad",
+        location: "Palakkad, Kerala",
+        nirf: 34,
+        established: 2015,
+        campus: "/colleges/campus2.png",
+        color: "#558b2f"
+    },
+    {
+        name: "IIT Bhilai",
+        location: "Bhilai, Chhattisgarh",
+        nirf: 46,
+        established: 2016,
+        campus: "/colleges/campus3.png",
+        color: "#d84315"
+    },
+    {
+        name: "IIT Dharwad",
+        location: "Dharwad, Karnataka",
+        nirf: 51,
+        established: 2016,
+        campus: "/colleges/campus4.png",
+        color: "#283593"
+    },
+    {
+        name: "IIT Jammu",
+        location: "Jammu, J&K",
+        nirf: 47,
+        established: 2016,
+        campus: "/colleges/campus1.png",
+        color: "#01579b"
+    },
+    {
+        name: "IIT Goa",
+        location: "Ponda, Goa",
+        nirf: 52,
+        established: 2016,
+        campus: "/colleges/campus2.png",
+        color: "#00695c"
+    }
+];
+
+export default iitColleges;
