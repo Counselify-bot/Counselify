@@ -24,13 +24,7 @@ const Navbar = () => {
         navigate('/');
     };
 
-    const handleAdvisorClick = (e) => {
-        if (!user) {
-            e.preventDefault();
-            navigate('/login?redirect=/advisor');
-        }
-        setIsMobileMenuOpen(false);
-    };
+
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -70,13 +64,7 @@ const Navbar = () => {
 
                 {/* Desktop Auth & CTAs */}
                 <div className="hidden lg:flex items-center gap-4">
-                    <Link
-                        to="/advisor"
-                        onClick={handleAdvisorClick}
-                        className="px-8 py-3 bg-[#0462C3] text-white text-[17px] serif-font italic font-medium transition-all hover:bg-[#0351a1] flex items-center justify-center rounded-full"
-                    >
-                        Speak to an Advisor
-                    </Link>
+
 
                     {user ? (
                         <div className="flex items-center gap-3">
@@ -130,13 +118,7 @@ const Navbar = () => {
                         ))}
                     </div>
                     <div className="flex flex-col w-full space-y-4 mt-12 pt-10 border-t border-slate-100">
-                        <Link
-                            to="/advisor"
-                            className="w-full py-4 rounded-full bg-[#0462C3] text-white serif-font italic text-center font-medium"
-                            onClick={handleAdvisorClick}
-                        >
-                            Speak to an Advisor
-                        </Link>
+
 
                         {user ? (
                             <button
