@@ -50,11 +50,17 @@ const IITColleges = () => {
 
                 {/* College Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {iitColleges.map((college, idx) => (
-                        <div
-                            key={idx}
-                            className="group bg-white rounded-[28px] overflow-hidden border border-slate-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer"
-                        >
+                    {iitColleges.map((college, idx) => {
+                        let slug = college.name.toLowerCase().replace(/\s+/g, '-').replace('(', '').replace(')', '');
+                        if (college.name.includes('(BHU)')) slug = 'iit-bhu-varanasi';
+                        if (college.name.includes('(ISM)')) slug = 'iit-ism-dhanbad';
+
+                        return (
+                            <Link
+                                to={`/colleges/iit/${slug}`}
+                                key={idx}
+                                className="group bg-white rounded-[28px] overflow-hidden border border-slate-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer block"
+                            >
                             {/* Campus Image */}
                             <div className="relative h-52 overflow-hidden">
                                 <img
@@ -107,8 +113,8 @@ const IITColleges = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        </Link>
+                    )})}
                 </div>
             </div>
         </div>

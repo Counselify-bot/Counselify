@@ -18,6 +18,7 @@ import Checklists from './pages/Resources/SubPages/Checklists';
 import CounsellingCalendar from './pages/Resources/SubPages/CounsellingCalendar';
 import FAQ from './pages/Resources/SubPages/FAQ';
 import IITColleges from './pages/Colleges/IITColleges';
+import CollegeProfile from './pages/Colleges/CollegeProfile';
 import Footer from './components/Footer';
 import FloatingContactButton from './components/FloatingContactButton';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -83,6 +84,7 @@ function AppContent() {
           <Route path="/resources/calendar" element={<CounsellingCalendar />} />
           <Route path="/resources/faq" element={<FAQ />} />
           <Route path="/colleges/iit" element={<IITColleges />} />
+          <Route path="/colleges/iit/:slug" element={<CollegeProfile />} />
         </Routes>
       </main>
       <Footer />
