@@ -55,21 +55,28 @@ const iitProfiles = {
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Aerospace Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
+            { name: "Metallurgical Engg. & Materials Science", degree: "B.Tech", duration: "4 Years" },
+            { name: "Engineering Physics", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
+            { course: "Computer Science & Engg.", total: 171, open: 66, obc: 46, sc: 26, st: 13, ews: 16, pwd: 4 },
             { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
-            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
+            { course: "Mechanical Engineering", total: 162, open: 64, obc: 44, sc: 24, st: 12, ews: 15, pwd: 4 },
+            { course: "Chemical Engineering", total: 133, open: 53, obc: 36, sc: 20, st: 10, ews: 12, pwd: 3 },
+            { course: "Civil Engineering", total: 147, open: 59, obc: 40, sc: 22, st: 11, ews: 13, pwd: 3 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 200, y2023: 190, y2022: 180 },
-            { course: "Electrical Engineering", y2024: 550, y2023: 530, y2022: 520 },
-            { course: "Mechanical Engineering", y2024: 950, y2023: 930, y2022: 900 }
+            { course: "Computer Science & Engg.", y2024: 67, y2023: 67, y2022: 60 },
+            { course: "Electrical Engineering", y2024: 481, y2023: 463, y2022: 434 },
+            { course: "Mechanical Engineering", y2024: 1735, y2023: 1691, y2022: 1563 },
+            { course: "Chemical Engineering", y2024: 2824, y2023: 2822, y2022: 2605 },
+            { course: "Civil Engineering", y2024: 4371, y2023: 4192, y2022: 3995 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹15.5 LPA", median: "₹12.0 LPA", percentage: "92%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹16,500 / semester", mess: "₹22,500 / semester", admission: "₹10,500 (one-time)", totalYearly: "~ ₹2,78,000 / year" },
+        placements: { highest: "₹3.67 Cr / year (Intl.)", average: "₹23.26 LPA", median: "₹19.63 LPA", percentage: "89%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -101,24 +108,30 @@ const iitProfiles = {
         rankings: { current: 2, history: [{ year: 2024, rank: 2 }, { year: 2023, rank: 3 }, { year: 2022, rank: 2 }], category: "Engineering: Rank 2" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Mathematics and Computing", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Production and Industrial Engg", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
-            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
-            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
+            { course: "Computer Science & Engg.", total: 99, open: 39, obc: 27, sc: 15, st: 7, ews: 10, pwd: 1 },
+            { course: "Mathematics and Computing", total: 89, open: 35, obc: 24, sc: 13, st: 6, ews: 9, pwd: 2 },
+            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 1 },
+            { course: "Mechanical Engineering", total: 120, open: 47, obc: 32, sc: 18, st: 9, ews: 12, pwd: 2 },
+            { course: "Civil Engineering", total: 120, open: 47, obc: 32, sc: 18, st: 9, ews: 12, pwd: 2 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 150, y2023: 140, y2022: 130 },
-            { course: "Electrical Engineering", y2024: 400, y2023: 380, y2022: 370 },
-            { course: "Mechanical Engineering", y2024: 700, y2023: 680, y2022: 650 }
+            { course: "Computer Science & Engg.", y2024: 118, y2023: 118, y2022: 102 },
+            { course: "Mathematics and Computing", y2024: 332, y2023: 350, y2022: 306 },
+            { course: "Electrical Engineering", y2024: 580, y2023: 577, y2022: 574 },
+            { course: "Mechanical Engineering", y2024: 1774, y2023: 1791, y2022: 1882 },
+            { course: "Chemical Engineering", y2024: 2383, y2023: 2365, y2022: 2341 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹15.5 LPA", median: "₹19.0 LPA", percentage: "90%" },
-        recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹13,250 / semester", mess: "₹27,500 / semester", admission: "₹14,650 (one-time)", totalYearly: "~ ₹3,10,000 / year" },
+        placements: { highest: "₹2.5 Cr / year (Intl.)", average: "₹20.0 LPA", median: "₹18.5 LPA", percentage: "84%" },
+        recruiters: ["Microsoft", "Google", "Goldman Sachs", "Optiver", "Bain & Company", "BCG", "McKinsey", "Jane Street"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
             "Excellent campus placements in leading multinational companies",
@@ -151,22 +164,31 @@ const iitProfiles = {
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Aerospace Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
+            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" },
+            { name: "Engineering Physics", degree: "B.Tech", duration: "4 Years" },
+            { name: "Metallurgical and Materials Engg.", degree: "B.Tech", duration: "4 Years" },
+            { name: "Naval Architecture and Ocean Engg.", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
-            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
-            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
+            { course: "Computer Science & Engg.", total: 87, open: 34, obc: 23, sc: 13, st: 6, ews: 9, pwd: 2 },
+            { course: "Electrical Engineering", total: 154, open: 61, obc: 41, sc: 23, st: 11, ews: 15, pwd: 3 },
+            { course: "Mechanical Engineering", total: 219, open: 87, obc: 59, sc: 33, st: 16, ews: 21, pwd: 3 },
+            { course: "Aerospace Engineering", total: 63, open: 25, obc: 17, sc: 9, st: 5, ews: 6, pwd: 1 },
+            { course: "Civil Engineering", total: 130, open: 52, obc: 35, sc: 19, st: 10, ews: 12, pwd: 2 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 100, y2023: 90, y2022: 80 },
-            { course: "Electrical Engineering", y2024: 250, y2023: 230, y2022: 220 },
-            { course: "Mechanical Engineering", y2024: 450, y2023: 430, y2022: 400 }
+            { course: "Computer Science & Engg.", y2024: 159, y2023: 148, y2022: 175 },
+            { course: "Electrical Engineering", y2024: 852, y2023: 964, y2022: 1028 },
+            { course: "Mechanical Engineering", y2024: 2577, y2023: 2572, y2022: 2786 },
+            { course: "Aerospace Engineering", y2024: 3105, y2023: 3226, y2022: 3293 },
+            { course: "Chemical Engineering", y2024: 3426, y2023: 4034, y2022: 4022 },
+            { course: "Civil Engineering", y2024: 5352, y2023: 5794, y2022: 6106 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹18.5 LPA", median: "₹15.0 LPA", percentage: "87%" },
-        recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,250 / semester", mess: "₹17,322 / semester", admission: "₹16,000 (one-time)", totalYearly: "~ ₹2,78,000 / year" },
+        placements: { highest: "₹1.3 Cr / year", average: "₹22.0 LPA", median: "₹18.0 LPA", percentage: "85%" },
+        recruiters: ["Google", "Microsoft", "Texas Instruments", "Qualcomm", "Morgan Stanley", "Apple", "TCS", "Bain & Co"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
             "Excellent campus placements in leading multinational companies",
