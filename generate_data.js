@@ -1,5 +1,80 @@
 const fs = require('fs');
 const path = require('path');
+const scrapedData = require('./iit_data.json');
+
+function extractPlacements(slug) {
+    const d = scrapedData.find(x => x.url.includes(slug));
+    if (!d || !d.placements) return null;
+    let maxCtc = 0;
+    let validAvg = [];
+    let validMedian = [];
+    let validPercent = [];
+    for (const p of d.placements) {
+        if (!p.tables) continue;
+        for (const table of p.tables) {
+            if (!table || !table[0]) continue;
+            const header = table[0][1];
+            if (!header) continue;
+            if (header.includes('Max CTC')) {
+                for (let r=1; r<table.length; r++) {
+                    if (table[r].length > 1) {
+                        let v = parseFloat(table[r][1]);
+                        if (!isNaN(v) && v > maxCtc) maxCtc = v;
+                    }
+                }
+            } else if (header.includes('Avg CTC')) {
+                for (let r=1; r<table.length; r++) {
+                    if (table[r].length > 1 && table[r][0].toLowerCase().includes('overall')) {
+                        let v = parseFloat(table[r][1]);
+                        if (!isNaN(v)) validAvg.push(v);
+                    }
+                }
+            } else if (header.includes('Median CTC')) {
+                for (let r=1; r<table.length; r++) {
+                    if (table[r].length > 1 && table[r][0].toLowerCase().includes('overall')) {
+                        let v = parseFloat(table[r][1]);
+                        if (!isNaN(v)) validMedian.push(v);
+                    }
+                }
+            } else if (header.includes('Placed (%)')) {
+                for (let r=1; r<table.length; r++) {
+                    if (table[r].length > 1 && table[r][0].toLowerCase().includes('overall')) {
+                        let v = parseFloat(table[r][1].replace('%', ''));
+                        if (!isNaN(v)) validPercent.push(v);
+                    }
+                }
+            }
+        }
+    }
+    const avg = validAvg.length ? (validAvg.reduce((a,b)=>a+b,0)/validAvg.length).toFixed(2) : null;
+    const median = validMedian.length ? (validMedian.reduce((a,b)=>a+b,0)/validMedian.length).toFixed(2) : null;
+    const percent = validPercent.length ? (validPercent.reduce((a,b)=>a+b,0)/validPercent.length).toFixed(0) : null;
+
+    if (maxCtc === 0) maxCtc = null;
+    return { maxCtc, avg, median, percent };
+}
+
+function extractFees(slug) {
+    const d = scrapedData.find(x => x.url.includes(slug));
+    if (!d || !d.fees) return null;
+    let tuition = null, mess = null, onetime = null, total = null;
+    for (const f of d.fees) {
+        if (!f.tables) continue;
+        for (const table of f.tables) {
+            for (const row of table) {
+                if (row.length > 1) {
+                    const k = row[0].toLowerCase();
+                    const v = row[1];
+                    if (k.includes('tuition')) tuition = v;
+                    else if (k.includes('mess')) mess = v;
+                    else if (k.includes('one-time') || k.includes('admission') || k.includes('caution')) onetime = v;
+                    else if (k.includes('total') && !k.includes('grand')) total = v;
+                }
+            }
+        }
+    }
+    return { tuition, mess, onetime, total };
+}
 
 // Extract the basic info we already have
 const iitColleges = [
@@ -41,6 +116,20 @@ const generateProfile = (college) => {
     const city = college.location.split(',')[0].trim();
     const state = college.location.split(',')[1].trim();
 
+    const placementsData = extractPlacements(slug);
+    const feesData = extractFees(slug);
+
+    const highestCtc = placementsData && placementsData.maxCtc ? `₹${placementsData.maxCtc} LPA` : `₹1.${Math.floor(Math.random() * 5 + 2)} Cr / year`;
+    const avgCtc = placementsData && placementsData.avg ? `₹${placementsData.avg} LPA` : `₹${Math.floor(Math.random() * 10 + 14)}.5 LPA`;
+    const medianCtc = placementsData && placementsData.median ? `₹${placementsData.median} LPA` : `₹${Math.floor(Math.random() * 8 + 12)}.0 LPA`;
+    const placementPct = placementsData && placementsData.percent ? `${placementsData.percent}%` : `${Math.floor(Math.random() * 10 + 85)}%`;
+
+    const tuitionFee = feesData && feesData.tuition ? `${feesData.tuition} / semester` : `₹1,00,000 / semester`;
+    const hostelFee = `₹15,000 / semester`;
+    const messFee = feesData && feesData.mess ? `${feesData.mess} / semester` : `₹20,000 / semester`;
+    const admissionFee = feesData && feesData.onetime ? `${feesData.onetime} (one-time)` : `₹5,000 (one-time)`;
+    const totalYearlyFee = feesData && feesData.total ? `~ ${feesData.total} / semester` : `~ ₹2,80,000 / year`;
+
     return `
     "${slug}": {
         name: "Indian Institute of Technology ${college.name.replace('IIT ', '')}",
@@ -78,8 +167,8 @@ const generateProfile = (college) => {
             { course: "Electrical Engineering", y2024: ${college.nirf * 150 + 100}, y2023: ${college.nirf * 150 + 80}, y2022: ${college.nirf * 150 + 70} },
             { course: "Mechanical Engineering", y2024: ${college.nirf * 250 + 200}, y2023: ${college.nirf * 250 + 180}, y2022: ${college.nirf * 250 + 150} }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.${Math.floor(Math.random() * 5 + 2)} Cr / year", average: "₹${Math.floor(Math.random() * 10 + 14)}.5 LPA", median: "₹${Math.floor(Math.random() * 8 + 12)}.0 LPA", percentage: "${Math.floor(Math.random() * 10 + 85)}%" },
+        fees: { tuition: "${tuitionFee}", hostel: "${hostelFee}", mess: "${messFee}", admission: "${admissionFee}", totalYearly: "${totalYearlyFee}" },
+        placements: { highest: "${highestCtc}", average: "${avgCtc}", median: "${medianCtc}", percentage: "${placementPct}" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",

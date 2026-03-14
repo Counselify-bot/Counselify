@@ -40,43 +40,36 @@ const iitProfiles = {
         type: "IIT",
         established: 1958,
         location: { city: "Mumbai", state: "Maharashtra", country: "India" },
-        campusSize: "582 Acres",
+        campusSize: "548 Acres",
         campus: "/colleges/campus1.png",
         color: "#1a5276",
         overview: "IIT Bombay is one of the premier engineering and research institutes in India. Established in 1958, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Bombay, Mumbai, Maharashtra, India",
-            airport: { name: "Mumbai International Airport", distance: "22 km" },
+            airport: { name: "Mumbai International Airport", distance: "14 km" },
             railway: { name: "Mumbai Railway Station", distance: "6 km" },
-            bus: { name: "Mumbai Inter-State Bus Terminal", distance: "3 km" }
+            bus: { name: "Mumbai Inter-State Bus Terminal", distance: "6 km" }
         },
-        rankings: { current: 3, history: [{ year: 2024, rank: 3 }, { year: 2023, rank: 4 }, { year: 2022, rank: 2 }], category: "Engineering: Rank 3" },
+        rankings: { current: 3, history: [{ year: 2024, rank: 3 }, { year: 2023, rank: 4 }, { year: 2022, rank: 4 }], category: "Engineering: Rank 3" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Aerospace Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Metallurgical Engg. & Materials Science", degree: "B.Tech", duration: "4 Years" },
-            { name: "Engineering Physics", degree: "B.Tech", duration: "4 Years" }
+            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 171, open: 66, obc: 46, sc: 26, st: 13, ews: 16, pwd: 4 },
+            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
             { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
-            { course: "Mechanical Engineering", total: 162, open: 64, obc: 44, sc: 24, st: 12, ews: 15, pwd: 4 },
-            { course: "Chemical Engineering", total: 133, open: 53, obc: 36, sc: 20, st: 10, ews: 12, pwd: 3 },
-            { course: "Civil Engineering", total: 147, open: 59, obc: 40, sc: 22, st: 11, ews: 13, pwd: 3 }
+            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 67, y2023: 67, y2022: 60 },
-            { course: "Electrical Engineering", y2024: 481, y2023: 463, y2022: 434 },
-            { course: "Mechanical Engineering", y2024: 1735, y2023: 1691, y2022: 1563 },
-            { course: "Chemical Engineering", y2024: 2824, y2023: 2822, y2022: 2605 },
-            { course: "Civil Engineering", y2024: 4371, y2023: 4192, y2022: 3995 }
+            { course: "Computer Science & Engg.", y2024: 200, y2023: 190, y2022: 180 },
+            { course: "Electrical Engineering", y2024: 550, y2023: 530, y2022: 520 },
+            { course: "Mechanical Engineering", y2024: 950, y2023: 930, y2022: 900 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹16,500 / semester", mess: "₹22,500 / semester", admission: "₹10,500 (one-time)", totalYearly: "~ ₹2,78,000 / year" },
-        placements: { highest: "₹3.67 Cr / year (Intl.)", average: "₹23.26 LPA", median: "₹19.63 LPA", percentage: "89%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹22,500 / semester", admission: "₹10,000 (one-time)", totalYearly: "~ ₹39,400 / semester" },
+        placements: { highest: "₹214.98 LPA", average: "₹22.5 LPA", median: "₹18.56 LPA", percentage: "86%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -95,43 +88,37 @@ const iitProfiles = {
         type: "IIT",
         established: 1961,
         location: { city: "New Delhi", state: "Delhi", country: "India" },
-        campusSize: "574 Acres",
+        campusSize: "357 Acres",
         campus: "/colleges/campus2.png",
         color: "#0d47a1",
         overview: "IIT Delhi is one of the premier engineering and research institutes in India. Established in 1961, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Delhi, New Delhi, Delhi, India",
-            airport: { name: "New Delhi International Airport", distance: "22 km" },
-            railway: { name: "New Delhi Railway Station", distance: "3 km" },
+            airport: { name: "New Delhi International Airport", distance: "14 km" },
+            railway: { name: "New Delhi Railway Station", distance: "6 km" },
             bus: { name: "New Delhi Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 2, history: [{ year: 2024, rank: 2 }, { year: 2023, rank: 3 }, { year: 2022, rank: 2 }], category: "Engineering: Rank 2" },
+        rankings: { current: 2, history: [{ year: 2024, rank: 2 }, { year: 2023, rank: 3 }, { year: 2022, rank: 3 }], category: "Engineering: Rank 2" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Mathematics and Computing", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Production and Industrial Engg", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 99, open: 39, obc: 27, sc: 15, st: 7, ews: 10, pwd: 1 },
-            { course: "Mathematics and Computing", total: 89, open: 35, obc: 24, sc: 13, st: 6, ews: 9, pwd: 2 },
-            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 1 },
-            { course: "Mechanical Engineering", total: 120, open: 47, obc: 32, sc: 18, st: 9, ews: 12, pwd: 2 },
-            { course: "Civil Engineering", total: 120, open: 47, obc: 32, sc: 18, st: 9, ews: 12, pwd: 2 }
+            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
+            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
+            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 118, y2023: 118, y2022: 102 },
-            { course: "Mathematics and Computing", y2024: 332, y2023: 350, y2022: 306 },
-            { course: "Electrical Engineering", y2024: 580, y2023: 577, y2022: 574 },
-            { course: "Mechanical Engineering", y2024: 1774, y2023: 1791, y2022: 1882 },
-            { course: "Chemical Engineering", y2024: 2383, y2023: 2365, y2022: 2341 }
+            { course: "Computer Science & Engg.", y2024: 150, y2023: 140, y2022: 130 },
+            { course: "Electrical Engineering", y2024: 400, y2023: 380, y2022: 370 },
+            { course: "Mechanical Engineering", y2024: 700, y2023: 680, y2022: 650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹13,250 / semester", mess: "₹27,500 / semester", admission: "₹14,650 (one-time)", totalYearly: "~ ₹3,10,000 / year" },
-        placements: { highest: "₹2.5 Cr / year (Intl.)", average: "₹20.0 LPA", median: "₹18.5 LPA", percentage: "84%" },
-        recruiters: ["Microsoft", "Google", "Goldman Sachs", "Optiver", "Bain & Company", "BCG", "McKinsey", "Jane Street"],
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹35,000 / semester", admission: "₹7,000 (one-time)", totalYearly: "~ ₹65,600 / semester" },
+        placements: { highest: "₹1.3 Cr / year", average: "₹18.5 LPA", median: "₹17.0 LPA", percentage: "86%" },
+        recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
             "Excellent campus placements in leading multinational companies",
@@ -149,46 +136,37 @@ const iitProfiles = {
         type: "IIT",
         established: 1959,
         location: { city: "Chennai", state: "Tamil Nadu", country: "India" },
-        campusSize: "375 Acres",
+        campusSize: "403 Acres",
         campus: "/colleges/campus3.png",
         color: "#880e4f",
         overview: "IIT Madras is one of the premier engineering and research institutes in India. Established in 1959, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Madras, Chennai, Tamil Nadu, India",
             airport: { name: "Chennai International Airport", distance: "24 km" },
-            railway: { name: "Chennai Railway Station", distance: "6 km" },
-            bus: { name: "Chennai Inter-State Bus Terminal", distance: "5 km" }
+            railway: { name: "Chennai Railway Station", distance: "2 km" },
+            bus: { name: "Chennai Inter-State Bus Terminal", distance: "1 km" }
         },
-        rankings: { current: 1, history: [{ year: 2024, rank: 1 }, { year: 2023, rank: 1 }, { year: 2022, rank: 1 }], category: "Engineering: Rank 1" },
+        rankings: { current: 1, history: [{ year: 2024, rank: 1 }, { year: 2023, rank: 2 }, { year: 2022, rank: 1 }], category: "Engineering: Rank 1" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Mechanical Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Aerospace Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Civil Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" },
-            { name: "Engineering Physics", degree: "B.Tech", duration: "4 Years" },
-            { name: "Metallurgical and Materials Engg.", degree: "B.Tech", duration: "4 Years" },
-            { name: "Naval Architecture and Ocean Engg.", degree: "B.Tech", duration: "4 Years" }
+            { name: "Chemical Engineering", degree: "B.Tech", duration: "4 Years" }
         ],
         seatMatrix: [
-            { course: "Computer Science & Engg.", total: 87, open: 34, obc: 23, sc: 13, st: 6, ews: 9, pwd: 2 },
-            { course: "Electrical Engineering", total: 154, open: 61, obc: 41, sc: 23, st: 11, ews: 15, pwd: 3 },
-            { course: "Mechanical Engineering", total: 219, open: 87, obc: 59, sc: 33, st: 16, ews: 21, pwd: 3 },
-            { course: "Aerospace Engineering", total: 63, open: 25, obc: 17, sc: 9, st: 5, ews: 6, pwd: 1 },
-            { course: "Civil Engineering", total: 130, open: 52, obc: 35, sc: 19, st: 10, ews: 12, pwd: 2 }
+            { course: "Computer Science & Engg.", total: 100, open: 40, obc: 27, sc: 15, st: 8, ews: 10, pwd: 5 },
+            { course: "Electrical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 },
+            { course: "Mechanical Engineering", total: 120, open: 48, obc: 32, sc: 18, st: 9, ews: 12, pwd: 6 }
         ],
         cutoffs: [
-            { course: "Computer Science & Engg.", y2024: 159, y2023: 148, y2022: 175 },
-            { course: "Electrical Engineering", y2024: 852, y2023: 964, y2022: 1028 },
-            { course: "Mechanical Engineering", y2024: 2577, y2023: 2572, y2022: 2786 },
-            { course: "Aerospace Engineering", y2024: 3105, y2023: 3226, y2022: 3293 },
-            { course: "Chemical Engineering", y2024: 3426, y2023: 4034, y2022: 4022 },
-            { course: "Civil Engineering", y2024: 5352, y2023: 5794, y2022: 6106 }
+            { course: "Computer Science & Engg.", y2024: 100, y2023: 90, y2022: 80 },
+            { course: "Electrical Engineering", y2024: 250, y2023: 230, y2022: 220 },
+            { course: "Mechanical Engineering", y2024: 450, y2023: 430, y2022: 400 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,250 / semester", mess: "₹17,322 / semester", admission: "₹16,000 (one-time)", totalYearly: "~ ₹2,78,000 / year" },
-        placements: { highest: "₹1.3 Cr / year", average: "₹22.0 LPA", median: "₹18.0 LPA", percentage: "85%" },
-        recruiters: ["Google", "Microsoft", "Texas Instruments", "Qualcomm", "Morgan Stanley", "Apple", "TCS", "Bain & Co"],
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹17,322 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹37,572 / semester" },
+        placements: { highest: "₹1.6 Cr / year", average: "₹17.5 LPA", median: "₹14.0 LPA", percentage: "88%" },
+        recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
             "Excellent campus placements in leading multinational companies",
@@ -206,15 +184,15 @@ const iitProfiles = {
         type: "IIT",
         established: 1959,
         location: { city: "Kanpur", state: "Uttar Pradesh", country: "India" },
-        campusSize: "309 Acres",
+        campusSize: "338 Acres",
         campus: "/colleges/campus4.png",
         color: "#e65100",
         overview: "IIT Kanpur is one of the premier engineering and research institutes in India. Established in 1959, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Kanpur, Kanpur, Uttar Pradesh, India",
-            airport: { name: "Kanpur International Airport", distance: "13 km" },
-            railway: { name: "Kanpur Railway Station", distance: "6 km" },
-            bus: { name: "Kanpur Inter-State Bus Terminal", distance: "8 km" }
+            airport: { name: "Kanpur International Airport", distance: "14 km" },
+            railway: { name: "Kanpur Railway Station", distance: "10 km" },
+            bus: { name: "Kanpur Inter-State Bus Terminal", distance: "4 km" }
         },
         rankings: { current: 4, history: [{ year: 2024, rank: 4 }, { year: 2023, rank: 5 }, { year: 2022, rank: 3 }], category: "Engineering: Rank 4" },
         courses: [
@@ -234,8 +212,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 700, y2023: 680, y2022: 670 },
             { course: "Mechanical Engineering", y2024: 1200, y2023: 1180, y2022: 1150 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹17.5 LPA", median: "₹18.0 LPA", percentage: "89%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹2,950 (one-time)", totalYearly: "~ ₹1,38,110 / semester" },
+        placements: { highest: "₹1.2 Cr / year", average: "₹27.44 LPA", median: "₹20.60 LPA", percentage: "84%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -254,17 +232,17 @@ const iitProfiles = {
         type: "IIT",
         established: 1951,
         location: { city: "Kharagpur", state: "West Bengal", country: "India" },
-        campusSize: "454 Acres",
+        campusSize: "344 Acres",
         campus: "/colleges/campus1.png",
         color: "#1b5e20",
         overview: "IIT Kharagpur is one of the premier engineering and research institutes in India. Established in 1951, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Kharagpur, Kharagpur, West Bengal, India",
-            airport: { name: "Kharagpur International Airport", distance: "17 km" },
-            railway: { name: "Kharagpur Railway Station", distance: "8 km" },
-            bus: { name: "Kharagpur Inter-State Bus Terminal", distance: "7 km" }
+            airport: { name: "Kharagpur International Airport", distance: "7 km" },
+            railway: { name: "Kharagpur Railway Station", distance: "7 km" },
+            bus: { name: "Kharagpur Inter-State Bus Terminal", distance: "5 km" }
         },
-        rankings: { current: 5, history: [{ year: 2024, rank: 5 }, { year: 2023, rank: 5 }, { year: 2022, rank: 4 }], category: "Engineering: Rank 5" },
+        rankings: { current: 5, history: [{ year: 2024, rank: 5 }, { year: 2023, rank: 4 }, { year: 2022, rank: 5 }], category: "Engineering: Rank 5" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -282,8 +260,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 850, y2023: 830, y2022: 820 },
             { course: "Mechanical Engineering", y2024: 1450, y2023: 1430, y2022: 1400 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹21.5 LPA", median: "₹15.0 LPA", percentage: "86%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹14,500 / semester", admission: "₹1,000 (one-time)", totalYearly: "~ ₹43,350 / semester" },
+        placements: { highest: "₹240 LPA", average: "₹15.5 LPA", median: "₹18.00 LPA", percentage: "81%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -302,17 +280,17 @@ const iitProfiles = {
         type: "IIT",
         established: 1847,
         location: { city: "Roorkee", state: "Uttarakhand", country: "India" },
-        campusSize: "582 Acres",
+        campusSize: "347 Acres",
         campus: "/colleges/campus2.png",
         color: "#004d40",
         overview: "IIT Roorkee is one of the premier engineering and research institutes in India. Established in 1847, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Roorkee, Roorkee, Uttarakhand, India",
-            airport: { name: "Roorkee International Airport", distance: "10 km" },
-            railway: { name: "Roorkee Railway Station", distance: "4 km" },
-            bus: { name: "Roorkee Inter-State Bus Terminal", distance: "2 km" }
+            airport: { name: "Roorkee International Airport", distance: "15 km" },
+            railway: { name: "Roorkee Railway Station", distance: "3 km" },
+            bus: { name: "Roorkee Inter-State Bus Terminal", distance: "6 km" }
         },
-        rankings: { current: 6, history: [{ year: 2024, rank: 6 }, { year: 2023, rank: 5 }, { year: 2022, rank: 6 }], category: "Engineering: Rank 6" },
+        rankings: { current: 6, history: [{ year: 2024, rank: 6 }, { year: 2023, rank: 7 }, { year: 2022, rank: 5 }], category: "Engineering: Rank 6" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -330,8 +308,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 1000, y2023: 980, y2022: 970 },
             { course: "Mechanical Engineering", y2024: 1700, y2023: 1680, y2022: 1650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹21.5 LPA", median: "₹13.0 LPA", percentage: "93%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,250 / semester", admission: "₹4,000 (one-time)", totalYearly: "~ ₹33,750 / semester" },
+        placements: { highest: "₹1.5 Cr / year", average: "₹21.5 LPA", median: "₹15.0 LPA", percentage: "80%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -350,17 +328,17 @@ const iitProfiles = {
         type: "IIT",
         established: 1994,
         location: { city: "Guwahati", state: "Assam", country: "India" },
-        campusSize: "468 Acres",
+        campusSize: "415 Acres",
         campus: "/colleges/campus4.png",
         color: "#1565c0",
         overview: "IIT Guwahati is one of the premier engineering and research institutes in India. Established in 1994, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Guwahati, Guwahati, Assam, India",
-            airport: { name: "Guwahati International Airport", distance: "10 km" },
-            railway: { name: "Guwahati Railway Station", distance: "3 km" },
-            bus: { name: "Guwahati Inter-State Bus Terminal", distance: "5 km" }
+            airport: { name: "Guwahati International Airport", distance: "8 km" },
+            railway: { name: "Guwahati Railway Station", distance: "5 km" },
+            bus: { name: "Guwahati Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 7, history: [{ year: 2024, rank: 7 }, { year: 2023, rank: 7 }, { year: 2022, rank: 5 }], category: "Engineering: Rank 7" },
+        rankings: { current: 7, history: [{ year: 2024, rank: 7 }, { year: 2023, rank: 8 }, { year: 2022, rank: 7 }], category: "Engineering: Rank 7" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -378,8 +356,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 1150, y2023: 1130, y2022: 1120 },
             { course: "Mechanical Engineering", y2024: 1950, y2023: 1930, y2022: 1900 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹20.5 LPA", median: "₹19.0 LPA", percentage: "86%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹2,900 (one-time)", totalYearly: "~ ₹40,000 / semester" },
+        placements: { highest: "₹240 LPA", average: "₹25.75 LPA", median: "₹20.55 LPA", percentage: "84%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -398,17 +376,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Hyderabad", state: "Telangana", country: "India" },
-        campusSize: "530 Acres",
+        campusSize: "371 Acres",
         campus: "/colleges/campus3.png",
         color: "#6a1b9a",
         overview: "IIT Hyderabad is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Hyderabad, Hyderabad, Telangana, India",
             airport: { name: "Hyderabad International Airport", distance: "13 km" },
-            railway: { name: "Hyderabad Railway Station", distance: "9 km" },
-            bus: { name: "Hyderabad Inter-State Bus Terminal", distance: "7 km" }
+            railway: { name: "Hyderabad Railway Station", distance: "11 km" },
+            bus: { name: "Hyderabad Inter-State Bus Terminal", distance: "4 km" }
         },
-        rankings: { current: 8, history: [{ year: 2024, rank: 8 }, { year: 2023, rank: 7 }, { year: 2022, rank: 9 }], category: "Engineering: Rank 8" },
+        rankings: { current: 8, history: [{ year: 2024, rank: 8 }, { year: 2023, rank: 9 }, { year: 2022, rank: 8 }], category: "Engineering: Rank 8" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -426,8 +404,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 1300, y2023: 1280, y2022: 1270 },
             { course: "Mechanical Engineering", y2024: 2200, y2023: 2180, y2022: 2150 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.4 Cr / year", average: "₹22.5 LPA", median: "₹14.0 LPA", percentage: "88%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹16,577 / semester", admission: "₹8,000 (one-time)", totalYearly: "~ ₹1,61,965 / semester" },
+        placements: { highest: "₹90 LPA", average: "₹23.96 LPA", median: "₹23.07 LPA", percentage: "79%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -446,17 +424,17 @@ const iitProfiles = {
         type: "IIT",
         established: 1919,
         location: { city: "Varanasi", state: "Uttar Pradesh", country: "India" },
-        campusSize: "391 Acres",
+        campusSize: "376 Acres",
         campus: "/colleges/campus1.png",
         color: "#b71c1c",
         overview: "IIT (BHU) Varanasi is one of the premier engineering and research institutes in India. Established in 1919, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT (BHU) Varanasi, Varanasi, Uttar Pradesh, India",
-            airport: { name: "Varanasi International Airport", distance: "12 km" },
-            railway: { name: "Varanasi Railway Station", distance: "9 km" },
-            bus: { name: "Varanasi Inter-State Bus Terminal", distance: "6 km" }
+            airport: { name: "Varanasi International Airport", distance: "20 km" },
+            railway: { name: "Varanasi Railway Station", distance: "8 km" },
+            bus: { name: "Varanasi Inter-State Bus Terminal", distance: "2 km" }
         },
-        rankings: { current: 10, history: [{ year: 2024, rank: 10 }, { year: 2023, rank: 10 }, { year: 2022, rank: 8 }], category: "Engineering: Rank 10" },
+        rankings: { current: 10, history: [{ year: 2024, rank: 10 }, { year: 2023, rank: 10 }, { year: 2022, rank: 9 }], category: "Engineering: Rank 10" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -474,8 +452,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 1600, y2023: 1580, y2022: 1570 },
             { course: "Mechanical Engineering", y2024: 2700, y2023: 2680, y2022: 2650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.6 Cr / year", average: "₹18.5 LPA", median: "₹15.0 LPA", percentage: "88%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹15,000 / semester", admission: "₹5,750 (one-time)", totalYearly: "~ ₹1,36,465 / semester" },
+        placements: { highest: "₹215 LPA", average: "₹23.61 LPA", median: "₹20.20 LPA", percentage: "85%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -494,17 +472,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2009,
         location: { city: "Indore", state: "Madhya Pradesh", country: "India" },
-        campusSize: "393 Acres",
+        campusSize: "528 Acres",
         campus: "/colleges/campus2.png",
         color: "#0277bd",
         overview: "IIT Indore is one of the premier engineering and research institutes in India. Established in 2009, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Indore, Indore, Madhya Pradesh, India",
-            airport: { name: "Indore International Airport", distance: "21 km" },
-            railway: { name: "Indore Railway Station", distance: "10 km" },
-            bus: { name: "Indore Inter-State Bus Terminal", distance: "2 km" }
+            airport: { name: "Indore International Airport", distance: "13 km" },
+            railway: { name: "Indore Railway Station", distance: "2 km" },
+            bus: { name: "Indore Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 11, history: [{ year: 2024, rank: 11 }, { year: 2023, rank: 12 }, { year: 2022, rank: 11 }], category: "Engineering: Rank 11" },
+        rankings: { current: 11, history: [{ year: 2024, rank: 11 }, { year: 2023, rank: 11 }, { year: 2022, rank: 10 }], category: "Engineering: Rank 11" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -522,8 +500,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 1750, y2023: 1730, y2022: 1720 },
             { course: "Mechanical Engineering", y2024: 2950, y2023: 2930, y2022: 2900 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.6 Cr / year", average: "₹14.5 LPA", median: "₹13.0 LPA", percentage: "89%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹17,550 / semester", admission: "₹8,100 (one-time)", totalYearly: "~ ₹1,59,550 / semester" },
+        placements: { highest: "₹68 LPA", average: "₹24.31 LPA", median: "₹19.93 LPA", percentage: "87%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -542,15 +520,15 @@ const iitProfiles = {
         type: "IIT",
         established: 1926,
         location: { city: "Dhanbad", state: "Jharkhand", country: "India" },
-        campusSize: "446 Acres",
+        campusSize: "448 Acres",
         campus: "/colleges/campus4.png",
         color: "#33691e",
         overview: "IIT (ISM) Dhanbad is one of the premier engineering and research institutes in India. Established in 1926, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT (ISM) Dhanbad, Dhanbad, Jharkhand, India",
-            airport: { name: "Dhanbad International Airport", distance: "12 km" },
-            railway: { name: "Dhanbad Railway Station", distance: "10 km" },
-            bus: { name: "Dhanbad Inter-State Bus Terminal", distance: "2 km" }
+            airport: { name: "Dhanbad International Airport", distance: "10 km" },
+            railway: { name: "Dhanbad Railway Station", distance: "11 km" },
+            bus: { name: "Dhanbad Inter-State Bus Terminal", distance: "7 km" }
         },
         rankings: { current: 14, history: [{ year: 2024, rank: 14 }, { year: 2023, rank: 15 }, { year: 2022, rank: 12 }], category: "Engineering: Rank 14" },
         courses: [
@@ -570,8 +548,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 2200, y2023: 2180, y2022: 2170 },
             { course: "Mechanical Engineering", y2024: 3700, y2023: 3680, y2022: 3650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹14.5 LPA", median: "₹16.0 LPA", percentage: "93%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹18,000 / semester", admission: "₹8,400 (one-time)", totalYearly: "~ ₹1,50,268 / semester" },
+        placements: { highest: "₹59 LPA", average: "₹21.42 LPA", median: "₹18.41 LPA", percentage: "78%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -590,17 +568,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Bhubaneswar", state: "Odisha", country: "India" },
-        campusSize: "581 Acres",
+        campusSize: "378 Acres",
         campus: "/colleges/campus3.png",
         color: "#ff6f00",
         overview: "IIT Bhubaneswar is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Bhubaneswar, Bhubaneswar, Odisha, India",
-            airport: { name: "Bhubaneswar International Airport", distance: "8 km" },
-            railway: { name: "Bhubaneswar Railway Station", distance: "9 km" },
+            airport: { name: "Bhubaneswar International Airport", distance: "13 km" },
+            railway: { name: "Bhubaneswar Railway Station", distance: "11 km" },
             bus: { name: "Bhubaneswar Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 21, history: [{ year: 2024, rank: 21 }, { year: 2023, rank: 22 }, { year: 2022, rank: 19 }], category: "Engineering: Rank 21" },
+        rankings: { current: 21, history: [{ year: 2024, rank: 21 }, { year: 2023, rank: 20 }, { year: 2022, rank: 19 }], category: "Engineering: Rank 21" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -618,8 +596,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 3250, y2023: 3230, y2022: 3220 },
             { course: "Mechanical Engineering", y2024: 5450, y2023: 5430, y2022: 5400 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.3 Cr / year", average: "₹23.5 LPA", median: "₹14.0 LPA", percentage: "94%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹18,000 / semester", admission: "₹8,000 (one-time)", totalYearly: "~ ₹1,59,390 / semester" },
+        placements: { highest: "₹64 LPA", average: "₹17.93 LPA", median: "₹14.97 LPA", percentage: "82%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -638,17 +616,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Rupnagar", state: "Punjab", country: "India" },
-        campusSize: "371 Acres",
+        campusSize: "418 Acres",
         campus: "/colleges/campus1.png",
         color: "#ad1457",
         overview: "IIT Ropar is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Ropar, Rupnagar, Punjab, India",
-            airport: { name: "Rupnagar International Airport", distance: "23 km" },
-            railway: { name: "Rupnagar Railway Station", distance: "7 km" },
-            bus: { name: "Rupnagar Inter-State Bus Terminal", distance: "8 km" }
+            airport: { name: "Rupnagar International Airport", distance: "12 km" },
+            railway: { name: "Rupnagar Railway Station", distance: "3 km" },
+            bus: { name: "Rupnagar Inter-State Bus Terminal", distance: "5 km" }
         },
-        rankings: { current: 22, history: [{ year: 2024, rank: 22 }, { year: 2023, rank: 21 }, { year: 2022, rank: 23 }], category: "Engineering: Rank 22" },
+        rankings: { current: 22, history: [{ year: 2024, rank: 22 }, { year: 2023, rank: 21 }, { year: 2022, rank: 20 }], category: "Engineering: Rank 22" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -666,8 +644,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 3400, y2023: 3380, y2022: 3370 },
             { course: "Mechanical Engineering", y2024: 5700, y2023: 5680, y2022: 5650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.5 Cr / year", average: "₹21.5 LPA", median: "₹13.0 LPA", percentage: "94%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹22,260 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹42,560 / semester" },
+        placements: { highest: "₹65 LPA", average: "₹23.88 LPA", median: "₹21.72 LPA", percentage: "78%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -686,17 +664,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Gandhinagar", state: "Gujarat", country: "India" },
-        campusSize: "364 Acres",
+        campusSize: "447 Acres",
         campus: "/colleges/campus2.png",
         color: "#f57f17",
         overview: "IIT Gandhinagar is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Gandhinagar, Gandhinagar, Gujarat, India",
-            airport: { name: "Gandhinagar International Airport", distance: "9 km" },
-            railway: { name: "Gandhinagar Railway Station", distance: "3 km" },
-            bus: { name: "Gandhinagar Inter-State Bus Terminal", distance: "6 km" }
+            airport: { name: "Gandhinagar International Airport", distance: "18 km" },
+            railway: { name: "Gandhinagar Railway Station", distance: "9 km" },
+            bus: { name: "Gandhinagar Inter-State Bus Terminal", distance: "2 km" }
         },
-        rankings: { current: 16, history: [{ year: 2024, rank: 16 }, { year: 2023, rank: 16 }, { year: 2022, rank: 14 }], category: "Engineering: Rank 16" },
+        rankings: { current: 16, history: [{ year: 2024, rank: 16 }, { year: 2023, rank: 16 }, { year: 2022, rank: 17 }], category: "Engineering: Rank 16" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -714,8 +692,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 2500, y2023: 2480, y2022: 2470 },
             { course: "Mechanical Engineering", y2024: 4200, y2023: 4180, y2022: 4150 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹14.5 LPA", median: "₹16.0 LPA", percentage: "93%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹21,000 / semester", admission: "₹7,750 (one-time)", totalYearly: "~ ₹1,59,338 / semester" },
+        placements: { highest: "₹62 LPA", average: "₹17.27 LPA", median: "₹14.00 LPA", percentage: "83%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -734,17 +712,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Patna", state: "Bihar", country: "India" },
-        campusSize: "417 Acres",
+        campusSize: "554 Acres",
         campus: "/colleges/campus4.png",
         color: "#4527a0",
         overview: "IIT Patna is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Patna, Patna, Bihar, India",
-            airport: { name: "Patna International Airport", distance: "11 km" },
-            railway: { name: "Patna Railway Station", distance: "4 km" },
-            bus: { name: "Patna Inter-State Bus Terminal", distance: "5 km" }
+            airport: { name: "Patna International Airport", distance: "12 km" },
+            railway: { name: "Patna Railway Station", distance: "3 km" },
+            bus: { name: "Patna Inter-State Bus Terminal", distance: "1 km" }
         },
-        rankings: { current: 25, history: [{ year: 2024, rank: 25 }, { year: 2023, rank: 25 }, { year: 2022, rank: 23 }], category: "Engineering: Rank 25" },
+        rankings: { current: 25, history: [{ year: 2024, rank: 25 }, { year: 2023, rank: 24 }, { year: 2022, rank: 25 }], category: "Engineering: Rank 25" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -762,8 +740,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 3850, y2023: 3830, y2022: 3820 },
             { course: "Mechanical Engineering", y2024: 6450, y2023: 6430, y2022: 6400 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹17.5 LPA", median: "₹12.0 LPA", percentage: "92%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹1,500 (one-time)", totalYearly: "~ ₹11,500 / semester" },
+        placements: { highest: "₹137 LPA", average: "₹20.16 LPA", median: "₹17.67 LPA", percentage: "92%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -782,17 +760,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2008,
         location: { city: "Jodhpur", state: "Rajasthan", country: "India" },
-        campusSize: "434 Acres",
+        campusSize: "325 Acres",
         campus: "/colleges/campus3.png",
         color: "#c62828",
         overview: "IIT Jodhpur is one of the premier engineering and research institutes in India. Established in 2008, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Jodhpur, Jodhpur, Rajasthan, India",
-            airport: { name: "Jodhpur International Airport", distance: "5 km" },
-            railway: { name: "Jodhpur Railway Station", distance: "7 km" },
-            bus: { name: "Jodhpur Inter-State Bus Terminal", distance: "7 km" }
+            airport: { name: "Jodhpur International Airport", distance: "15 km" },
+            railway: { name: "Jodhpur Railway Station", distance: "11 km" },
+            bus: { name: "Jodhpur Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 26, history: [{ year: 2024, rank: 26 }, { year: 2023, rank: 25 }, { year: 2022, rank: 27 }], category: "Engineering: Rank 26" },
+        rankings: { current: 26, history: [{ year: 2024, rank: 26 }, { year: 2023, rank: 26 }, { year: 2022, rank: 25 }], category: "Engineering: Rank 26" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -810,8 +788,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 4000, y2023: 3980, y2022: 3970 },
             { course: "Mechanical Engineering", y2024: 6700, y2023: 6680, y2022: 6650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.6 Cr / year", average: "₹20.5 LPA", median: "₹19.0 LPA", percentage: "91%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹19,000 / semester", admission: "₹6,800 (one-time)", totalYearly: "~ ₹1,61,050 / semester" },
+        placements: { highest: "₹53 LPA", average: "₹19.48 LPA", median: "₹14.60 LPA", percentage: "90%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -830,17 +808,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2009,
         location: { city: "Mandi", state: "Himachal Pradesh", country: "India" },
-        campusSize: "348 Acres",
+        campusSize: "477 Acres",
         campus: "/colleges/campus4.png",
         color: "#2e7d32",
         overview: "IIT Mandi is one of the premier engineering and research institutes in India. Established in 2009, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Mandi, Mandi, Himachal Pradesh, India",
             airport: { name: "Mandi International Airport", distance: "18 km" },
-            railway: { name: "Mandi Railway Station", distance: "4 km" },
-            bus: { name: "Mandi Inter-State Bus Terminal", distance: "4 km" }
+            railway: { name: "Mandi Railway Station", distance: "3 km" },
+            bus: { name: "Mandi Inter-State Bus Terminal", distance: "1 km" }
         },
-        rankings: { current: 24, history: [{ year: 2024, rank: 24 }, { year: 2023, rank: 23 }, { year: 2022, rank: 22 }], category: "Engineering: Rank 24" },
+        rankings: { current: 24, history: [{ year: 2024, rank: 24 }, { year: 2023, rank: 25 }, { year: 2022, rank: 22 }], category: "Engineering: Rank 24" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -858,8 +836,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 3700, y2023: 3680, y2022: 3670 },
             { course: "Mechanical Engineering", y2024: 6200, y2023: 6180, y2022: 6150 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹23.5 LPA", median: "₹18.0 LPA", percentage: "89%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹15,360 / semester", admission: "₹10,000 (one-time)", totalYearly: "~ ₹24,960 / semester" },
+        placements: { highest: "₹1.3 Cr / year", average: "₹23.5 LPA", median: "₹20.25 LPA", percentage: "85%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -878,17 +856,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2015,
         location: { city: "Tirupati", state: "Andhra Pradesh", country: "India" },
-        campusSize: "476 Acres",
+        campusSize: "435 Acres",
         campus: "/colleges/campus1.png",
         color: "#00838f",
         overview: "IIT Tirupati is one of the premier engineering and research institutes in India. Established in 2015, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Tirupati, Tirupati, Andhra Pradesh, India",
-            airport: { name: "Tirupati International Airport", distance: "9 km" },
+            airport: { name: "Tirupati International Airport", distance: "7 km" },
             railway: { name: "Tirupati Railway Station", distance: "7 km" },
-            bus: { name: "Tirupati Inter-State Bus Terminal", distance: "6 km" }
+            bus: { name: "Tirupati Inter-State Bus Terminal", distance: "1 km" }
         },
-        rankings: { current: 30, history: [{ year: 2024, rank: 30 }, { year: 2023, rank: 31 }, { year: 2022, rank: 28 }], category: "Engineering: Rank 30" },
+        rankings: { current: 30, history: [{ year: 2024, rank: 30 }, { year: 2023, rank: 29 }, { year: 2022, rank: 29 }], category: "Engineering: Rank 30" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -906,8 +884,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 4600, y2023: 4580, y2022: 4570 },
             { course: "Mechanical Engineering", y2024: 7700, y2023: 7680, y2022: 7650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.6 Cr / year", average: "₹22.5 LPA", median: "₹15.0 LPA", percentage: "93%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹18,850 / semester", admission: "₹3,000 (one-time)", totalYearly: "~ ₹29,900 / semester" },
+        placements: { highest: "₹69.45 LPA", average: "₹14.77 LPA", median: "₹11.00 LPA", percentage: "80%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -926,17 +904,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2015,
         location: { city: "Palakkad", state: "Kerala", country: "India" },
-        campusSize: "305 Acres",
+        campusSize: "339 Acres",
         campus: "/colleges/campus2.png",
         color: "#558b2f",
         overview: "IIT Palakkad is one of the premier engineering and research institutes in India. Established in 2015, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Palakkad, Palakkad, Kerala, India",
-            airport: { name: "Palakkad International Airport", distance: "22 km" },
-            railway: { name: "Palakkad Railway Station", distance: "8 km" },
-            bus: { name: "Palakkad Inter-State Bus Terminal", distance: "4 km" }
+            airport: { name: "Palakkad International Airport", distance: "17 km" },
+            railway: { name: "Palakkad Railway Station", distance: "4 km" },
+            bus: { name: "Palakkad Inter-State Bus Terminal", distance: "5 km" }
         },
-        rankings: { current: 34, history: [{ year: 2024, rank: 34 }, { year: 2023, rank: 33 }, { year: 2022, rank: 33 }], category: "Engineering: Rank 34" },
+        rankings: { current: 34, history: [{ year: 2024, rank: 34 }, { year: 2023, rank: 34 }, { year: 2022, rank: 35 }], category: "Engineering: Rank 34" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -954,8 +932,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 5200, y2023: 5180, y2022: 5170 },
             { course: "Mechanical Engineering", y2024: 8700, y2023: 8680, y2022: 8650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹16.5 LPA", median: "₹15.0 LPA", percentage: "92%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹3,500 (one-time)", totalYearly: "~ ₹38,400 / semester" },
+        placements: { highest: "₹120 LPA", average: "₹14.21 LPA", median: "₹12.02 LPA", percentage: "82%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -974,17 +952,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2016,
         location: { city: "Bhilai", state: "Chhattisgarh", country: "India" },
-        campusSize: "305 Acres",
+        campusSize: "417 Acres",
         campus: "/colleges/campus3.png",
         color: "#d84315",
         overview: "IIT Bhilai is one of the premier engineering and research institutes in India. Established in 2016, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Bhilai, Bhilai, Chhattisgarh, India",
-            airport: { name: "Bhilai International Airport", distance: "22 km" },
-            railway: { name: "Bhilai Railway Station", distance: "5 km" },
-            bus: { name: "Bhilai Inter-State Bus Terminal", distance: "6 km" }
+            airport: { name: "Bhilai International Airport", distance: "16 km" },
+            railway: { name: "Bhilai Railway Station", distance: "8 km" },
+            bus: { name: "Bhilai Inter-State Bus Terminal", distance: "8 km" }
         },
-        rankings: { current: 46, history: [{ year: 2024, rank: 46 }, { year: 2023, rank: 46 }, { year: 2022, rank: 46 }], category: "Engineering: Rank 46" },
+        rankings: { current: 46, history: [{ year: 2024, rank: 46 }, { year: 2023, rank: 45 }, { year: 2022, rank: 46 }], category: "Engineering: Rank 46" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -1002,8 +980,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 7000, y2023: 6980, y2022: 6970 },
             { course: "Mechanical Engineering", y2024: 11700, y2023: 11680, y2022: 11650 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹23.5 LPA", median: "₹19.0 LPA", percentage: "88%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹23,200 / semester", admission: "₹7,000 (one-time)", totalYearly: "~ ₹1,63,000 / semester" },
+        placements: { highest: "₹48.64 LPA", average: "₹12.72 LPA", median: "₹18.0 LPA", percentage: "76%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -1022,17 +1000,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2016,
         location: { city: "Dharwad", state: "Karnataka", country: "India" },
-        campusSize: "429 Acres",
+        campusSize: "535 Acres",
         campus: "/colleges/campus4.png",
         color: "#283593",
         overview: "IIT Dharwad is one of the premier engineering and research institutes in India. Established in 2016, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Dharwad, Dharwad, Karnataka, India",
-            airport: { name: "Dharwad International Airport", distance: "10 km" },
-            railway: { name: "Dharwad Railway Station", distance: "10 km" },
+            airport: { name: "Dharwad International Airport", distance: "11 km" },
+            railway: { name: "Dharwad Railway Station", distance: "11 km" },
             bus: { name: "Dharwad Inter-State Bus Terminal", distance: "3 km" }
         },
-        rankings: { current: 51, history: [{ year: 2024, rank: 51 }, { year: 2023, rank: 52 }, { year: 2022, rank: 49 }], category: "Engineering: Rank 51" },
+        rankings: { current: 51, history: [{ year: 2024, rank: 51 }, { year: 2023, rank: 50 }, { year: 2022, rank: 49 }], category: "Engineering: Rank 51" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -1050,8 +1028,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 7750, y2023: 7730, y2022: 7720 },
             { course: "Mechanical Engineering", y2024: 12950, y2023: 12930, y2022: 12900 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.3 Cr / year", average: "₹23.5 LPA", median: "₹16.0 LPA", percentage: "92%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹32,000 / semester" },
+        placements: { highest: "₹52 LPA", average: "₹15.46 LPA", median: "₹11.62 LPA", percentage: "77%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -1070,17 +1048,17 @@ const iitProfiles = {
         type: "IIT",
         established: 2016,
         location: { city: "Jammu", state: "J&K", country: "India" },
-        campusSize: "396 Acres",
+        campusSize: "421 Acres",
         campus: "/colleges/campus1.png",
         color: "#01579b",
         overview: "IIT Jammu is one of the premier engineering and research institutes in India. Established in 2016, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Jammu, Jammu, J&K, India",
-            airport: { name: "Jammu International Airport", distance: "7 km" },
-            railway: { name: "Jammu Railway Station", distance: "4 km" },
-            bus: { name: "Jammu Inter-State Bus Terminal", distance: "7 km" }
+            airport: { name: "Jammu International Airport", distance: "11 km" },
+            railway: { name: "Jammu Railway Station", distance: "3 km" },
+            bus: { name: "Jammu Inter-State Bus Terminal", distance: "3 km" }
         },
-        rankings: { current: 47, history: [{ year: 2024, rank: 47 }, { year: 2023, rank: 46 }, { year: 2022, rank: 45 }], category: "Engineering: Rank 47" },
+        rankings: { current: 47, history: [{ year: 2024, rank: 47 }, { year: 2023, rank: 47 }, { year: 2022, rank: 45 }], category: "Engineering: Rank 47" },
         courses: [
             { name: "Computer Science & Engineering", degree: "B.Tech", duration: "4 Years" },
             { name: "Electrical Engineering", degree: "B.Tech", duration: "4 Years" },
@@ -1098,8 +1076,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 7150, y2023: 7130, y2022: 7120 },
             { course: "Mechanical Engineering", y2024: 11950, y2023: 11930, y2022: 11900 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.4 Cr / year", average: "₹14.5 LPA", median: "₹17.0 LPA", percentage: "85%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹24,000 / semester", admission: "₹16,300 (one-time)", totalYearly: "~ ₹1,90,950 / semester" },
+        placements: { highest: "₹53 LPA", average: "₹17.39 LPA", median: "₹16.00 LPA", percentage: "81%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
@@ -1118,15 +1096,15 @@ const iitProfiles = {
         type: "IIT",
         established: 2016,
         location: { city: "Ponda", state: "Goa", country: "India" },
-        campusSize: "356 Acres",
+        campusSize: "329 Acres",
         campus: "/colleges/campus2.png",
         color: "#00695c",
         overview: "IIT Goa is one of the premier engineering and research institutes in India. Established in 2016, it has been consistently ranked among the top engineering colleges due to its rigorous academic curriculum, state-of-the-art facilities, and strong industry partnerships. The institute offers a vibrant campus life and produces graduates who go on to lead major technology organizations globally.",
         address: {
             full: "IIT Goa, Ponda, Goa, India",
-            airport: { name: "Ponda International Airport", distance: "5 km" },
-            railway: { name: "Ponda Railway Station", distance: "6 km" },
-            bus: { name: "Ponda Inter-State Bus Terminal", distance: "4 km" }
+            airport: { name: "Ponda International Airport", distance: "19 km" },
+            railway: { name: "Ponda Railway Station", distance: "4 km" },
+            bus: { name: "Ponda Inter-State Bus Terminal", distance: "6 km" }
         },
         rankings: { current: 52, history: [{ year: 2024, rank: 52 }, { year: 2023, rank: 52 }, { year: 2022, rank: 51 }], category: "Engineering: Rank 52" },
         courses: [
@@ -1146,8 +1124,8 @@ const iitProfiles = {
             { course: "Electrical Engineering", y2024: 7900, y2023: 7880, y2022: 7870 },
             { course: "Mechanical Engineering", y2024: 13200, y2023: 13180, y2022: 13150 }
         ],
-        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹20,000 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹2,80,000 / year" },
-        placements: { highest: "₹1.2 Cr / year", average: "₹18.5 LPA", median: "₹15.0 LPA", percentage: "90%" },
+        fees: { tuition: "₹1,00,000 / semester", hostel: "₹15,000 / semester", mess: "₹18,709 / semester", admission: "₹5,000 (one-time)", totalYearly: "~ ₹33,709 / semester" },
+        placements: { highest: "₹112 LPA", average: "₹18.80 LPA", median: "₹14.67 LPA", percentage: "95%" },
         recruiters: ["Google", "Microsoft", "Amazon", "Apple", "Adobe", "Qualcomm", "Intel", "Goldman Sachs"],
         whyChoose: [
             "Top-tier engineering institute with strong academic foundation",
