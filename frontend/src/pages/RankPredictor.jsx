@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import EducationalTip from '../components/EducationalTip';
 import {
-    Calculator, Trophy, Info, Search, Building2,
+    Calculator, Search, Building2,
     GraduationCap, Target, ShieldCheck, Zap,
-    MapPin, IndianRupee, Briefcase, ChevronRight,
-    Download, Phone, Mail, User, Lock, ArrowRight,
-    CheckCircle2, XCircle, AlertTriangle, FileText,
-    MessageSquare, Star
+    MapPin, Briefcase, ChevronRight,
+    User, Lock, ArrowRight,
+    AlertTriangle, FileText,
+    MessageSquare, Sparkles
 } from 'lucide-react';
 import { calculateProbability } from '../utils/probabilityEngine';
 
@@ -70,13 +71,13 @@ const RankPredictor = () => {
                 const isIIT = item.institute_type === 'IIT';
                 if (formData.examType === 'JEE Advanced' && !isIIT) return false;
                 if (formData.examType === 'JEE Main' && isIIT) return false;
-                if (formData.examType === 'BITSAT') return false; 
+                if (formData.examType === 'BITSAT') return false;
 
                 // If branch filter is active
                 if (formData.branch !== 'Any') {
                     const sb = formData.branch?.toLowerCase() || '';
                     const b = item.branch?.toLowerCase() || '';
-                    
+
                     if (sb === 'it' && !b.includes('information technology') && !b.includes('  it ')) return false;
                     else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
                     else if (sb !== 'it' && sb !== 'ece' && !b.includes(sb)) return false;
