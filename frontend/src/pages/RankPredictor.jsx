@@ -74,8 +74,8 @@ const RankPredictor = () => {
 
                 // If branch filter is active
                 if (formData.branch !== 'Any') {
-                    const sb = formData.branch.toLowerCase();
-                    const b = item.branch.toLowerCase();
+                    const sb = formData.branch?.toLowerCase() || '';
+                    const b = item.branch?.toLowerCase() || '';
                     
                     if (sb === 'it' && !b.includes('information technology') && !b.includes('  it ')) return false;
                     else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
@@ -127,8 +127,12 @@ const RankPredictor = () => {
 
         // Sort by probability descending, then by closing_rank ascending (better colleges first)
         const sortPredicts = (arr) => arr.sort((a, b) => {
-            if (b.probability !== a.probability) return b.probability - a.probability;
-            return a.closing_rank - b.closing_rank;
+            const pA = a.probability || 0;
+            const pB = b.probability || 0;
+            if (pB !== pA) return pB - pA;
+            const cA = a.closing_rank || 9999999;
+            const cB = b.closing_rank || 9999999;
+            return cA - cB;
         });
 
         let bestMatches = sortPredicts([...prediction.josaa.filter(item => item.probability >= 60)]);
