@@ -1,21 +1,17 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import EducationalTip from '../components/EducationalTip';
 import {
     Calculator, Search, Building2,
-    GraduationCap, Target, ShieldCheck, Zap,
+    GraduationCap, Target, ShieldCheck,
     MapPin, Briefcase, ChevronRight,
     User, Lock, ArrowRight,
     AlertTriangle, FileText,
     MessageSquare, Sparkles
 } from 'lucide-react';
-import { calculateProbability } from '../utils/probabilityEngine';
 
-// Sample data import simulation
 import josaaData from '../data/josaa_data.json';
-import stateData from '../data/state_counselling_data.json';
-import privateData from '../data/private_colleges_data.json';
 
 const RankPredictor = () => {
     const [formData, setFormData] = useState({
@@ -24,18 +20,15 @@ const RankPredictor = () => {
         examType: 'JEE Main',
         gender: 'Gender-Neutral',
         homeState: 'Uttar Pradesh',
-        budget: 'Any',
         branch: 'Any'
     });
 
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
     const [isLocked, setIsLocked] = useState(true);
-    const [strategyMode, setStrategyMode] = useState('Normal');
-    const [leadInfo, setLeadInfo] = useState({ name: '', phone: '' });
 
     const categories = ['General', 'OBC-NCL', 'SC', 'ST', 'EWS', 'General-PwD'];
-    const exams = ['JEE Main', 'JEE Advanced', 'BITSAT'];
+    const exams = ['JEE Main', 'JEE Advanced'];
     const states = [
         'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
         'Delhi', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand',
@@ -44,9 +37,7 @@ const RankPredictor = () => {
         'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh',
         'Uttarakhand', 'West Bengal'
     ];
-
     const branches = ['Any', 'Computer Science', 'IT', 'ECE', 'Electrical', 'Mechanical', 'Civil', 'Chemical'];
-    const budgets = ['Any', 'Under 5 Lakhs', 'Under 10 Lakhs', 'Under 15 Lakhs', '15 Lakhs+'];
 
     const handlePredict = (e) => {
         e.preventDefault();
@@ -54,67 +45,56 @@ const RankPredictor = () => {
 
         setTimeout(() => {
             const userRank = parseInt(formData.rank);
-            const trend = 0.05;
+            const relaxedRank = Math.floor(userRank * 0.95); // -5% relaxation
 
-            // Filter JoSAA based on selections
-            const filteredJosaa = josaaData.filter(item => {
-                // Require exact category match (e.g., General -> General, OBC-NCL -> OBC-NCL)
+            // Step 1: Filter by category, gender, exam, branch
+            const filtered = josaaData.filter(item => {
                 if (item.category !== formData.category) return false;
-
-                // Gender logic: 
-                // "Gender-Neutral" users can only see "Gender-Neutral" seats
-                // "Female Only" users can also compete in "Gender-Neutral" standard seats
                 if (formData.gender === 'Gender-Neutral' && item.gender === 'Female Only') return false;
 
-                // Exam type matching:
-                // IITs use JEE Advanced, NITs/IIITs/GFTIs use JEE Main. (BITSAT not in JoSAA)
                 const isIIT = item.institute_type === 'IIT';
                 if (formData.examType === 'JEE Advanced' && !isIIT) return false;
                 if (formData.examType === 'JEE Main' && isIIT) return false;
-                if (formData.examType === 'BITSAT') return false;
 
-                // If branch filter is active
                 if (formData.branch !== 'Any') {
                     const sb = formData.branch?.toLowerCase() || '';
                     const b = item.branch?.toLowerCase() || '';
-
-                    if (sb === 'it' && !b.includes('information technology') && !b.includes('  it ')) return false;
+                    if (sb === 'it' && !b.includes('information technology')) return false;
                     else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
-                    else if (sb !== 'it' && sb !== 'ece' && !b.includes(sb)) return false;
+                    else if (sb === 'computer science' && !b.includes('computer science')) return false;
+                    else if (sb !== 'it' && sb !== 'ece' && sb !== 'computer science' && !b.includes(sb)) return false;
                 }
 
                 return true;
             });
 
-            // Process filtered JoSAA
-            const processedJosaa = filteredJosaa.map(item => ({
-                ...item,
-                ...calculateProbability(userRank, item.closing_rank, trend)
-            }));
+            // Step 2: Pick colleges whose closing rank is >= relaxedRank (i.e., user can get in)
+            // closing_rank >= relaxedRank means the cutoff is around or above the user's adjusted rank
+            // We want colleges where userRank <= closingRank (user's rank is better/lower than cutoff)
+            // But with -5% relaxation: we also include colleges where closingRank >= relaxedRank
+            const eligible = filtered.filter(item => {
+                const cr = item.closing_rank || 0;
+                // User can get in if their rank is <= closing rank
+                // With -5% relaxation: also show colleges where closing rank >= relaxedRank
+                return cr >= relaxedRank;
+            });
 
-            // Process State
-            const processedState = stateData.map(item => ({
-                ...item,
-                ...calculateProbability(userRank, item.closing_rank, trend),
-                institute_type: 'State GC'
-            }));
+            // Step 3: Sort by closeness to user rank (closest closing_rank first = most competitive match)
+            // Colleges with closing_rank just above the user's rank are the best strategic picks
+            eligible.sort((a, b) => {
+                const diffA = Math.abs(a.closing_rank - userRank);
+                const diffB = Math.abs(b.closing_rank - userRank);
+                return diffA - diffB;
+            });
 
-            // Process Private
-            const processedPrivate = privateData.map(item => ({
-                ...item,
-                institute_type: 'Private',
-                probability: 90, // Generally high if rank is specified unless top private
-                text: 'Direct/Rank Based',
-                color: 'text-orange-600 bg-orange-50 border-orange-100'
-            }));
+            // Step 4: Take exactly 25
+            const top25 = eligible.slice(0, 25);
 
             setPrediction({
                 rank: userRank,
-                category: formData.category,
-                josaa: processedJosaa,
-                state: processedState,
-                private: processedPrivate,
-                aiAdvice: `Based on your ${userRank} rank and the current 5% competition trend, we see strong potential for NIT Bhopal and IIIT Lucknow. ${userRank < 20000 ? 'Focus on JoSAA Round 1-3 for top branches.' : 'State level counselling (UPTAC) will be your primary anchor for CSE.'}`
+                relaxedRank,
+                colleges: top25,
+                totalEligible: eligible.length
             });
 
             setLoading(false);
@@ -122,58 +102,14 @@ const RankPredictor = () => {
         }, 1500);
     };
 
-    // Filtered results based on strategy mode
-    const filteredResults = useMemo(() => {
-        if (!prediction) return null;
-
-        // Sort by probability descending, then by closing_rank ascending (better colleges first)
-        const sortPredicts = (arr) => arr.sort((a, b) => {
-            const pA = a.probability || 0;
-            const pB = b.probability || 0;
-            if (pB !== pA) return pB - pA;
-            const cA = a.closing_rank || 9999999;
-            const cB = b.closing_rank || 9999999;
-            return cA - cB;
-        });
-
-        let bestMatches = sortPredicts([...prediction.josaa.filter(item => item.probability >= 60)]);
-        let strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 25 && item.probability < 60)]);
-        let safeBackups = sortPredicts([...prediction.state.filter(item => item.probability >= 75)]);
-        let privateColleges = sortPredicts([...prediction.private]);
-
-        if (strategyMode === 'Safe') {
-            bestMatches = sortPredicts([...prediction.josaa.filter(item => item.probability >= 80)]);
-            strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 50 && item.probability < 80)]);
-        } else if (strategyMode === 'Aggressive') {
-            strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 15 && item.probability < 60)]);
-        }
-
-        // TEASER PATTERN: Limit to 2 results if locked
-        const limit = isLocked ? 2 : 6;
-
-        return {
-            bestMatches: bestMatches.slice(0, limit),
-            strategicChoices: strategicChoices.slice(0, limit),
-            safeBackups: safeBackups.slice(0, limit),
-            privateColleges: privateColleges.slice(0, limit)
-        };
-    }, [prediction, strategyMode, isLocked]);
-
-    const handleLeadSubmit = (e) => {
-        e.preventDefault();
-        const leadData = {
-            name: e.target[0].value,
-            phone: e.target[1].value,
-            rank: formData.rank,
-            category: formData.category,
-            homeState: formData.homeState
-        };
-        console.log("Strategic Lead Captured:", leadData);
-        setIsLocked(false);
-    };
-
     const downloadReport = () => alert("Generating your Personalized Strategy Report (PDF)...");
     const callMentor = () => alert("Connecting you with an IIT/NIT Mentor...");
+
+    // How many to show: teaser shows 5, unlocked shows all 25
+    const visibleColleges = useMemo(() => {
+        if (!prediction) return [];
+        return isLocked ? prediction.colleges.slice(0, 5) : prediction.colleges;
+    }, [prediction, isLocked]);
 
     return (
         <div className="pt-24 md:pt-32 pb-32 bg-transparent min-h-screen">
@@ -197,7 +133,7 @@ const RankPredictor = () => {
 
                 {!prediction ? (
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                        {/* Form Sidebar/Main */}
+                        {/* Form */}
                         <motion.div
                             initial={{ opacity: 0, x: -30 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -213,10 +149,10 @@ const RankPredictor = () => {
                             </h2>
 
                             <form onSubmit={handlePredict} className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
-                                {/* Exam Type - Full Width */}
+                                {/* Exam Type */}
                                 <div className="md:col-span-2 space-y-6">
                                     <label className="text-[11px] uppercase tracking-[0.2em] font-black text-slate-400 opacity-80">Select Exam Path</label>
-                                    <div className="grid grid-cols-3 gap-3">
+                                    <div className="grid grid-cols-2 gap-3">
                                         {exams.map(exam => (
                                             <button
                                                 key={exam}
@@ -298,6 +234,20 @@ const RankPredictor = () => {
                                     </div>
                                 </div>
 
+                                {/* Branch Filter */}
+                                <div className="md:col-span-2 space-y-3">
+                                    <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-black text-slate-400 opacity-80">
+                                        <GraduationCap size={12} className="text-brand-accent" /> Branch Preference
+                                    </label>
+                                    <select
+                                        className="w-full px-7 py-4 bg-brand-muted/20 border-2 border-transparent rounded-[20px] outline-none focus:border-brand-blue/30 focus:bg-white transition-all font-black text-slate-700 text-sm appearance-none"
+                                        value={formData.branch}
+                                        onChange={(e) => setFormData({ ...formData, branch: e.target.value })}
+                                    >
+                                        {branches.map(b => <option key={b} value={b}>{b}</option>)}
+                                    </select>
+                                </div>
+
                                 <div className="md:col-span-2 pt-12">
                                     <button
                                         type="submit"
@@ -334,8 +284,8 @@ const RankPredictor = () => {
                                 content="Common Rank List is your overall India rank. Use this for the most accurate prediction across all colleges."
                             />
                             <EducationalTip
-                                title="The Strategy Filter"
-                                content="Our AI doesn't just show colleges. It categorizes them into 'Safe', 'Strategic', and 'Dream' picks based on historic round 6 closing trends."
+                                title="The -5% Relaxation"
+                                content="We widen your search by 5% below your rank. If your rank is 5000, we also show colleges with closing ranks down to 4750."
                                 type="idea"
                             />
                             <EducationalTip
@@ -363,7 +313,7 @@ const RankPredictor = () => {
                             exit={{ opacity: 0 }}
                             className="space-y-12 text-left"
                         >
-                            {/* Summary */}
+                            {/* Summary Header */}
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -371,245 +321,202 @@ const RankPredictor = () => {
                             >
                                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-blue/[0.02] rounded-full -mr-64 -mt-64 blur-3xl"></div>
 
-                                <div className="flex flex-col lg:flex-row items-center justify-between gap-16 relative z-10">
+                                <div className="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
                                     <div className="space-y-4 text-center lg:text-left">
                                         <span className="text-xs font-black uppercase tracking-[0.4em] text-brand-blue/60">Computation Complete</span>
-                                        <h2 className="text-8xl md:text-9xl font-black serif-font italic text-brand-dark tracking-tighter leading-none">
+                                        <h2 className="text-7xl md:text-9xl font-black serif-font italic text-brand-dark tracking-tighter leading-none">
                                             #{prediction.rank.toLocaleString()}
                                         </h2>
-                                        <div className="flex flex-wrap gap-4 pt-6 justify-center lg:justify-start">
+                                        <div className="flex flex-wrap gap-4 pt-4 justify-center lg:justify-start">
                                             {['category', 'homeState', 'examType'].map(key => (
-                                                <div key={key} className="px-6 py-2 bg-brand-muted/30 rounded-full text-xs font-black text-brand-blue/60 uppercase tracking-widest border border-brand-muted/50">
+                                                <div key={key} className="px-5 py-2 bg-brand-muted/30 rounded-full text-xs font-black text-brand-blue/60 uppercase tracking-widest border border-brand-muted/50">
                                                     {formData[key]}
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
 
-                                    <div className="w-full lg:w-[450px] space-y-8">
-                                        <div className="bg-brand-muted/20 p-8 rounded-[32px] border border-brand-muted shadow-soft relative">
+                                    <div className="w-full lg:w-[420px] space-y-6">
+                                        <div className="bg-brand-muted/20 p-7 rounded-[28px] border border-brand-muted shadow-soft relative">
                                             <div className="absolute -top-3 -right-3 w-10 h-10 bg-white shadow-soft rounded-2xl flex items-center justify-center">
                                                 <Sparkles className="text-brand-accent animate-pulse" size={20} />
                                             </div>
-                                            <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-3">
-                                                Strategic Intelligence
+                                            <h4 className="text-xs font-black uppercase tracking-widest text-slate-400 mb-3">
+                                                Prediction Summary
                                             </h4>
-                                            <p className="text-sm md:text-base text-slate-600/80 leading-relaxed font-bold italic">
-                                                "{prediction.aiAdvice}"
+                                            <p className="text-sm text-slate-600/80 leading-relaxed font-bold italic">
+                                                "Showing <span className="text-brand-blue">{prediction.colleges.length}</span> best colleges for rank #{prediction.rank.toLocaleString()} with -5% relaxation (down to #{prediction.relaxedRank.toLocaleString()}). Total eligible: <span className="text-brand-blue">{prediction.totalEligible}</span>."
                                             </p>
                                         </div>
 
                                         <div className="flex gap-4">
                                             <button
                                                 onClick={downloadReport}
-                                                className="flex-1 py-5 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest hover:border-brand-blue/30 transition-all flex items-center justify-center gap-3"
+                                                className="flex-1 py-4 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest hover:border-brand-blue/30 transition-all flex items-center justify-center gap-3"
                                             >
-                                                <FileText size={18} /> Download Analysis
+                                                <FileText size={16} /> Report
                                             </button>
                                             <button
                                                 onClick={callMentor}
-                                                className="flex-1 py-5 bg-brand-blue text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand-dark transition-all flex items-center justify-center gap-3 shadow-soft"
+                                                className="flex-1 py-4 bg-brand-blue text-white rounded-2xl text-[11px] font-black uppercase tracking-widest hover:bg-brand-dark transition-all flex items-center justify-center gap-3 shadow-soft"
                                             >
-                                                <MessageSquare size={18} /> Human Support
+                                                <MessageSquare size={16} /> Expert Help
+                                            </button>
+                                            <button
+                                                onClick={() => { setPrediction(null); setIsLocked(true); }}
+                                                className="py-4 px-6 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest hover:border-brand-blue/30 transition-all flex items-center justify-center gap-2"
+                                            >
+                                                <Search size={16} /> New
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
 
-                            {/* Strategy Toggles */}
-                            <div className="sticky top-24 z-20 flex flex-col md:flex-row items-center justify-between gap-6 bg-white/70 backdrop-blur-xl p-6 rounded-[32px] border border-white shadow-soft">
-                                <div className="flex items-center gap-4 px-2">
-                                    <div className="w-12 h-12 bg-brand-muted rounded-2xl flex items-center justify-center text-brand-blue">
-                                        <Briefcase size={22} />
+                            {/* College Table */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 }}
+                                className={`relative ${isLocked ? 'max-h-[900px] overflow-hidden' : ''}`}
+                            >
+                                <div className="bg-white rounded-[40px] shadow-soft border border-brand-muted overflow-hidden">
+                                    {/* Table Header */}
+                                    <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-brand-muted/30 border-b border-brand-muted/50">
+                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400">#</div>
+                                        <div className="col-span-4 text-[10px] font-black uppercase tracking-widest text-slate-400">College Name</div>
+                                        <div className="col-span-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Branch</div>
+                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Type</div>
+                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Open</div>
+                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Close</div>
+                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Match</div>
                                     </div>
-                                    <div className="text-left">
-                                        <h5 className="font-black text-brand-dark text-sm">Adaptive Strategy</h5>
-                                        <p className="text-[11px] text-slate-400 font-black uppercase tracking-widest">Fine-tune risk tolerance</p>
-                                    </div>
-                                </div>
-                                <div className="flex p-2 bg-brand-muted/20 rounded-2xl gap-2 w-full md:w-auto overflow-x-auto">
-                                    {['Safe', 'Normal', 'Aggressive'].map(mode => (
-                                        <button
-                                            key={mode}
-                                            onClick={() => setStrategyMode(mode)}
-                                            className={`flex-1 md:px-10 py-3.5 rounded-xl text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap ${strategyMode === mode
-                                                ? 'bg-white text-brand-blue shadow-soft scale-105'
-                                                : 'text-slate-400 hover:text-slate-600'
-                                                }`}
-                                        >
-                                            {mode}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
 
-                            {/* Results Grid - Using Low Contrast Dividers */}
-                            <div className={`relative ${isLocked ? 'max-h-[1200px] overflow-hidden' : ''}`}>
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                                    {[
-                                        { title: 'Optimized Outcomes', data: filteredResults.bestMatches, icon: <Target />, color: 'text-brand-blue' },
-                                        { title: 'Strategic Reach', data: filteredResults.strategicChoices, icon: <Zap />, color: 'text-brand-accent' },
-                                        { title: 'Safety Anchors', data: filteredResults.safeBackups, icon: <ShieldCheck />, color: 'text-slate-500' },
-                                        { title: 'Private Excellence', data: filteredResults.privateColleges, icon: <GraduationCap />, color: 'text-slate-600' }
-                                    ].map((section, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            initial={{ opacity: 0, y: 30 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.1 }}
-                                            className="space-y-8"
-                                        >
-                                            <h3 className={`flex items-center gap-4 text-[11px] font-black uppercase tracking-[0.3em] ${section.color} px-4`}>
-                                                <div className="flex items-center justify-center w-8 h-8 bg-brand-muted rounded-xl">
-                                                    {section.icon}
+                                    {/* Table Body */}
+                                    {visibleColleges.map((college, idx) => {
+                                        const diff = college.closing_rank - prediction.rank;
+                                        const isAbove = diff >= 0;
+                                        const matchLabel = isAbove ? 'Safe' : 'Reach';
+                                        const matchColor = isAbove
+                                            ? 'text-green-600 bg-green-50'
+                                            : 'text-amber-600 bg-amber-50';
+
+                                        return (
+                                            <motion.div
+                                                key={idx}
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: idx * 0.03 }}
+                                                className="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-muted/20 hover:bg-brand-muted/10 transition-all group cursor-pointer items-center"
+                                            >
+                                                <div className="col-span-1 text-sm font-black text-slate-300 serif-font italic">
+                                                    {idx + 1}
                                                 </div>
-                                                {section.title}
-                                            </h3>
+                                                <div className="col-span-4">
+                                                    <p className="text-sm font-black text-brand-dark leading-tight group-hover:text-brand-blue transition-colors truncate" title={college.college_name}>
+                                                        {college.college_name}
+                                                    </p>
+                                                </div>
+                                                <div className="col-span-3">
+                                                    <p className="text-[11px] font-bold text-slate-500 truncate" title={college.branch}>
+                                                        {college.branch}
+                                                    </p>
+                                                </div>
+                                                <div className="col-span-1">
+                                                    <span className="px-2 py-0.5 bg-brand-muted text-brand-blue rounded-lg text-[10px] font-black uppercase">
+                                                        {college.institute_type || 'GFTI'}
+                                                    </span>
+                                                </div>
+                                                <div className="col-span-1 text-right">
+                                                    <span className="text-sm font-black text-slate-500 serif-font italic">
+                                                        {college.opening_rank?.toLocaleString()}
+                                                    </span>
+                                                </div>
+                                                <div className="col-span-1 text-right">
+                                                    <span className="text-sm font-black text-brand-dark serif-font italic">
+                                                        {college.closing_rank?.toLocaleString()}
+                                                    </span>
+                                                </div>
+                                                <div className="col-span-1 text-right">
+                                                    <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase ${matchColor}`}>
+                                                        {matchLabel}
+                                                    </span>
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
 
-                                            <div className="space-y-6">
-                                                {section.data.length > 0 ? (
-                                                    section.data.map((college, cIdx) => (
-                                                        <CollegeCard key={cIdx} college={college} />
-                                                    ))
-                                                ) : (
-                                                    <div className="p-16 text-center text-slate-300 bg-brand-muted/10 rounded-[40px] border border-dashed border-brand-muted italic font-bold text-sm">
-                                                        Deep scanning required. <Link to="/signup" className="text-brand-blue underline">Unlock more.</Link>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                    {prediction.colleges.length === 0 && (
+                                        <div className="p-16 text-center text-slate-300 italic font-bold text-sm">
+                                            No colleges found for your selections. Try adjusting your filters.
+                                        </div>
+                                    )}
                                 </div>
 
-                                {isLocked && (
-                                    <div className="absolute inset-x-0 bottom-0 h-[800px] bg-gradient-to-t from-bg-light via-bg-light/95 to-transparent z-50 flex items-end justify-center p-6 pb-24">
+                                {/* Lock Overlay */}
+                                {isLocked && prediction.colleges.length > 5 && (
+                                    <div className="absolute inset-x-0 bottom-0 h-[500px] bg-gradient-to-t from-bg-light via-bg-light/95 to-transparent z-50 flex items-end justify-center p-6 pb-16">
                                         <motion.div
                                             initial={{ opacity: 0, y: 50 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            className="bg-white p-12 md:p-16 rounded-[64px] shadow-[0_40px_100px_rgba(0,34,68,0.1)] border border-brand-muted max-w-2xl w-full text-center relative z-10"
+                                            className="bg-white p-10 md:p-14 rounded-[48px] shadow-[0_40px_100px_rgba(0,34,68,0.1)] border border-brand-muted max-w-xl w-full text-center relative z-10"
                                         >
-                                            <div className="w-20 h-20 bg-brand-muted rounded-[24px] flex items-center justify-center text-brand-blue mx-auto mb-8 shadow-inner">
-                                                <Lock size={32} />
+                                            <div className="w-16 h-16 bg-brand-muted rounded-[20px] flex items-center justify-center text-brand-blue mx-auto mb-6 shadow-inner">
+                                                <Lock size={28} />
                                             </div>
-                                            <h3 className="text-4xl font-black text-brand-dark mb-4 tracking-tighter">Strategic Depth Halted</h3>
-                                            <p className="text-slate-400 font-bold mb-12 max-w-sm mx-auto leading-relaxed italic uppercase tracking-[0.15em] text-[12px]">
-                                                We're hiding 124 more predicted combinations. Create your secure identity to view the full report.
+                                            <h3 className="text-3xl font-black text-brand-dark mb-3 tracking-tighter">
+                                                {prediction.colleges.length - 5} More Colleges Hidden
+                                            </h3>
+                                            <p className="text-slate-400 font-bold mb-10 max-w-sm mx-auto leading-relaxed italic uppercase tracking-[0.15em] text-[11px]">
+                                                Sign up to see all {prediction.colleges.length} predicted colleges with full details.
                                             </p>
 
                                             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
                                                 <Link
                                                     to="/signup"
-                                                    className="w-full sm:w-auto px-12 py-6 bg-brand-blue text-white rounded-[24px] font-black text-[12px] uppercase tracking-[0.3em] shadow-xl shadow-blue-900/10 hover:bg-brand-dark transition-all flex items-center justify-center gap-4 group/btn"
+                                                    className="w-full sm:w-auto px-10 py-5 bg-brand-blue text-white rounded-[20px] font-black text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-blue-900/10 hover:bg-brand-dark transition-all flex items-center justify-center gap-3 group/btn"
                                                 >
-                                                    Access Full Intelligence <ArrowRight size={20} className="group-hover/btn:translate-x-2 transition-transform" />
+                                                    Unlock All Colleges <ArrowRight size={18} className="group-hover/btn:translate-x-2 transition-transform" />
                                                 </Link>
-                                                <Link to="/login" className="text-[11px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-blue transition-colors px-8 py-6">
+                                                <Link to="/login" className="text-[11px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-blue transition-colors px-6 py-5">
                                                     I have an account
                                                 </Link>
                                             </div>
                                         </motion.div>
                                     </div>
                                 )}
+                            </motion.div>
+
+                            {/* CTA Banner */}
+                            <div className="mt-16 relative rounded-[48px] overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#0462C3] via-[#0351a1] to-slate-900"></div>
+                                <div className="absolute top-0 right-0 w-full h-full opacity-10">
+                                    <Search className="w-[800px] h-[800px] -mr-96 -mt-96" />
+                                </div>
+
+                                <div className="relative z-10 p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between gap-12">
+                                    <div className="max-w-xl text-center lg:text-left space-y-6">
+                                        <h4 className="text-4xl md:text-5xl font-black text-white leading-tight text-left">
+                                            Lost in Choice Filling?<br />
+                                            <span className="serif-font italic font-medium text-blue-300">Don't guess.</span> Win.
+                                        </h4>
+                                        <p className="text-blue-100/80 font-bold italic text-lg leading-relaxed text-left">
+                                            Get a personalized preference list designed by IIT & NIT Alumni. We ensure you get the best possible college for your rank.
+                                        </p>
+                                    </div>
+                                    <button
+                                        onClick={callMentor}
+                                        className="px-14 py-7 bg-white text-[#0462C3] rounded-[32px] font-black text-xs uppercase tracking-[0.3em] shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:bg-blue-50 transition-all hover:scale-110 active:scale-95 whitespace-nowrap"
+                                    >
+                                        Talk to Admission Expert
+                                    </button>
+                                </div>
                             </div>
                         </motion.div>
-
-                        {/* CTA Banner Section inside Results */}
-                        <div className="mt-24 relative rounded-[48px] overflow-hidden">
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#0462C3] via-[#0351a1] to-slate-900"></div>
-                            <div className="absolute top-0 right-0 w-full h-full opacity-10">
-                                <Search className="w-[800px] h-[800px] -mr-96 -mt-96" />
-                            </div>
-
-                            <div className="relative z-10 p-12 md:p-20 flex flex-col lg:flex-row items-center justify-between gap-12">
-                                <div className="max-w-xl text-center lg:text-left space-y-6">
-                                    <h4 className="text-4xl md:text-5xl font-black text-white leading-tight text-left">
-                                        Lost in Choice Filling?<br />
-                                        <span className="serif-font italic font-medium text-blue-300">Don't guess.</span> Win.
-                                    </h4>
-                                    <p className="text-blue-100/80 font-bold italic text-lg leading-relaxed text-left">
-                                        Get a personalized preference list designed by IIT & NIT Alumni. We ensure you get the best possible college for your rank.
-                                    </p>
-                                </div>
-                                <button
-                                    onClick={callMentor}
-                                    className="px-14 py-7 bg-white text-[#0462C3] rounded-[32px] font-black text-xs uppercase tracking-[0.3em] shadow-[0_20px_40px_rgba(0,0,0,0.2)] hover:bg-blue-50 transition-all hover:scale-110 active:scale-95 whitespace-nowrap"
-                                >
-                                    Talk to Admission Expert
-                                </button>
-                            </div>
-                        </div>
                     </AnimatePresence>
                 )}
             </div>
         </div>
-    );
-};
-
-const CollegeCard = ({ college }) => {
-    return (
-        <motion.div
-            whileHover={{ y: -8 }}
-            className="group bg-white rounded-[32px] border border-brand-muted/50 p-8 shadow-soft hover:shadow-2xl hover:shadow-blue-900/5 transition-all duration-500 relative flex flex-col justify-between h-full group text-left"
-        >
-            <div className="space-y-6">
-                <div className="flex justify-between items-start">
-                    <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                            <span className="px-3 py-1 bg-brand-muted text-brand-blue rounded-xl text-[11px] font-black uppercase tracking-widest border border-brand-blue/10">
-                                {college.institute_type || 'GFTI'}
-                            </span>
-                            {college.probability > 80 && (
-                                <span className="bg-green-50 text-green-600 px-3 py-1 rounded-xl text-[11px] font-black uppercase tracking-widest">High Probability</span>
-                            )}
-                        </div>
-                        <h4 className="text-xl font-black text-brand-dark leading-tight group-hover:text-brand-blue transition-colors">
-                            {college.college_name}
-                        </h4>
-                        <p className="text-[11px] text-slate-400 font-black uppercase tracking-widest flex items-center gap-2">
-                            <Target size={14} className="text-brand-accent/50" /> {college.branch}
-                        </p>
-                    </div>
-                    <div className="w-12 h-12 bg-brand-muted/30 rounded-2xl flex items-center justify-center text-brand-blue/30 group-hover:text-brand-blue group-hover:bg-brand-muted transition-all">
-                        <Building2 size={24} />
-                    </div>
-                </div>
-
-                <div className="flex flex-wrap gap-3 text-[11px] font-black">
-                    <div className="flex items-center gap-3 bg-brand-muted/10 px-4 py-2.5 rounded-2xl border border-brand-muted/20">
-                        <span className="text-[10px] text-slate-300 uppercase tracking-tighter">Closing Rank</span>
-                        <span className="text-brand-dark italic serif-font text-sm">#{college.closing_rank?.toLocaleString() || college.rank_range}</span>
-                    </div>
-                </div>
-            </div>
-
-            <div className="mt-10 pt-8 border-t border-brand-muted/30 flex items-end justify-between">
-                <div className="space-y-3 flex-grow max-w-[180px]">
-                    <div className="flex justify-between items-end mb-1">
-                        <p className="text-[11px] uppercase tracking-[0.1em] font-black text-slate-300">Success Probability</p>
-                        <span className="text-[14px] font-black italic serif-font text-brand-blue">
-                            {college.probability}%
-                        </span>
-                    </div>
-                    <div className="w-full h-1.5 bg-brand-muted/30 rounded-full overflow-hidden p-0.5">
-                        <motion.div
-                            initial={{ width: 0 }}
-                            animate={{ width: `${college.probability}%` }}
-                            transition={{ duration: 1.5, ease: "easeOut" }}
-                            className="h-full rounded-full bg-brand-blue"
-                        ></motion.div>
-                    </div>
-                </div>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-muted text-brand-blue opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
-                    <ChevronRight size={20} />
-                </div>
-            </div>
-
-            {/* Hover Insight Overlay */}
-            <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0 bg-brand-dark text-white text-[11px] font-black px-4 py-2 rounded-2xl shadow-xl pointer-events-none flex items-center gap-2 uppercase tracking-widest">
-                <AlertTriangle size={12} className="text-brand-accent" /> Strategic Potential
-            </div>
-        </motion.div>
     );
 };
 
