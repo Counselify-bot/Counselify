@@ -55,8 +55,38 @@ const RankPredictor = () => {
             const userRank = parseInt(formData.rank);
             const trend = 0.05;
 
-            // Process JoSAA
-            const processedJosaa = josaaData.map(item => ({
+            // Filter JoSAA based on selections
+            const filteredJosaa = josaaData.filter(item => {
+                // Require exact category match (e.g., General -> General, OBC-NCL -> OBC-NCL)
+                if (item.category !== formData.category) return false;
+
+                // Gender logic: 
+                // "Gender-Neutral" users can only see "Gender-Neutral" seats
+                // "Female Only" users can also compete in "Gender-Neutral" standard seats
+                if (formData.gender === 'Gender-Neutral' && item.gender === 'Female Only') return false;
+
+                // Exam type matching:
+                // IITs use JEE Advanced, NITs/IIITs/GFTIs use JEE Main. (BITSAT not in JoSAA)
+                const isIIT = item.institute_type === 'IIT';
+                if (formData.examType === 'JEE Advanced' && !isIIT) return false;
+                if (formData.examType === 'JEE Main' && isIIT) return false;
+                if (formData.examType === 'BITSAT') return false; 
+
+                // If branch filter is active
+                if (formData.branch !== 'Any') {
+                    const sb = formData.branch.toLowerCase();
+                    const b = item.branch.toLowerCase();
+                    
+                    if (sb === 'it' && !b.includes('information technology') && !b.includes('  it ')) return false;
+                    else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
+                    else if (sb !== 'it' && sb !== 'ece' && !b.includes(sb)) return false;
+                }
+
+                return true;
+            });
+
+            // Process filtered JoSAA
+            const processedJosaa = filteredJosaa.map(item => ({
                 ...item,
                 ...calculateProbability(userRank, item.closing_rank, trend)
             }));
@@ -95,16 +125,22 @@ const RankPredictor = () => {
     const filteredResults = useMemo(() => {
         if (!prediction) return null;
 
-        let bestMatches = prediction.josaa.filter(item => item.probability >= 60);
-        let strategicChoices = prediction.josaa.filter(item => item.probability >= 25 && item.probability < 60);
-        let safeBackups = prediction.state.filter(item => item.probability >= 75);
-        let privateColleges = prediction.private;
+        // Sort by probability descending, then by closing_rank ascending (better colleges first)
+        const sortPredicts = (arr) => arr.sort((a, b) => {
+            if (b.probability !== a.probability) return b.probability - a.probability;
+            return a.closing_rank - b.closing_rank;
+        });
+
+        let bestMatches = sortPredicts([...prediction.josaa.filter(item => item.probability >= 60)]);
+        let strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 25 && item.probability < 60)]);
+        let safeBackups = sortPredicts([...prediction.state.filter(item => item.probability >= 75)]);
+        let privateColleges = sortPredicts([...prediction.private]);
 
         if (strategyMode === 'Safe') {
-            bestMatches = bestMatches.filter(item => item.probability >= 80);
-            strategicChoices = strategicChoices.filter(item => item.probability >= 50);
+            bestMatches = sortPredicts([...prediction.josaa.filter(item => item.probability >= 80)]);
+            strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 50 && item.probability < 80)]);
         } else if (strategyMode === 'Aggressive') {
-            strategicChoices = prediction.josaa.filter(item => item.probability >= 15 && item.probability < 60);
+            strategicChoices = sortPredicts([...prediction.josaa.filter(item => item.probability >= 15 && item.probability < 60)]);
         }
 
         // TEASER PATTERN: Limit to 2 results if locked
