@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import EducationalTip from '../components/EducationalTip';
 import {
     Calculator, Search, Building2,
@@ -23,9 +24,11 @@ const RankPredictor = () => {
         branch: 'Any'
     });
 
+    const { user } = useAuth();
+
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [isLocked, setIsLocked] = useState(true);
+    const isLocked = !user; // Show all 25 if logged in, only 5 if not
 
     const categories = ['General', 'OBC-NCL', 'SC', 'ST', 'EWS', 'General-PwD'];
     const exams = ['JEE Main', 'JEE Advanced'];
@@ -363,7 +366,7 @@ const RankPredictor = () => {
                                                 <MessageSquare size={16} /> Expert Help
                                             </button>
                                             <button
-                                                onClick={() => { setPrediction(null); setIsLocked(true); }}
+                                                onClick={() => { setPrediction(null); }}
                                                 className="py-4 px-6 bg-white border border-slate-100 rounded-2xl text-[11px] font-black text-slate-400 uppercase tracking-widest hover:border-brand-blue/30 transition-all flex items-center justify-center gap-2"
                                             >
                                                 <Search size={16} /> New
