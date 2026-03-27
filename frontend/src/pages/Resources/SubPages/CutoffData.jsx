@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 const CutoffData = () => {
     const data = [
-        { year: "2024", round: "Round 6", title: "JoSAA NIT/IIIT Cutoff", desc: "Official opening and closing ranks for all branches." },
-        { year: "2024", round: "Special 2", title: "CSAB Vacancy Cutoff", desc: "Ranks at which seats were filled in the final rounds." },
-        { year: "2023", round: "Final", title: "UPTAC Archive Data", desc: "Historical data for Uttar Pradesh state colleges." }
+        { year: "2025", round: "Final", title: "JAC Delhi Counselling", desc: "Official opening and closing ranks for participating institutes.", link: "https://drive.google.com/drive/folders/1DwsA1Ut4waV8WnSLxT-hQ6sXzWIuCstF?usp=sharing" },
+        { year: "2025", round: "Round 6", title: "JoSAA NIT/IIIT Cutoff", desc: "Official opening and closing ranks for all branches." },
+        { year: "2025", round: "Special 2", title: "CSAB Vacancy Cutoff", desc: "Ranks at which seats were filled in the final rounds." },
+        { year: "2025", round: "Final", title: "UPTAC Archive Data", desc: "Historical data for Uttar Pradesh state colleges." }
     ];
 
     return (
@@ -34,7 +35,10 @@ const CutoffData = () => {
                                     <p className="text-slate-500 font-bold italic text-sm">{item.desc}</p>
                                 </div>
                             </div>
-                            <button className="px-10 py-5 bg-green-600 text-white rounded-[24px] font-black text-[11px] uppercase tracking-widest shadow-xl hover:bg-green-700 transition-all flex items-center gap-3 active:scale-95">
+                            <button 
+                                onClick={() => item.link && window.open(item.link, '_blank', 'noopener,noreferrer')}
+                                className="px-10 py-5 bg-green-600 text-white rounded-[24px] font-black text-[11px] uppercase tracking-widest shadow-xl hover:bg-green-700 transition-all flex items-center gap-3 active:scale-95"
+                            >
                                 View Data <Search size={18} />
                             </button>
                         </div>

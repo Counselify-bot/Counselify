@@ -9,7 +9,7 @@ import {
     MapPin, Briefcase, ChevronRight,
     User, Lock, ArrowRight,
     AlertTriangle, FileText,
-    MessageSquare, Sparkles
+    MessageSquare, Sparkles, Home, Globe
 } from 'lucide-react';
 
 import josaaData from '../data/josaa_data.json';
@@ -72,7 +72,6 @@ const RankPredictor = () => {
             });
 
             // Step 2: Separate HS (Home State) and AI (All India) eligible colleges
-            // HS seats have lower cutoffs for students from that state
             const hsEligible = filtered.filter(item => {
                 const cr = item.closing_rank || 0;
                 return cr >= relaxedRank && item.home_state === 'HS';
@@ -83,36 +82,23 @@ const RankPredictor = () => {
                 return cr >= relaxedRank && item.home_state === 'AI';
             });
 
-            // Step 3: Sort both by closeness to user rank
-            const sortByCloseness = (arr) => arr.sort((a, b) => {
+            // Step 3: Sort both by closeness to user rank (best matches first)
+            const sortByCloseness = (arr) => [...arr].sort((a, b) => {
                 const diffA = Math.abs(a.closing_rank - userRank);
                 const diffB = Math.abs(b.closing_rank - userRank);
                 return diffA - diffB;
             });
 
-            sortByCloseness(hsEligible);
-            sortByCloseness(aiEligible);
-
-            // Step 4: Prioritize HS first, then fill remaining from AI to reach 25
-            const combined = [...hsEligible];
-            for (const college of aiEligible) {
-                if (combined.length >= 25) break;
-                // Avoid duplicate college+branch combos already added from HS
-                const isDuplicate = combined.some(
-                    c => c.college_name === college.college_name && c.branch === college.branch
-                );
-                if (!isDuplicate) {
-                    combined.push(college);
-                }
-            }
-
-            const top25 = combined.slice(0, 25);
+            const sortedHS = sortByCloseness(hsEligible).slice(0, 25);
+            const sortedAI = sortByCloseness(aiEligible).slice(0, 25);
 
             setPrediction({
                 rank: userRank,
                 relaxedRank,
-                colleges: top25,
-                totalEligible: eligible.length
+                hsColleges: sortedHS,
+                aiColleges: sortedAI,
+                totalHsEligible: hsEligible.length,
+                totalAiEligible: aiEligible.length
             });
 
             setLoading(false);
@@ -123,11 +109,136 @@ const RankPredictor = () => {
     const downloadReport = () => alert("Generating your Personalized Strategy Report (PDF)...");
     const callMentor = () => alert("Connecting you with an IIT/NIT Mentor...");
 
-    // How many to show: teaser shows 5, unlocked shows all 25
-    const visibleColleges = useMemo(() => {
+    // How many to show: teaser shows 5, unlocked shows all
+    const visibleHsColleges = useMemo(() => {
         if (!prediction) return [];
-        return isLocked ? prediction.colleges.slice(0, 5) : prediction.colleges;
+        return isLocked ? prediction.hsColleges.slice(0, 5) : prediction.hsColleges;
     }, [prediction, isLocked]);
+
+    const visibleAiColleges = useMemo(() => {
+        if (!prediction) return [];
+        return isLocked ? prediction.aiColleges.slice(0, 5) : prediction.aiColleges;
+    }, [prediction, isLocked]);
+
+    const isAdvanced = formData.examType === 'JEE Advanced';
+
+    // Reusable college table component
+    const CollegeTable = ({ title, icon: Icon, iconColor, colleges, visibleColleges, totalEligible, quotaTag, emptyMessage }) => (
+        <div className="relative">
+            <div className={`bg-white rounded-[32px] shadow-soft border border-brand-muted overflow-hidden ${isLocked && visibleColleges.length > 0 ? 'max-h-[700px] overflow-hidden' : ''}`}>
+                {/* Table Title */}
+                <div className="px-6 py-5 border-b border-brand-muted/50 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-xl ${iconColor}`}>
+                            <Icon size={18} />
+                        </div>
+                        <div>
+                            <h3 className="text-sm font-black text-brand-dark uppercase tracking-wider">{title}</h3>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">
+                                {colleges.length} shown · {totalEligible} eligible
+                            </p>
+                        </div>
+                    </div>
+                    <span className="px-3 py-1 bg-brand-muted text-brand-blue rounded-full text-[10px] font-black uppercase tracking-widest">
+                        {quotaTag}
+                    </span>
+                </div>
+
+                {/* Table Header */}
+                <div className="grid grid-cols-12 gap-2 px-5 py-3 bg-brand-muted/20 border-b border-brand-muted/30">
+                    <div className="col-span-1 text-[9px] font-black uppercase tracking-widest text-slate-400">#</div>
+                    <div className="col-span-4 text-[9px] font-black uppercase tracking-widest text-slate-400">College</div>
+                    <div className="col-span-3 text-[9px] font-black uppercase tracking-widest text-slate-400">Branch</div>
+                    <div className="col-span-2 text-[9px] font-black uppercase tracking-widest text-slate-400 text-right">Close Rank</div>
+                    <div className="col-span-2 text-[9px] font-black uppercase tracking-widest text-slate-400 text-right">Match</div>
+                </div>
+
+                {/* Table Body */}
+                {visibleColleges.length > 0 ? visibleColleges.map((college, idx) => {
+                    const diff = college.closing_rank - prediction.rank;
+                    const isAbove = diff >= 0;
+                    const matchLabel = isAbove ? 'Safe' : 'Reach';
+                    const matchColor = isAbove
+                        ? 'text-green-600 bg-green-50'
+                        : 'text-amber-600 bg-amber-50';
+
+                    return (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: idx * 0.03 }}
+                            className="grid grid-cols-12 gap-2 px-5 py-4 border-b border-brand-muted/15 hover:bg-brand-muted/10 transition-all group cursor-pointer items-center"
+                        >
+                            <div className="col-span-1 text-xs font-black text-slate-300 serif-font italic">
+                                {idx + 1}
+                            </div>
+                            <div className="col-span-4">
+                                <p className="text-xs font-black text-brand-dark leading-tight group-hover:text-brand-blue transition-colors line-clamp-2" title={college.college_name}>
+                                    {college.college_name}
+                                </p>
+                            </div>
+                            <div className="col-span-3">
+                                <p className="text-[10px] font-bold text-slate-500 line-clamp-2" title={college.branch}>
+                                    {college.branch}
+                                </p>
+                            </div>
+                            <div className="col-span-2 text-right">
+                                <span className="text-xs font-black text-brand-dark serif-font italic">
+                                    {college.closing_rank?.toLocaleString()}
+                                </span>
+                            </div>
+                            <div className="col-span-2 text-right">
+                                <span className={`px-2 py-1 rounded-lg text-[9px] font-black uppercase ${matchColor}`}>
+                                    {matchLabel}
+                                </span>
+                            </div>
+                        </motion.div>
+                    );
+                }) : (
+                    <div className="p-12 text-center">
+                        <div className="text-slate-300 mb-3">
+                            <AlertTriangle size={32} className="mx-auto opacity-50" />
+                        </div>
+                        <p className="text-slate-400 italic font-bold text-xs leading-relaxed max-w-xs mx-auto">
+                            {emptyMessage}
+                        </p>
+                    </div>
+                )}
+            </div>
+
+            {/* Lock Overlay */}
+            {isLocked && colleges.length > 5 && (
+                <div className="absolute inset-x-0 bottom-0 h-[350px] bg-gradient-to-t from-bg-light via-bg-light/95 to-transparent z-50 flex items-end justify-center p-4 pb-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-white p-8 rounded-[32px] shadow-[0_30px_80px_rgba(0,34,68,0.1)] border border-brand-muted max-w-sm w-full text-center relative z-10"
+                    >
+                        <div className="w-12 h-12 bg-brand-muted rounded-2xl flex items-center justify-center text-brand-blue mx-auto mb-4 shadow-inner">
+                            <Lock size={22} />
+                        </div>
+                        <h3 className="text-xl font-black text-brand-dark mb-2 tracking-tighter">
+                            {colleges.length - 5} More Hidden
+                        </h3>
+                        <p className="text-slate-400 font-bold mb-6 leading-relaxed italic uppercase tracking-[0.12em] text-[10px]">
+                            Sign up to see all {colleges.length} predicted colleges.
+                        </p>
+
+                        <Link
+                            to="/signup"
+                            className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-blue text-white rounded-2xl font-black text-[10px] uppercase tracking-[0.25em] shadow-lg shadow-blue-900/10 hover:bg-brand-dark transition-all group/btn"
+                        >
+                            Unlock All <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                        </Link>
+                        <Link to="/login" className="block mt-3 text-[10px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-blue transition-colors py-2">
+                            I have an account
+                        </Link>
+                    </motion.div>
+                </div>
+            )}
+        </div>
+    );
 
     return (
         <div className="pt-24 md:pt-32 pb-32 bg-transparent min-h-screen">
@@ -307,8 +418,8 @@ const RankPredictor = () => {
                                 type="idea"
                             />
                             <EducationalTip
-                                title="Category Advantage"
-                                content="Reserved category seats often have lower cutoffs. Ensure you select the correct category for accurate seat allocation data."
+                                title="HS vs AI Quota"
+                                content="Home State (HS) quota offers lower cutoffs at NITs for students from that state. All India (AI) quota is open to everyone. We show both lists side by side."
                             />
 
                             <div className="p-8 bg-brand-dark rounded-[32px] text-white space-y-5 relative overflow-hidden group">
@@ -363,7 +474,9 @@ const RankPredictor = () => {
                                                 Prediction Summary
                                             </h4>
                                             <p className="text-sm text-slate-600/80 leading-relaxed font-bold italic">
-                                                "Showing <span className="text-brand-blue">{prediction.colleges.length}</span> best colleges for rank #{prediction.rank.toLocaleString()} with -5% relaxation (down to #{prediction.relaxedRank.toLocaleString()}). Total eligible: <span className="text-brand-blue">{prediction.totalEligible}</span>."
+                                                "Rank #{prediction.rank.toLocaleString()} with -5% relaxation (down to #{prediction.relaxedRank.toLocaleString()}).
+                                                Found <span className="text-brand-blue">{prediction.totalHsEligible}</span> Home State
+                                                and <span className="text-brand-blue">{prediction.totalAiEligible}</span> All India eligible seats."
                                             </p>
                                         </div>
 
@@ -391,118 +504,40 @@ const RankPredictor = () => {
                                 </div>
                             </motion.div>
 
-                            {/* College Table */}
+                            {/* Dual College Tables — Side by Side */}
                             <motion.div
                                 initial={{ opacity: 0, y: 30 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.2 }}
-                                className={`relative ${isLocked ? 'max-h-[900px] overflow-hidden' : ''}`}
+                                className="grid grid-cols-1 lg:grid-cols-2 gap-8"
                             >
-                                <div className="bg-white rounded-[40px] shadow-soft border border-brand-muted overflow-hidden">
-                                    {/* Table Header */}
-                                    <div className="grid grid-cols-12 gap-4 px-8 py-5 bg-brand-muted/30 border-b border-brand-muted/50">
-                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400">#</div>
-                                        <div className="col-span-4 text-[10px] font-black uppercase tracking-widest text-slate-400">College Name</div>
-                                        <div className="col-span-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Branch</div>
-                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400">Type</div>
-                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Open</div>
-                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Close</div>
-                                        <div className="col-span-1 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Match</div>
-                                    </div>
+                                {/* Home State Table */}
+                                <CollegeTable
+                                    title="Home State Colleges"
+                                    icon={Home}
+                                    iconColor="bg-emerald-50 text-emerald-600"
+                                    colleges={prediction.hsColleges}
+                                    visibleColleges={visibleHsColleges}
+                                    totalEligible={prediction.totalHsEligible}
+                                    quotaTag="HS Quota"
+                                    emptyMessage={
+                                        isAdvanced
+                                            ? "IITs only have All India (AI) quota. Home State quota applies to NITs, IIITs & GFTIs via JEE Main."
+                                            : "No Home State colleges found for your rank & filters. Try adjusting your selections."
+                                    }
+                                />
 
-                                    {/* Table Body */}
-                                    {visibleColleges.map((college, idx) => {
-                                        const diff = college.closing_rank - prediction.rank;
-                                        const isAbove = diff >= 0;
-                                        const matchLabel = isAbove ? 'Safe' : 'Reach';
-                                        const matchColor = isAbove
-                                            ? 'text-green-600 bg-green-50'
-                                            : 'text-amber-600 bg-amber-50';
-
-                                        return (
-                                            <motion.div
-                                                key={idx}
-                                                initial={{ opacity: 0, x: -10 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.03 }}
-                                                className="grid grid-cols-12 gap-4 px-8 py-5 border-b border-brand-muted/20 hover:bg-brand-muted/10 transition-all group cursor-pointer items-center"
-                                            >
-                                                <div className="col-span-1 text-sm font-black text-slate-300 serif-font italic">
-                                                    {idx + 1}
-                                                </div>
-                                                <div className="col-span-4">
-                                                    <p className="text-sm font-black text-brand-dark leading-tight group-hover:text-brand-blue transition-colors truncate" title={college.college_name}>
-                                                        {college.college_name}
-                                                    </p>
-                                                </div>
-                                                <div className="col-span-3">
-                                                    <p className="text-[11px] font-bold text-slate-500 truncate" title={college.branch}>
-                                                        {college.branch}
-                                                    </p>
-                                                </div>
-                                                <div className="col-span-1">
-                                                    <span className="px-2 py-0.5 bg-brand-muted text-brand-blue rounded-lg text-[10px] font-black uppercase">
-                                                        {college.institute_type || 'GFTI'}
-                                                    </span>
-                                                </div>
-                                                <div className="col-span-1 text-right">
-                                                    <span className="text-sm font-black text-slate-500 serif-font italic">
-                                                        {college.opening_rank?.toLocaleString()}
-                                                    </span>
-                                                </div>
-                                                <div className="col-span-1 text-right">
-                                                    <span className="text-sm font-black text-brand-dark serif-font italic">
-                                                        {college.closing_rank?.toLocaleString()}
-                                                    </span>
-                                                </div>
-                                                <div className="col-span-1 text-right">
-                                                    <span className={`px-2 py-1 rounded-lg text-[10px] font-black uppercase ${matchColor}`}>
-                                                        {matchLabel}
-                                                    </span>
-                                                </div>
-                                            </motion.div>
-                                        );
-                                    })}
-
-                                    {prediction.colleges.length === 0 && (
-                                        <div className="p-16 text-center text-slate-300 italic font-bold text-sm">
-                                            No colleges found for your selections. Try adjusting your filters.
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Lock Overlay */}
-                                {isLocked && prediction.colleges.length > 5 && (
-                                    <div className="absolute inset-x-0 bottom-0 h-[500px] bg-gradient-to-t from-bg-light via-bg-light/95 to-transparent z-50 flex items-end justify-center p-6 pb-16">
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 50 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="bg-white p-10 md:p-14 rounded-[48px] shadow-[0_40px_100px_rgba(0,34,68,0.1)] border border-brand-muted max-w-xl w-full text-center relative z-10"
-                                        >
-                                            <div className="w-16 h-16 bg-brand-muted rounded-[20px] flex items-center justify-center text-brand-blue mx-auto mb-6 shadow-inner">
-                                                <Lock size={28} />
-                                            </div>
-                                            <h3 className="text-3xl font-black text-brand-dark mb-3 tracking-tighter">
-                                                {prediction.colleges.length - 5} More Colleges Hidden
-                                            </h3>
-                                            <p className="text-slate-400 font-bold mb-10 max-w-sm mx-auto leading-relaxed italic uppercase tracking-[0.15em] text-[11px]">
-                                                Sign up to see all {prediction.colleges.length} predicted colleges with full details.
-                                            </p>
-
-                                            <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-                                                <Link
-                                                    to="/signup"
-                                                    className="w-full sm:w-auto px-10 py-5 bg-brand-blue text-white rounded-[20px] font-black text-[11px] uppercase tracking-[0.3em] shadow-xl shadow-blue-900/10 hover:bg-brand-dark transition-all flex items-center justify-center gap-3 group/btn"
-                                                >
-                                                    Unlock All Colleges <ArrowRight size={18} className="group-hover/btn:translate-x-2 transition-transform" />
-                                                </Link>
-                                                <Link to="/login" className="text-[11px] font-black text-slate-400 uppercase tracking-widest hover:text-brand-blue transition-colors px-6 py-5">
-                                                    I have an account
-                                                </Link>
-                                            </div>
-                                        </motion.div>
-                                    </div>
-                                )}
+                                {/* All India Table */}
+                                <CollegeTable
+                                    title="All India Colleges"
+                                    icon={Globe}
+                                    iconColor="bg-blue-50 text-blue-600"
+                                    colleges={prediction.aiColleges}
+                                    visibleColleges={visibleAiColleges}
+                                    totalEligible={prediction.totalAiEligible}
+                                    quotaTag="AI Quota"
+                                    emptyMessage="No All India colleges found for your rank & filters. Try adjusting your selections."
+                                />
                             </motion.div>
 
                             {/* CTA Banner */}
