@@ -71,27 +71,42 @@ const RankPredictor = () => {
                 return true;
             });
 
-            // Step 2: Pick colleges whose closing rank is >= relaxedRank (i.e., user can get in)
-            // closing_rank >= relaxedRank means the cutoff is around or above the user's adjusted rank
-            // We want colleges where userRank <= closingRank (user's rank is better/lower than cutoff)
-            // But with -5% relaxation: we also include colleges where closingRank >= relaxedRank
-            const eligible = filtered.filter(item => {
+            // Step 2: Separate HS (Home State) and AI (All India) eligible colleges
+            // HS seats have lower cutoffs for students from that state
+            const hsEligible = filtered.filter(item => {
                 const cr = item.closing_rank || 0;
-                // User can get in if their rank is <= closing rank
-                // With -5% relaxation: also show colleges where closing rank >= relaxedRank
-                return cr >= relaxedRank;
+                return cr >= relaxedRank && item.home_state === 'HS';
             });
 
-            // Step 3: Sort by closeness to user rank (closest closing_rank first = most competitive match)
-            // Colleges with closing_rank just above the user's rank are the best strategic picks
-            eligible.sort((a, b) => {
+            const aiEligible = filtered.filter(item => {
+                const cr = item.closing_rank || 0;
+                return cr >= relaxedRank && item.home_state === 'AI';
+            });
+
+            // Step 3: Sort both by closeness to user rank
+            const sortByCloseness = (arr) => arr.sort((a, b) => {
                 const diffA = Math.abs(a.closing_rank - userRank);
                 const diffB = Math.abs(b.closing_rank - userRank);
                 return diffA - diffB;
             });
 
-            // Step 4: Take exactly 25
-            const top25 = eligible.slice(0, 25);
+            sortByCloseness(hsEligible);
+            sortByCloseness(aiEligible);
+
+            // Step 4: Prioritize HS first, then fill remaining from AI to reach 25
+            const combined = [...hsEligible];
+            for (const college of aiEligible) {
+                if (combined.length >= 25) break;
+                // Avoid duplicate college+branch combos already added from HS
+                const isDuplicate = combined.some(
+                    c => c.college_name === college.college_name && c.branch === college.branch
+                );
+                if (!isDuplicate) {
+                    combined.push(college);
+                }
+            }
+
+            const top25 = combined.slice(0, 25);
 
             setPrediction({
                 rank: userRank,
