@@ -14,7 +14,7 @@ const About = () => {
     ];
 
     return (
-        <div className="pt-48 pb-40 bg-background min-h-screen">
+        <div className="pt-48 pb-40 mesh-gradient-hero min-h-screen">
             <div className="section-container">
                 {/* Header */}
                 <div className="text-left mb-32 space-y-12 max-w-4xl">

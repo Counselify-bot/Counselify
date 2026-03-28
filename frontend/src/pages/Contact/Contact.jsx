@@ -8,7 +8,7 @@ const Contact = () => {
     ];
 
     return (
-        <div className="pt-48 pb-40 bg-background min-h-screen relative overflow-hidden">
+        <div className="pt-48 pb-40 mesh-gradient-hero min-h-screen relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-container/[0.03] -z-10 skew-x-[-12deg] translate-x-32 blur-[120px]"></div>
 

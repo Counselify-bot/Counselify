@@ -93,7 +93,7 @@ const FAQ = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 bg-surface-container-low min-h-screen text-left">
+        <div className="pt-24 pb-32 mesh-gradient-hero min-h-screen text-left">
             <div className="container mx-auto px-6 max-w-4xl">
                 <Link to="/resources" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-outline hover:text-[#0462C3] transition-colors mb-12">
                     <ArrowLeft size={16} /> Back to Hub

@@ -40,7 +40,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 bg-background min-h-screen text-left flex items-center justify-center">
+        <div className="pt-24 pb-32 mesh-gradient-hero min-h-screen text-left flex items-center justify-center">
             <div className="container mx-auto px-6 max-w-xl">
                 <div className="bg-white p-12 md:p-16 rounded-[64px] shadow-2xl border border-outline-variant/20 relative group overflow-hidden">
                     <div className="absolute top-0 left-0 w-2 h-0 bg-[#0462C3] group-hover:h-full transition-all duration-700"></div>

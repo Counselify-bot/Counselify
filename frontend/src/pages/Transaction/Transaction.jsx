@@ -56,7 +56,7 @@ const Transaction = () => {
     };
 
     return (
-        <div className="pt-48 pb-40 bg-background min-h-screen">
+        <div className="pt-48 pb-40 mesh-gradient-hero min-h-screen">
             <div className="section-container max-w-4xl">
                 {/* Header */}
                 <div className="mb-16">

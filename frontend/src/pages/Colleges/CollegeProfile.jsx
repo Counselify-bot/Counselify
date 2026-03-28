@@ -24,7 +24,7 @@ const CollegeProfile = () => {
     }
 
     return (
-        <div className="pt-24 pb-32 bg-background min-h-screen">
+        <div className="pt-24 pb-32 mesh-gradient-hero min-h-screen">
             {/* 1. Header Section */}
             <div className="relative w-full h-[45vh] min-h-[400px]">
                 {/* Background Banner */}

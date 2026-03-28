@@ -73,7 +73,7 @@ const PercentileToRank = () => {
     };
 
     return (
-        <div className="pt-24 md:pt-32 pb-32 bg-background min-h-screen">
+        <div className="pt-24 md:pt-32 pb-32 mesh-gradient-hero min-h-screen">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl text-left">
                 {/* Header */}
                 <motion.div
@@ -97,10 +97,12 @@ const PercentileToRank = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="lg:col-span-8 bg-white rounded-[16px] shadow-[0_8px_20px_rgba(0,0,0,0.05)] p-7 md:p-10 border border-[#0462C3]/15 text-left relative"
+                        className="lg:col-span-8 glass-panel rounded-2xl editorial-shadow p-10 md:p-16 border border-white relative overflow-hidden text-left"
                     >
+                        <div className="absolute top-0 left-0 w-2 h-full bg-primary-container/20"></div>
+
                         <h2 className="text-2xl font-bold text-on-surface mb-10 flex items-center gap-4">
-                            <div className="p-2.5 bg-primary-fixed rounded-xl text-[#0462C3]">
+                            <div className="p-2.5 bg-primary-fixed rounded-xl text-primary-container">
                                 <Calculator size={22} />
                             </div>
                             CRL Input Parameter
@@ -108,44 +110,42 @@ const PercentileToRank = () => {
 
                         <form onSubmit={calculateRank}>
                             {/* Toggle */}
-                            <div className="flex gap-2 mb-10">
+                            <div className="grid grid-cols-2 gap-3 mb-10">
                                 <button
                                     type="button"
                                     onClick={() => { setMode('percentile'); setInputValue(''); setResult(null); }}
-                                    className={`flex-1 py-3 px-4 text-sm font-semibold rounded-lg transition-all duration-200 ${mode === 'percentile' ? 'bg-[#0462C3] text-white' : 'bg-[#f4f7fb] text-[#0462C3] hover:bg-[#e8eff8]'}`}
+                                    className={`py-3.5 rounded-2xl text-[11px] font-bold transition-all border-2 ${mode === 'percentile' ? 'bg-primary-container text-white border-primary-container shadow-lg shadow-primary-fixed' : 'bg-white text-outline border-outline-variant/10 hover:border-primary-fixed'}`}
                                 >
                                     Percentile
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => { setMode('marks'); setInputValue(''); setResult(null); }}
-                                    className={`flex-1 py-3 px-4 text-sm font-semibold rounded-lg transition-all duration-200 ${mode === 'marks' ? 'bg-[#0462C3] text-white' : 'bg-[#f4f7fb] text-[#0462C3] hover:bg-[#e8eff8]'}`}
+                                    className={`py-3.5 rounded-2xl text-[11px] font-bold transition-all border-2 ${mode === 'marks' ? 'bg-primary-container text-white border-primary-container shadow-lg shadow-primary-fixed' : 'bg-white text-outline border-outline-variant/10 hover:border-primary-fixed'}`}
                                 >
                                     Marks
                                 </button>
                             </div>
 
-                            <div className="max-w-xl mb-12 flex flex-col items-start text-left">
-                                <label className="flex items-center gap-2 text-[14px] font-semibold text-[#0462C3] tracking-[1px] mb-3 uppercase">
-                                    <Target size={14} className="text-[#0462C3]" /> {mode === 'percentile' ? 'Enter Your NTA Percentile Score' : 'Enter Expected Marks (Out of 300)'}
+                            <div className="mb-12 space-y-3">
+                                <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-outline opacity-80">
+                                    <Target size={12} className="text-primary-fixed-dim" /> {mode === 'percentile' ? 'NTA Percentile Score' : 'Expected Marks (Out of 300)'}
                                 </label>
-                                <div className="relative w-full group">
-                                    <input
-                                        type="number"
-                                        step={mode === 'percentile' ? "0.0000001" : "1"}
-                                        min={mode === 'percentile' ? "0" : "-75"}
-                                        max={mode === 'percentile' ? "100" : "300"}
-                                        placeholder={mode === 'percentile' ? "e.g. 96.745" : "e.g. 150"}
-                                        value={inputValue}
-                                        onChange={(e) => {
-                                            setInputValue(e.target.value);
-                                            setResult(null);
-                                        }}
-                                        className="w-full px-4 py-[14px] bg-white border-2 border-[#0462C3] rounded-[10px] outline-none focus:border-[#0462C3] focus:shadow-[0_0_0_4px_rgba(4,98,195,0.25)] hover:border-[#0462C3] hover:shadow-[0_0_0_3px_rgba(4,98,195,0.2)] transition-all duration-200 ease-in-out text-[16px] text-[#1C1F2E] placeholder:text-[#0462C3]/70 placeholder:font-medium [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                        required
-                                    />
-                                </div>
-                                <p className="text-[13px] text-[#0462C3]/80 mt-2 font-medium">
+                                <input
+                                    type="number"
+                                    step={mode === 'percentile' ? "0.0000001" : "1"}
+                                    min={mode === 'percentile' ? "0" : "-75"}
+                                    max={mode === 'percentile' ? "100" : "300"}
+                                    placeholder={mode === 'percentile' ? "e.g. 96.745" : "e.g. 150"}
+                                    value={inputValue}
+                                    onChange={(e) => {
+                                        setInputValue(e.target.value);
+                                        setResult(null);
+                                    }}
+                                    className="w-full px-7 py-4 bg-primary-fixed/20 border-2 border-transparent rounded-[20px] outline-none focus:border-primary-container/30 focus:bg-white transition-all text-lg font-bold text-on-surface placeholder:text-outline-variant [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                    required
+                                />
+                                <p className="text-[11px] text-outline opacity-70 font-bold">
                                     {mode === 'percentile' ? 'Enter your NTA percentile to estimate your All India Rank (CRL).' : 'Enter your expected JEE Main marks to estimate your rank.'}
                                 </p>
                             </div>
@@ -158,7 +158,7 @@ const PercentileToRank = () => {
                                         exit={{ opacity: 0 }}
                                         type="submit"
                                         disabled={loading || !inputValue}
-                                        className="w-full max-w-xl px-6 py-[16px] bg-[#0462C3] hover:bg-[#0352a3] text-white rounded-xl font-semibold text-base transition-all duration-200 ease-in-out hover:-translate-y-[2px] hover:shadow-[0_10px_18px_rgba(4,98,195,0.3)] active:scale-[0.97] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                                        className="w-full px-6 py-4 bg-primary-container hover:bg-primary text-white rounded-2xl font-bold text-[13px] uppercase tracking-[0.15em] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-fixed active:scale-[0.97] flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
                                     >
                                         {loading ? (
                                             <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -171,36 +171,36 @@ const PercentileToRank = () => {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.4, ease: "easeOut" }}
-                                        className="bg-[#F8FBFA] rounded-[24px] p-8 md:p-10 border border-[#0462C3]/15 shadow-sm text-left relative overflow-hidden"
+                                        className="bg-primary-fixed/20 rounded-[24px] p-8 md:p-10 border border-primary-container/10 text-left relative overflow-hidden"
                                     >
                                         {result.type === 'marks' && (
-                                            <div className="mb-6 pb-6 border-b border-[#0462C3]/10">
-                                                <p className="text-[12px] font-bold uppercase tracking-wider text-[#0462C3] mb-1">Algorithm Computed Percentile</p>
+                                            <div className="mb-6 pb-6 border-b border-primary-container/10">
+                                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary-container mb-1">Algorithm Computed Percentile</p>
                                                 <h4 className="text-2xl font-bold text-on-surface">{result.estimatedPercentile}%</h4>
                                             </div>
                                         )}
 
                                         <div className="mb-6">
-                                            <p className="text-[14px] font-bold text-on-surface-variant mb-2">
+                                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-outline opacity-80 mb-2">
                                                 Your Estimated Rank:
                                             </p>
                                             <h4 className="text-5xl font-bold text-on-surface tracking-tighter">
                                                 {result.exact.toLocaleString()}
                                             </h4>
-                                            <p className="text-[13px] text-outline mt-2 font-medium">Statistical Range: {result.rangeStr}</p>
+                                            <p className="text-[11px] text-outline opacity-70 mt-2 font-bold">Statistical Range: {result.rangeStr}</p>
                                         </div>
 
-                                        <div className="bg-white rounded-xl p-5 border border-[#0462C3]/10 shadow-sm mb-8">
-                                            <p className="text-[13px] font-bold text-[#0462C3] mb-3">Possible Colleges:</p>
+                                        <div className="bg-white rounded-2xl p-5 border border-outline-variant/10 shadow-soft mb-8">
+                                            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary-container mb-3">Possible Colleges:</p>
                                             <ul className="space-y-2">
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> NIT Raipur
+                                                <li className="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary-container"></div> NIT Raipur
                                                 </li>
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> IIIT Nagpur
+                                                <li className="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary-container"></div> IIIT Nagpur
                                                 </li>
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> NIT Silchar
+                                                <li className="flex items-center gap-2 text-sm font-bold text-on-surface-variant">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary-container"></div> NIT Silchar
                                                 </li>
                                             </ul>
                                         </div>
@@ -208,13 +208,13 @@ const PercentileToRank = () => {
                                         <div className="flex flex-col gap-3 relative z-10 w-full">
                                             <button
                                                 onClick={() => navigate(`/services`)}
-                                                className="w-full px-6 py-[16px] bg-[#0462C3] text-white rounded-xl text-base font-semibold shadow-md hover:bg-[#0352a3] hover:-translate-y-[2px] hover:shadow-[0_10px_18px_rgba(4,98,195,0.3)] active:scale-[0.97] transition-all duration-200 ease-in-out flex items-center justify-center gap-2 group"
+                                                className="w-full px-6 py-4 bg-primary-container hover:bg-primary text-white rounded-2xl font-bold text-[13px] uppercase tracking-[0.15em] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary-fixed active:scale-[0.97] flex items-center justify-center gap-2 group"
                                             >
                                                 See Best Colleges for Your Rank <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                                             </button>
                                             <button
                                                 onClick={() => { setInputValue(''); setResult(null); }}
-                                                className="w-full px-6 py-3 text-[#0462C3] font-semibold text-sm hover:underline transition-all flex items-center justify-center"
+                                                className="w-full px-6 py-3 text-primary-container font-bold text-[11px] uppercase tracking-[0.15em] hover:underline transition-all flex items-center justify-center"
                                             >
                                                 Calculate Another
                                             </button>

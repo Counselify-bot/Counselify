@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="#0462C3">
+  <!-- Graduation cap top (mortarboard) -->
+  <polygon points="4,28 32,14 60,28 32,42"/>
+  <!-- Cap brim / C-shape bottom -->
+  <path d="M12,36 C12,48 22,54 32,54 C38,54 42,52 44,50 L44,42 C42,44 38,46 32,46 C24,46 20,42 20,36 Z"/>
+  <!-- Tassel circle -->
+  <circle cx="54" cy="42" r="4"/>
+  <!-- Tassel line -->
+  <rect x="53" y="28" width="2" height="14"/>
+</svg>

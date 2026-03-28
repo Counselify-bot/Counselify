@@ -2,7 +2,7 @@ import { Calendar, MessageSquare, ShieldCheck, Stars, Zap, Trophy, ArrowRight, U
 
 const Advisor = () => {
     return (
-        <div className="pt-24 pb-32 bg-surface-container-low min-h-screen text-left relative overflow-hidden">
+        <div className="pt-24 pb-32 mesh-gradient-hero min-h-screen text-left relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-1/4 h-full bg-[#0462C3]/[0.05] -z-10 skew-x-[-15deg] translate-x-32"></div>
 

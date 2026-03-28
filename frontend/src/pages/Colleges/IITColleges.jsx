@@ -4,7 +4,7 @@ import iitColleges from '../../data/iit_colleges';
 
 const IITColleges = () => {
     return (
-        <div className="pt-36 pb-32 bg-background min-h-screen">
+        <div className="pt-36 pb-32 mesh-gradient-hero min-h-screen">
             <div className="section-container">
                 {/* Breadcrumb */}
                 <Link

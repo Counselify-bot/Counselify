@@ -12,7 +12,7 @@ const Resources = () => {
     ];
 
     return (
-        <div className="pt-48 pb-40 bg-background min-h-screen">
+        <div className="pt-48 pb-40 mesh-gradient-hero min-h-screen">
             <div className="section-container">
                 {/* Header */}
                 <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-16">
