@@ -73,7 +73,7 @@ const PercentileToRank = () => {
     };
 
     return (
-        <div className="pt-24 md:pt-32 pb-32 bg-transparent min-h-screen">
+        <div className="pt-24 md:pt-32 pb-32 bg-background min-h-screen">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl text-left">
                 {/* Header */}
                 <motion.div
@@ -81,13 +81,13 @@ const PercentileToRank = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-20 space-y-4"
                 >
-                    <span className="inline-block px-4 py-1.5 bg-brand-muted text-brand-blue text-xs font-black uppercase tracking-[0.2em] rounded-full">
+                    <span className="inline-block px-4 py-1.5 bg-primary-fixed text-primary-container text-xs font-bold uppercase tracking-[0.2em] rounded-full">
                         JEE Score Algorithmic Assessment
                     </span>
-                    <h1 className="text-4xl md:text-7xl font-black text-brand-dark leading-[1.1] mb-5 tracking-tighter">
-                        Percentile to <span className="serif-font italic font-medium text-brand-blue">Rank</span>
+                    <h1 className="text-4xl md:text-7xl font-bold text-on-surface leading-[1.1] mb-5 tracking-tighter">
+                        Percentile to <span className="serif-font italic font-medium text-primary-container">Rank</span>
                     </h1>
-                    <p className="max-w-xl mx-auto text-slate-500/80 text-sm md:text-base font-bold leading-relaxed italic">
+                    <p className="max-w-xl mx-auto text-on-surface-variant text-sm md:text-base font-bold leading-relaxed italic">
                         Precise conversion of your JEE Main percentile into a tangible Common Rank List (CRL) estimate, utilizing 2024 candidate distribution matrices.
                     </p>
                 </motion.div>
@@ -99,8 +99,8 @@ const PercentileToRank = () => {
                         animate={{ opacity: 1, x: 0 }}
                         className="lg:col-span-8 bg-white rounded-[16px] shadow-[0_8px_20px_rgba(0,0,0,0.05)] p-7 md:p-10 border border-[#0462C3]/15 text-left relative"
                     >
-                        <h2 className="text-2xl font-black text-brand-dark mb-10 flex items-center gap-4">
-                            <div className="p-2.5 bg-brand-muted rounded-xl text-[#0462C3]">
+                        <h2 className="text-2xl font-bold text-on-surface mb-10 flex items-center gap-4">
+                            <div className="p-2.5 bg-primary-fixed rounded-xl text-[#0462C3]">
                                 <Calculator size={22} />
                             </div>
                             CRL Input Parameter
@@ -176,30 +176,30 @@ const PercentileToRank = () => {
                                         {result.type === 'marks' && (
                                             <div className="mb-6 pb-6 border-b border-[#0462C3]/10">
                                                 <p className="text-[12px] font-bold uppercase tracking-wider text-[#0462C3] mb-1">Algorithm Computed Percentile</p>
-                                                <h4 className="text-2xl font-black text-brand-dark">{result.estimatedPercentile}%</h4>
+                                                <h4 className="text-2xl font-bold text-on-surface">{result.estimatedPercentile}%</h4>
                                             </div>
                                         )}
 
                                         <div className="mb-6">
-                                            <p className="text-[14px] font-bold text-slate-500 mb-2">
+                                            <p className="text-[14px] font-bold text-on-surface-variant mb-2">
                                                 Your Estimated Rank:
                                             </p>
-                                            <h4 className="text-5xl font-black text-brand-dark tracking-tighter">
+                                            <h4 className="text-5xl font-bold text-on-surface tracking-tighter">
                                                 {result.exact.toLocaleString()}
                                             </h4>
-                                            <p className="text-[13px] text-slate-400 mt-2 font-medium">Statistical Range: {result.rangeStr}</p>
+                                            <p className="text-[13px] text-outline mt-2 font-medium">Statistical Range: {result.rangeStr}</p>
                                         </div>
 
                                         <div className="bg-white rounded-xl p-5 border border-[#0462C3]/10 shadow-sm mb-8">
                                             <p className="text-[13px] font-bold text-[#0462C3] mb-3">Possible Colleges:</p>
                                             <ul className="space-y-2">
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> NIT Raipur
                                                 </li>
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> IIIT Nagpur
                                                 </li>
-                                                <li className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                                                <li className="flex items-center gap-2 text-sm font-semibold text-on-surface-variant">
                                                     <div className="w-1.5 h-1.5 rounded-full bg-[#0462C3]"></div> NIT Silchar
                                                 </li>
                                             </ul>
@@ -241,11 +241,11 @@ const PercentileToRank = () => {
                             content="A 96 percentile means you scored better than 96% of the candidates who appeared. It is NOT the percentage of marks you scored."
                             type="idea"
                         />
-                        <div className="p-8 bg-brand-blue/5 rounded-[32px] border border-brand-blue/20 text-brand-dark space-y-5">
-                            <h4 className="text-lg font-black tracking-tighter flex items-center gap-3">
-                                <Share2 size={20} className="text-brand-blue" /> Need Category Ranks?
+                        <div className="p-8 bg-primary-container/5 rounded-[32px] border border-primary-container/20 text-on-surface space-y-5">
+                            <h4 className="text-lg font-bold tracking-tighter flex items-center gap-3">
+                                <Share2 size={20} className="text-primary-container" /> Need Category Ranks?
                             </h4>
-                            <p className="text-[12px] text-slate-500 font-bold italic leading-relaxed">
+                            <p className="text-[12px] text-on-surface-variant font-bold italic leading-relaxed">
                                 NTA releases exact category ranks only after the April attempt. Our general CRL gives you the fundamental starting point. Use our College Predictor engine to input your category directly against your estimated CRL.
                             </p>
                         </div>

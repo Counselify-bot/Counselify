@@ -1,4 +1,4 @@
-import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X, ChevronDown } from 'lucide-react';
+import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X, ChevronDown, Crown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -230,7 +230,7 @@ const Services = () => {
                 { text: "No support", inc: false }
             ],
             cta: "Get Started for ₹1",
-            icon: <Zap size={28} className="text-slate-400" />
+            icon: <Zap size={28} />
         },
         {
             name: "JoSAA Smart Plan",
@@ -244,7 +244,7 @@ const Services = () => {
                 { text: "WhatsApp Chat Support till JoSAA ends", inc: true }
             ],
             cta: "Enroll in JoSAA Plan",
-            icon: <ShieldCheck size={28} className="text-[#0462C3]" />
+            icon: <ShieldCheck size={28} />
         },
         {
             name: "CSAB Smart Plan",
@@ -257,7 +257,7 @@ const Services = () => {
                 { text: "WhatsApp Chat Support till CSAB ends", inc: true }
             ],
             cta: "Enroll in CSAB Plan",
-            icon: <Star size={28} className="text-[#0462C3]" />
+            icon: <Star size={28} />
         },
         {
             name: "Complete Counselling Plan",
@@ -272,7 +272,7 @@ const Services = () => {
             ],
             cta: "Get Most Popular Plan",
             popular: true,
-            icon: <Trophy className="text-[#0462C3]" size={36} />
+            icon: <Trophy size={36} />
         },
         {
             name: "Premium Guidance",
@@ -289,6 +289,7 @@ const Services = () => {
                 { text: "Round-by-round active monitoring", inc: true }
             ],
             cta: "Get Premium Support",
+            icon: <Crown size={28} />
         },
         {
             name: "JAC Delhi Counselling Plan",
@@ -306,25 +307,25 @@ const Services = () => {
                 { text: "Separate purchase required", inc: false }
             ],
             cta: "Enroll in JAC Plan",
-            icon: <MessageSquare size={28} className="text-brand-dark" />
+            icon: <MessageSquare size={28} />
         }
     ];
 
     return (
-        <div className="pt-48 pb-40 bg-transparent min-h-screen">
+        <div className="pt-48 pb-40 bg-background min-h-screen">
             <div className="section-container">
                 {/* Header */}
                 <div className="text-center mb-32 space-y-6 max-w-4xl mx-auto">
                     <div className="inline-flex items-center justify-center gap-3 mb-4 group cursor-default">
                         <div className="h-px w-12 bg-[#0462C3]"></div>
-                        <span className="text-xs uppercase tracking-[0.4em] font-black text-[#0462C3] bg-[#0462C3]/10 px-4 py-2 rounded-full">Clear & Simple Pricing</span>
+                        <span className="text-xs uppercase tracking-[0.4em] font-bold text-[#0462C3] bg-[#0462C3]/10 px-4 py-2 rounded-full">Clear & Simple Pricing</span>
                         <div className="h-px w-12 bg-[#0462C3]"></div>
                     </div>
-                    <h1 className="text-5xl md:text-[80px] font-black leading-[1] text-brand-dark tracking-tighter">
+                    <h1 className="text-5xl md:text-[80px] font-bold leading-[1] text-on-surface tracking-tighter">
                         Choose Your <br />
                         <span className="serif-font italic font-medium text-[#0462C3]">Counselling Plan</span>
                     </h1>
-                    <p className="text-base md:text-lg font-bold text-slate-500 italic leading-relaxed max-w-2xl mx-auto pt-6">
+                    <p className="text-base md:text-lg font-bold text-on-surface-variant italic leading-relaxed max-w-2xl mx-auto pt-6">
                         No confusion. No hidden fees. Transparent guidance to help you secure the best college based on your rank.
                     </p>
                 </div>
@@ -332,24 +333,24 @@ const Services = () => {
                 {/* Plans Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
                     {plans.map((plan, idx) => (
-                        <div key={idx} className={`relative flex flex-col bg-white p-10 md:p-12 rounded-[48px] border ${plan.popular ? 'border-[#0462C3] shadow-[0_20px_60px_-15px_rgba(4,98,195,0.3)] ring-4 ring-[#0462C3]/10 scale-[1.02] md:scale-105 z-10' : 'border-brand-muted shadow-soft hover:shadow-xl'} transition-all duration-300`}>
+                        <div key={idx} className={`relative flex flex-col bg-white p-10 md:p-12 rounded-2xl ${plan.popular ? 'border-2 border-[#0462C3] shadow-[0_20px_60px_-15px_rgba(4,98,195,0.3)] ring-4 ring-[#0462C3]/10 scale-[1.02] md:scale-105 z-10 editorial-shadow' : 'border border-transparent hover:border-[#0462C3]/30 editorial-shadow hover:-translate-y-2'} transition-all duration-500 group`}>
                             {plan.popular && (
-                                <div className="absolute top-0 right-10 bg-[#0462C3] text-white px-6 py-2 rounded-b-[16px] text-[10px] font-black uppercase tracking-[0.2em] shadow-lg">
+                                <div className="absolute top-0 right-10 bg-[#0462C3] text-white px-6 py-2 rounded-b-[16px] text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg">
                                     ⭐ Most Popular
                                 </div>
                             )}
 
                             <div className="flex items-center gap-6 mb-8">
-                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center p-3 shadow-inner border ${plan.popular ? 'bg-[#0462C3]/10 border-[#0462C3]/20' : 'bg-brand-muted/30 border-brand-muted'} `}>
+                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center p-3 shadow-inner ${plan.popular ? 'bg-[#0462C3]/10 border border-[#0462C3]/20' : 'bg-primary-container/5 group-hover:bg-[#0462C3] group-hover:text-white transition-colors duration-300 border border-transparent'} `}>
                                     {plan.icon}
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-black text-brand-dark tracking-tighter">{plan.name}</h3>
-                                    <p className="text-4xl font-black text-[#0462C3] serif-font tracking-tighter mt-1">{plan.price}</p>
+                                    <h3 className="text-2xl font-bold text-on-surface tracking-tighter">{plan.name}</h3>
+                                    <p className="text-4xl font-bold text-[#0462C3] serif-font tracking-tighter mt-1">{plan.price}</p>
                                 </div>
                             </div>
 
-                            <p className="text-[13px] font-bold text-slate-500 italic mb-8 min-h-[40px]">{plan.desc}</p>
+                            <p className="text-[13px] font-bold text-on-surface-variant italic mb-8 min-h-[40px]">{plan.desc}</p>
 
                             <ul className="space-y-4 mb-12 flex-grow">
                                 {plan.features.map((feature, fidx) => (
@@ -357,7 +358,7 @@ const Services = () => {
                                         <div className={`mt-0.5 shrink-0 ${feature.inc ? 'text-[#0462C3]' : 'text-red-400'}`}>
                                             {feature.inc ? <CheckCircle2 size={16} /> : <X size={16} />}
                                         </div>
-                                        <span className={`text-[13px] font-bold leading-relaxed ${feature.inc ? 'text-slate-700' : 'text-slate-400 line-through'}`}>
+                                        <span className={`text-[13px] font-bold leading-relaxed ${feature.inc ? 'text-on-surface-variant' : 'text-outline line-through'}`}>
                                             {feature.text}
                                         </span>
                                     </li>
@@ -367,12 +368,12 @@ const Services = () => {
                             <button
                                 onClick={() => handlePlanClick(plan, idx)}
                                 disabled={processingIdx === idx}
-                                className={`w-full py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${
+                                className={`w-full py-5 rounded-[32px] font-bold text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${
                                     purchasedPlans.includes(plan.name)
                                         ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-900/20'
                                         : plan.popular
                                             ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
-                                            : 'bg-slate-100 text-brand-dark hover:bg-slate-200 border border-slate-200'
+                                            : 'bg-surface-container-low text-on-surface hover:bg-slate-200 border border-outline-variant/30'
                                 } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
                                 {processingIdx === idx
                                     ? 'Processing...'
@@ -386,12 +387,12 @@ const Services = () => {
 
                 {/* No Refund Policy */}
                 <div className="mt-20 text-center max-w-2xl mx-auto">
-                    <div className="inline-flex items-center gap-2 bg-red-50 border border-red-200 text-red-700 px-6 py-3 rounded-full text-xs font-black uppercase tracking-[0.15em]">
+                    <div className="inline-flex items-center gap-2 bg-error-container border border-red-200 text-red-700 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.15em]">
                         <ShieldCheck size={16} />
                         Strict No Refund Policy
                     </div>
-                    <p className="text-sm text-slate-500 font-medium mt-4 leading-relaxed">
-                        All payments made for Counselify services are <span className="font-bold text-slate-700">final and non-refundable</span>.
+                    <p className="text-sm text-on-surface-variant font-medium mt-4 leading-relaxed">
+                        All payments made for Counselify services are <span className="font-bold text-on-surface-variant">final and non-refundable</span>.
                         By purchasing any plan, you acknowledge and agree that no refunds will be issued under any circumstances,
                         including but not limited to dissatisfaction with the service, change of mind, or unused sessions.
                         Please review your plan carefully before making a purchase.
@@ -412,20 +413,20 @@ const Services = () => {
                         {/* Close button */}
                         <button
                             onClick={() => { setShowModal(false); setProcessingIdx(null); }}
-                            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
+                            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-surface-container-low hover:bg-slate-200 flex items-center justify-center transition-colors"
                         >
-                            <X size={18} className="text-slate-500" />
+                            <X size={18} className="text-on-surface-variant" />
                         </button>
 
                         {/* Modal header */}
                         <div className="mb-8">
-                            <span className="text-[10px] uppercase tracking-[0.3em] font-black text-[#0462C3] bg-[#0462C3]/10 px-3 py-1.5 rounded-full">
+                            <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#0462C3] bg-[#0462C3]/10 px-3 py-1.5 rounded-full">
                                 Enrollment Form
                             </span>
-                            <h2 className="text-2xl md:text-3xl font-black text-brand-dark tracking-tight mt-4">
+                            <h2 className="text-2xl md:text-3xl font-bold text-on-surface tracking-tight mt-4">
                                 {selectedPlan.name}
                             </h2>
-                            <p className="text-sm text-slate-500 font-bold mt-1">
+                            <p className="text-sm text-on-surface-variant font-bold mt-1">
                                 {selectedPlan.price} • Fill your details to proceed
                             </p>
                         </div>
@@ -434,7 +435,7 @@ const Services = () => {
                         <div className="space-y-5">
                             {/* Name */}
                             <div>
-                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                     Full Name <span className="text-red-400">*</span>
                                 </label>
                                 <input
@@ -443,13 +444,13 @@ const Services = () => {
                                     value={formData.studentName}
                                     onChange={handleFormChange}
                                     placeholder="Enter your full name"
-                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                    className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
                                 />
                             </div>
 
                             {/* WhatsApp Number */}
                             <div>
-                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                     WhatsApp Number <span className="text-red-400">*</span>
                                 </label>
                                 <input
@@ -459,13 +460,13 @@ const Services = () => {
                                     onChange={handleFormChange}
                                     placeholder="e.g. 9876543210"
                                     maxLength={10}
-                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                    className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
                                 />
                             </div>
 
                             {/* Exam Type Toggle */}
                             <div>
-                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                     Exam Type <span className="text-red-400">*</span>
                                 </label>
                                 <div className="flex gap-3">
@@ -474,10 +475,10 @@ const Services = () => {
                                             key={exam}
                                             type="button"
                                             onClick={() => setFormData({ ...formData, examType: exam })}
-                                            className={`flex-1 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${
+                                            className={`flex-1 py-4 rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all ${
                                                 formData.examType === exam
                                                     ? 'bg-[#0462C3] text-white shadow-md'
-                                                    : 'bg-slate-50 text-slate-500 border border-slate-200 hover:bg-slate-100'
+                                                    : 'bg-surface-container-low text-on-surface-variant border border-outline-variant/30 hover:bg-surface-container-low'
                                             }`}
                                         >
                                             {exam}
@@ -488,7 +489,7 @@ const Services = () => {
 
                             {/* Rank */}
                             <div>
-                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                     Rank ({formData.examType}) <span className="text-red-400">*</span>
                                 </label>
                                 <input
@@ -497,14 +498,14 @@ const Services = () => {
                                     value={formData.rank}
                                     onChange={handleFormChange}
                                     placeholder="Enter your rank"
-                                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark placeholder:text-slate-300 focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
+                                    className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface placeholder:text-outline-variant focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all"
                                 />
                             </div>
 
                             {/* Category & Gender - side by side */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                         Category <span className="text-red-400">*</span>
                                     </label>
                                     <div className="relative">
@@ -512,19 +513,19 @@ const Services = () => {
                                             name="category"
                                             value={formData.category}
                                             onChange={handleFormChange}
-                                            className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                            className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
                                         >
                                             <option value="">Select</option>
                                             {CATEGORIES.map(c => (
                                                 <option key={c} value={c}>{c}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                    <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                         Gender <span className="text-red-400">*</span>
                                     </label>
                                     <div className="relative">
@@ -532,21 +533,21 @@ const Services = () => {
                                             name="gender"
                                             value={formData.gender}
                                             onChange={handleFormChange}
-                                            className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                            className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
                                         >
                                             <option value="">Select</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
                                         </select>
-                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                        <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
                                     </div>
                                 </div>
                             </div>
 
                             {/* State */}
                             <div>
-                                <label className="block text-[11px] font-black uppercase tracking-widest text-slate-400 mb-2">
+                                <label className="block text-[11px] font-bold uppercase tracking-widest text-outline mb-2">
                                     Home State <span className="text-red-400">*</span>
                                 </label>
                                 <div className="relative">
@@ -554,14 +555,14 @@ const Services = () => {
                                         name="state"
                                         value={formData.state}
                                         onChange={handleFormChange}
-                                        className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50 text-sm font-bold text-brand-dark focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
+                                        className="w-full px-5 py-4 rounded-2xl border border-outline-variant/30 bg-surface-container-low text-sm font-bold text-on-surface focus:outline-none focus:ring-2 focus:ring-[#0462C3]/30 focus:border-[#0462C3] transition-all appearance-none"
                                     >
                                         <option value="">Select your state</option>
                                         {INDIAN_STATES.map(s => (
                                             <option key={s} value={s}>{s}</option>
                                         ))}
                                     </select>
-                                    <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                                    <ChevronDown size={16} className="absolute right-4 top-1/2 -translate-y-1/2 text-outline pointer-events-none" />
                                 </div>
                             </div>
                         </div>
@@ -570,16 +571,16 @@ const Services = () => {
                         <button
                             onClick={handleProceedToPayment}
                             disabled={!isFormValid() || processingIdx !== null}
-                            className={`w-full mt-8 py-5 rounded-[32px] font-black text-[11px] uppercase tracking-[0.25em] transition-all shadow-lg ${
+                            className={`w-full mt-8 py-5 rounded-[32px] font-bold text-[11px] uppercase tracking-[0.25em] transition-all shadow-lg ${
                                 isFormValid() && processingIdx === null
-                                    ? 'bg-[#0462C3] text-white hover:bg-brand-dark cursor-pointer'
-                                    : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                                    ? 'bg-[#0462C3] text-white hover:bg-primary cursor-pointer'
+                                    : 'bg-slate-200 text-outline cursor-not-allowed'
                             }`}
                         >
                             {processingIdx !== null ? 'Processing...' : `Proceed to Payment — ${selectedPlan.price}`}
                         </button>
 
-                        <p className="text-[11px] text-slate-400 text-center mt-4 font-medium">
+                        <p className="text-[11px] text-outline text-center mt-4 font-medium">
                             Your details will be used for personalized counselling. Payments are secure & encrypted.
                         </p>
                     </div>

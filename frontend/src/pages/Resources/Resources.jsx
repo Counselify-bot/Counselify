@@ -3,7 +3,7 @@ import { FileBox, Youtube, BookOpen, Calendar, HelpCircle, FileCheck, ArrowRight
 
 const Resources = () => {
     const categories = [
-        { icon: <BookOpen />, title: "Strategy eBooks", desc: "Easy-to-understand guides explaining JoSAA, CSAB and counselling strategies step-by-step.", path: "/resources/ebooks", color: "text-brand-blue", buttonText: "Download Guide" },
+        { icon: <BookOpen />, title: "Strategy eBooks", desc: "Easy-to-understand guides explaining JoSAA, CSAB and counselling strategies step-by-step.", path: "/resources/ebooks", color: "text-primary-container", buttonText: "Download Guide" },
         { icon: <Youtube />, title: "Strategy Walkthrough Videos", desc: "Short expert videos explaining rank strategy, college selection and smart choice filling methods.", path: "/resources/videos", buttonText: "Watch Videos" },
         { icon: <FileCheck />, title: "Opening & Closing Rank Data", desc: "Analyze previous year opening and closing ranks to understand where your rank can realistically get admission.", path: "/resources/cutoff-data", buttonText: "View Cutoff Data" },
         { icon: <FileBox />, title: "Counselling Document Kit", desc: "Complete checklist of documents required during JoSAA, CSAB and college reporting.", path: "/resources/checklists", buttonText: "Download Checklist" },
@@ -12,21 +12,21 @@ const Resources = () => {
     ];
 
     return (
-        <div className="pt-48 pb-40 bg-bg-light min-h-screen">
+        <div className="pt-48 pb-40 bg-background min-h-screen">
             <div className="section-container">
                 {/* Header */}
                 <div className="flex flex-col lg:flex-row items-center justify-between mb-32 gap-16">
                     {/* Left Text */}
                     <div className="text-left w-full lg:w-1/2 space-y-10">
                         <div className="inline-flex items-center gap-3 mb-4 group cursor-default">
-                            <div className="h-px w-12 bg-brand-blue"></div>
-                            <span className="text-xs uppercase tracking-[0.4em] font-black text-brand-blue/60">JEE Counselling Resource Hub</span>
+                            <div className="h-px w-12 bg-primary-container"></div>
+                            <span className="text-xs uppercase tracking-[0.4em] font-bold text-primary-container/70">JEE Counselling Resource Hub</span>
                         </div>
-                        <h1 className="text-6xl md:text-[80px] font-black leading-[0.85] text-brand-dark tracking-tighter">
+                        <h1 className="text-6xl md:text-[80px] font-bold leading-[0.85] text-on-surface tracking-tighter">
                             Counselling <br />
-                            <span className="serif-font italic font-medium text-brand-blue">Resource Hub</span>
+                            <span className="serif-font italic font-medium text-primary-container">Resource Hub</span>
                         </h1>
-                        <p className="text-lg md:text-xl font-bold text-slate-500 italic leading-relaxed max-w-xl">
+                        <p className="text-lg md:text-xl font-bold text-on-surface-variant italic leading-relaxed max-w-xl">
                             A centralized intelligence hub designed to help JEE aspirants make smarter counselling decisions through data, strategy and expert insights.
                         </p>
                     </div>
@@ -48,8 +48,8 @@ const Resources = () => {
                                 <FileCheck size={24} />
                             </div>
                             <div>
-                                <p className="text-[10px] uppercase font-black tracking-widest text-[#0462C3] leading-none mb-1 shadow-sm">Verified Data</p>
-                                <p className="text-sm font-black text-brand-dark italic">100% Authentic</p>
+                                <p className="text-[10px] uppercase font-bold tracking-widest text-[#0462C3] leading-none mb-1 shadow-sm">Verified Data</p>
+                                <p className="text-sm font-bold text-on-surface italic">100% Authentic</p>
                             </div>
                         </div>
                     </div>
@@ -61,20 +61,20 @@ const Resources = () => {
                         <Link
                             key={idx}
                             to={cat.path}
-                            className="bg-white p-14 rounded-[56px] border border-brand-muted shadow-soft group hover:border-brand-blue hover:-translate-y-3 transition-all duration-700 relative overflow-hidden text-left flex flex-col h-full"
+                            className="bg-white p-14 rounded-2xl border border-transparent editorial-shadow group hover:border-[#0462C3]/30 hover:-translate-y-2 transition-all duration-700 relative overflow-hidden text-left flex flex-col h-full"
                         >
-                            <div className="absolute top-0 right-0 w-48 h-48 bg-brand-muted/20 rounded-full -mr-24 -mt-24 transition-all duration-700 group-hover:scale-150 group-hover:bg-brand-blue/5"></div>
+                            <div className="absolute top-0 right-0 w-48 h-48 bg-primary-fixed/20 rounded-full -mr-24 -mt-24 transition-all duration-700 group-hover:scale-150 group-hover:bg-[#0462C3]/5"></div>
 
-                            <div className="w-16 h-16 bg-brand-muted/30 rounded-2xl flex items-center justify-center p-3 mb-12 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all transform group-hover:-rotate-6">
+                            <div className="w-16 h-16 bg-[#0462C3]/10 rounded-2xl flex items-center justify-center p-3 mb-12 text-[#0462C3] group-hover:bg-[#0462C3] group-hover:text-white transition-all transform group-hover:-rotate-6">
                                 {cat.icon}
                             </div>
 
-                            <h3 className="text-2xl font-black text-brand-dark mb-5 tracking-tighter">{cat.title}</h3>
-                            <p className="text-[11px] md:text-xs font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-slate-600 transition-colors italic leading-relaxed mb-6">
+                            <h3 className="text-2xl font-bold text-on-surface mb-5 tracking-tighter">{cat.title}</h3>
+                            <p className="text-[11px] md:text-xs font-bold uppercase tracking-[0.2em] text-outline group-hover:text-on-surface-variant transition-colors italic leading-relaxed mb-6">
                                 {cat.desc}
                             </p>
 
-                            <div className="mt-auto flex items-center gap-4 text-brand-blue font-black text-[11px] uppercase tracking-[0.25em] group-hover:gap-6 transition-all">
+                            <div className="mt-auto flex items-center gap-4 text-primary-container font-bold text-[11px] uppercase tracking-[0.25em] group-hover:gap-6 transition-all">
                                 {cat.buttonText} <ArrowRight size={16} />
                             </div>
                         </Link>

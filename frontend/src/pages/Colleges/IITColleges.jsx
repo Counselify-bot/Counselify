@@ -4,12 +4,12 @@ import iitColleges from '../../data/iit_colleges';
 
 const IITColleges = () => {
     return (
-        <div className="pt-36 pb-32 bg-transparent min-h-screen">
+        <div className="pt-36 pb-32 bg-background min-h-screen">
             <div className="section-container">
                 {/* Breadcrumb */}
                 <Link
                     to="/"
-                    className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-brand-blue transition-colors mb-8"
+                    className="inline-flex items-center gap-2 text-sm font-bold text-on-surface-variant hover:text-primary-container transition-colors mb-8"
                 >
                     <ArrowLeft size={16} />
                     Back to Home
@@ -19,30 +19,30 @@ const IITColleges = () => {
                 <div className="text-center mb-20 space-y-6 max-w-4xl mx-auto">
                     <div className="inline-flex items-center justify-center gap-3 mb-4 group cursor-default">
                         <div className="h-px w-12 bg-[#0462C3]"></div>
-                        <span className="text-xs uppercase tracking-[0.4em] font-black text-[#0462C3] bg-[#0462C3]/10 px-4 py-2 rounded-full">
+                        <span className="text-xs uppercase tracking-[0.4em] font-bold text-[#0462C3] bg-[#0462C3]/10 px-4 py-2 rounded-full">
                             Indian Institutes of Technology
                         </span>
                         <div className="h-px w-12 bg-[#0462C3]"></div>
                     </div>
-                    <h1 className="text-5xl md:text-[72px] font-black leading-[1] text-brand-dark tracking-tighter">
+                    <h1 className="text-5xl md:text-[72px] font-bold leading-[1] text-on-surface tracking-tighter">
                         All <span className="serif-font italic font-medium text-[#0462C3]">23 IITs</span> in India
                     </h1>
-                    <p className="text-base md:text-lg font-bold text-slate-500 italic leading-relaxed max-w-2xl mx-auto pt-4">
+                    <p className="text-base md:text-lg font-bold text-on-surface-variant italic leading-relaxed max-w-2xl mx-auto pt-4">
                         Explore the premier engineering institutions of India. Find details, rankings, and campus insights for every IIT.
                     </p>
                     <div className="flex items-center justify-center gap-6 pt-4">
-                        <div className="flex items-center gap-2 text-sm text-slate-600 font-bold">
-                            <Award size={16} className="text-brand-blue" />
+                        <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
+                            <Award size={16} className="text-primary-container" />
                             <span>23 Institutes</span>
                         </div>
                         <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
-                        <div className="flex items-center gap-2 text-sm text-slate-600 font-bold">
-                            <MapPin size={16} className="text-brand-blue" />
+                        <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
+                            <MapPin size={16} className="text-primary-container" />
                             <span>Across India</span>
                         </div>
                         <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
-                        <div className="flex items-center gap-2 text-sm text-slate-600 font-bold">
-                            <Calendar size={16} className="text-brand-blue" />
+                        <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
+                            <Calendar size={16} className="text-primary-container" />
                             <span>Since 1951</span>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ const IITColleges = () => {
                             <Link
                                 to={`/colleges/iit/${slug}`}
                                 key={idx}
-                                className="group bg-white rounded-[28px] overflow-hidden border border-slate-100 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer block"
+                                className="group bg-white rounded-[28px] overflow-hidden border border-outline-variant/20 shadow-soft hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-pointer block"
                             >
                             {/* Campus Image */}
                             <div className="relative h-52 overflow-hidden">
@@ -73,7 +73,7 @@ const IITColleges = () => {
 
                                 {/* NIRF Badge */}
                                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md">
-                                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-700">
+                                    <span className="text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">
                                         NIRF #{college.nirf}
                                     </span>
                                 </div>
@@ -84,7 +84,7 @@ const IITColleges = () => {
                                 {/* Logo Circle - overlapping the image */}
                                 <div className="absolute -top-9 left-1/2 -translate-x-1/2">
                                     <div
-                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-black text-[11px] tracking-wider"
+                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider"
                                         style={{ backgroundColor: college.color }}
                                     >
                                         {college.name
@@ -100,14 +100,14 @@ const IITColleges = () => {
 
                                 {/* College Details */}
                                 <div className="text-center pt-12">
-                                    <h3 className="text-lg font-black text-brand-dark tracking-tight leading-snug">
+                                    <h3 className="text-lg font-bold text-on-surface tracking-tight leading-snug">
                                         {college.name}
                                     </h3>
-                                    <div className="flex items-center justify-center gap-1.5 mt-2 text-sm text-slate-500 font-medium">
-                                        <MapPin size={13} className="text-slate-400 shrink-0" />
+                                    <div className="flex items-center justify-center gap-1.5 mt-2 text-sm text-on-surface-variant font-medium">
+                                        <MapPin size={13} className="text-outline shrink-0" />
                                         <span>{college.location}</span>
                                     </div>
-                                    <div className="flex items-center justify-center gap-1.5 mt-1.5 text-xs text-slate-400 font-bold">
+                                    <div className="flex items-center justify-center gap-1.5 mt-1.5 text-xs text-outline font-bold">
                                         <Calendar size={12} className="shrink-0" />
                                         <span>Est. {college.established}</span>
                                     </div>

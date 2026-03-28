@@ -34,9 +34,9 @@ const TestimonialsSection = () => {
     const currentTestimonial = testimonials[currentIndex];
 
     return (
-        <section id="testimonials" className="py-32 bg-transparent relative overflow-hidden">
+        <section id="testimonials" className="py-32 bg-surface-container-low relative overflow-hidden">
             {/* Background design accents */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-transparent -z-10 skew-x-[12deg] translate-x-32 border-l border-slate-100"></div>
+            <div className="absolute top-0 right-0 w-1/3 h-full bg-background -z-10 skew-x-[12deg] translate-x-32 border-l border-outline-variant/20"></div>
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-8">
@@ -46,14 +46,14 @@ const TestimonialsSection = () => {
                             Candidate <span className="serif-font italic capitalize">success</span><br />
                             and Achievements
                         </h2>
-                        <p className="text-lg text-slate-500 font-medium italic">
+                        <p className="text-lg text-on-surface-variant font-medium italic">
                             Honest feedback from students who successfully secured admissions to India's premier institutes.
                         </p>
                     </div>
                 </div>
 
                 <div className="max-w-6xl mx-auto">
-                    <div className="bg-white shadow-2xl flex flex-col md:flex-row border border-slate-100 relative min-h-[500px]">
+                    <div className="glass-panel rounded-2xl editorial-shadow flex flex-col md:flex-row border-t-4 border-[#0462C3] relative min-h-[500px]">
                         {/* Image Column */}
                         <div className="md:w-[45%] relative overflow-hidden group">
                             <img
@@ -61,11 +61,11 @@ const TestimonialsSection = () => {
                                 alt={currentTestimonial.name}
                                 className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                             />
-                            <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-transparent transition-colors duration-500"></div>
+                            <div className="absolute inset-0 bg-blue-900/10 group-hover:bg-background transition-colors duration-500"></div>
 
-                            <div className="absolute bottom-10 left-10 bg-white p-6 shadow-2xl border-l-4 border-[#0462C3]">
+                            <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10 glass-panel p-6 rounded-2xl editorial-shadow border-l-4 border-[#0462C3]">
                                 <h4 className="text-2xl font-medium serif-font italic text-slate-900">{currentTestimonial.name}</h4>
-                                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#0462C3] mt-2">
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#0462C3] mt-2">
                                     {currentTestimonial.rank} | {currentTestimonial.college}
                                 </p>
                             </div>
@@ -81,20 +81,20 @@ const TestimonialsSection = () => {
                                 ))}
                             </div>
 
-                            <p className="text-slate-600 text-xl font-medium italic serif-font leading-relaxed mb-12 relative z-10">
+                            <p className="text-on-surface-variant text-xl font-medium italic serif-font leading-relaxed mb-12 relative z-10">
                                 "{currentTestimonial.quote}"
                             </p>
 
                             <div className="flex gap-4 mt-auto">
                                 <button
                                     onClick={handlePrev}
-                                    className="w-14 h-14 border border-slate-200 text-slate-400 flex items-center justify-center hover:bg-[#0462C3] hover:text-white hover:border-[#0462C3] transition-all duration-300"
+                                    className="w-14 h-14 border border-outline-variant/30 text-outline flex items-center justify-center hover:bg-[#0462C3] hover:text-white hover:border-[#0462C3] transition-all duration-300"
                                 >
                                     <ChevronLeft size={20} />
                                 </button>
                                 <button
                                     onClick={handleNext}
-                                    className="w-14 h-14 border border-slate-200 text-slate-400 flex items-center justify-center hover:bg-[#0462C3] hover:text-white hover:border-[#0462C3] transition-all duration-300"
+                                    className="w-14 h-14 border border-outline-variant/30 text-outline flex items-center justify-center hover:bg-[#0462C3] hover:text-white hover:border-[#0462C3] transition-all duration-300"
                                 >
                                     <ChevronRight size={20} />
                                 </button>
@@ -104,12 +104,12 @@ const TestimonialsSection = () => {
 
                     {/* Index Indicator */}
                     <div className="flex justify-end mt-8 gap-4 items-center">
-                        <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-300">Case {currentIndex + 1} of {testimonials.length}</span>
+                        <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-outline-variant">Case {currentIndex + 1} of {testimonials.length}</span>
                         <div className="flex gap-2">
                             {testimonials.map((_, idx) => (
                                 <div
                                     key={idx}
-                                    className={`h-1 transition-all duration-500 ${currentIndex === idx ? 'bg-[#0462C3] w-12' : 'bg-slate-100 w-6'}`}
+                                    className={`h-1 transition-all duration-500 ${currentIndex === idx ? 'bg-[#0462C3] w-12' : 'bg-surface-container-low w-6'}`}
                                 />
                             ))}
                         </div>

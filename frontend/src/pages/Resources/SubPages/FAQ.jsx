@@ -93,9 +93,9 @@ const FAQ = () => {
     };
 
     return (
-        <div className="pt-24 pb-32 bg-slate-50 min-h-screen text-left">
+        <div className="pt-24 pb-32 bg-surface-container-low min-h-screen text-left">
             <div className="container mx-auto px-6 max-w-4xl">
-                <Link to="/resources" className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-slate-400 hover:text-[#0462C3] transition-colors mb-12">
+                <Link to="/resources" className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-outline hover:text-[#0462C3] transition-colors mb-12">
                     <ArrowLeft size={16} /> Back to Hub
                 </Link>
 
@@ -103,9 +103,9 @@ const FAQ = () => {
                     <div className="w-12 h-12 bg-[#0462C3] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200 mb-6">
                         <HelpCircle size={24} />
                     </div>
-                    <span className="text-[11px] font-black uppercase tracking-[0.4em] text-[#0462C3]">Counselify Support</span>
-                    <h1 className="text-4xl md:text-6xl font-black text-slate-900 mt-4 serif-font italic tracking-tighter">Everything You Need <br /> To Know.</h1>
-                    <p className="text-slate-500 font-bold italic max-w-lg">
+                    <span className="text-[11px] font-bold uppercase tracking-[0.4em] text-[#0462C3]">Counselify Support</span>
+                    <h1 className="text-4xl md:text-6xl font-bold text-slate-900 mt-4 serif-font italic tracking-tighter">Everything You Need <br /> To Know.</h1>
+                    <p className="text-on-surface-variant font-bold italic max-w-lg">
                         We've answered the most critical questions to help you navigate the complex world of engineering admissions.
                     </p>
                 </div>
@@ -114,23 +114,23 @@ const FAQ = () => {
                     {faqs.map((faq, idx) => (
                         <div
                             key={idx}
-                            className={`bg-white rounded-[32px] border transition-all duration-500 overflow-hidden ${activeIndex === idx ? 'border-[#0462C3] shadow-2xl shadow-blue-50' : 'border-slate-100 hover:border-slate-300'}`}
+                            className={`bg-white rounded-[32px] border transition-all duration-500 overflow-hidden ${activeIndex === idx ? 'border-[#0462C3] shadow-2xl shadow-blue-50' : 'border-outline-variant/20 hover:border-slate-300'}`}
                         >
                             <button
                                 onClick={() => toggleAccordion(idx)}
                                 className="w-full p-8 md:p-10 flex items-center justify-between gap-6 text-left"
                             >
-                                <h3 className={`text-lg md:text-xl font-black transition-colors ${activeIndex === idx ? 'text-[#0462C3]' : 'text-slate-800'}`}>
+                                <h3 className={`text-lg md:text-xl font-bold transition-colors ${activeIndex === idx ? 'text-[#0462C3]' : 'text-on-surface'}`}>
                                     {idx + 1}. {faq.q}
                                 </h3>
-                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${activeIndex === idx ? 'bg-[#0462C3] text-white rotate-180' : 'bg-slate-50 text-slate-400'}`}>
+                                <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${activeIndex === idx ? 'bg-[#0462C3] text-white rotate-180' : 'bg-surface-container-low text-outline'}`}>
                                     {activeIndex === idx ? <Minus size={18} /> : <Plus size={18} />}
                                 </div>
                             </button>
 
                             <div className={`transition-all duration-500 ease-in-out px-8 md:px-10 overflow-hidden ${activeIndex === idx ? 'max-h-[500px] pb-10 opacity-100' : 'max-h-0 opacity-0'}`}>
-                                <div className="p-6 md:p-8 bg-slate-50 rounded-[24px] border border-slate-100">
-                                    <p className="text-slate-600 font-bold italic leading-relaxed">
+                                <div className="p-6 md:p-8 bg-surface-container-low rounded-[24px] border border-outline-variant/20">
+                                    <p className="text-on-surface-variant font-bold italic leading-relaxed">
                                         {faq.a}
                                     </p>
                                 </div>
@@ -139,12 +139,12 @@ const FAQ = () => {
                     ))}
                 </div>
 
-                <div className="mt-20 p-12 bg-white rounded-[48px] shadow-2xl border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-10">
+                <div className="mt-20 p-12 bg-white rounded-[48px] shadow-2xl border border-outline-variant/20 flex flex-col md:flex-row items-center justify-between gap-10">
                     <div className="space-y-4 text-center md:text-left">
-                        <h4 className="text-2xl font-black text-slate-900">Still have questions?</h4>
-                        <p className="text-slate-500 font-bold italic">Our IIT/NIT alumni mentors are ready to help you personally.</p>
+                        <h4 className="text-2xl font-bold text-slate-900">Still have questions?</h4>
+                        <p className="text-on-surface-variant font-bold italic">Our IIT/NIT alumni mentors are ready to help you personally.</p>
                     </div>
-                    <button className="px-12 py-6 bg-[#0462C3] text-white rounded-[28px] font-black text-[13px] uppercase tracking-[0.2em] shadow-xl hover:bg-[#0351a1] shadow-blue-100 flex items-center gap-4 transition-all hover:scale-105 active:scale-95">
+                    <button className="px-12 py-6 bg-[#0462C3] text-white rounded-[28px] font-bold text-[13px] uppercase tracking-[0.2em] shadow-xl hover:bg-[#0351a1] shadow-primary-fixed flex items-center gap-4 transition-all hover:scale-105 active:scale-95">
                         <MessageCircle size={20} /> Talk to Mentor
                     </button>
                 </div>

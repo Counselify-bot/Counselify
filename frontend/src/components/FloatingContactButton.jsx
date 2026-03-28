@@ -25,7 +25,7 @@ const FloatingContactButton = () => {
 
             <Headset size={26} className="relative z-10" />
 
-            <div className="absolute right-full mr-4 bg-white text-slate-900 px-6 py-3 shadow-2xl border border-slate-50 text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full">
+            <div className="absolute right-full mr-4 bg-white text-slate-900 px-6 py-3 shadow-2xl border border-outline-variant/10 text-[10px] font-bold uppercase tracking-[0.3em] whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-full">
                 {user?.name ? `Hi ${user.name.split(' ')[0]}, ` : ''}Speak to Advisor Now
             </div>
         </button>

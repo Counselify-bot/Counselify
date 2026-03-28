@@ -24,18 +24,18 @@ const HowItWorksSection = () => {
     ];
 
     return (
-        <section id="how-it-works" className="py-32 bg-transparent relative">
+        <section id="how-it-works" className="py-32 bg-background relative">
             <div className="section-container">
                 <div className="text-center mb-24 space-y-6">
-                    <span className="text-xs font-black uppercase tracking-[0.4em] text-brand-blue/60">The Methodology</span>
-                    <h2 className="text-5xl md:text-8xl font-black text-brand-dark leading-[0.9] tracking-tighter">
-                        How Our <span className="serif-font italic font-medium text-brand-blue">Counselling Process Works</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.4em] text-primary-container/70">The Methodology</span>
+                    <h2 className="text-5xl md:text-8xl font-bold text-on-surface leading-[0.9] tracking-tighter">
+                        How Our <span className="serif-font italic font-medium text-primary-container">Counselling Process Works</span>
                     </h2>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 relative">
                     {/* Decorative lines (Desktop Only) */}
-                    <div className="hidden lg:block absolute top-[2.5rem] left-[15%] right-[15%] h-px bg-brand-muted -z-10"></div>
+                    <div className="hidden lg:block absolute top-[2.5rem] left-[15%] right-[15%] h-px bg-primary-fixed -z-10"></div>
 
                     {stepDetails(steps[0], "1")}
                     {stepDetails(steps[1], "2")}
@@ -58,18 +58,18 @@ const HowItWorksSection = () => {
 const stepDetails = (step, number) => (
     <div className="flex flex-col items-center text-center group cursor-default">
         <div className="relative mb-12">
-            <div className="w-24 h-24 bg-white shadow-soft rounded-[32px] flex items-center justify-center p-3 text-brand-blue group-hover:bg-brand-blue group-hover:text-white transition-all transform group-hover:-rotate-6 border border-brand-muted relative z-10">
+            <div className="w-24 h-24 bg-white editorial-shadow rounded-2xl flex items-center justify-center p-3 text-primary-container group-hover:bg-[#0462C3] group-hover:text-white transition-all transform group-hover:-rotate-6 border border-transparent relative z-10">
                 {step.icon}
             </div>
-            <div className="absolute -top-3 -right-3 w-10 h-10 bg-brand-dark text-white rounded-2xl flex items-center justify-center font-black italic serif-font text-lg z-20 shadow-xl group-hover:scale-110 transition-transform">
+            <div className="absolute -top-3 -right-3 w-10 h-10 bg-primary text-white rounded-2xl flex items-center justify-center font-bold italic serif-font text-lg z-20 shadow-xl group-hover:scale-110 transition-transform">
                 {number}
             </div>
         </div>
         <div className="mb-2 space-y-1">
-            <span className="text-[10px] font-black text-brand-blue uppercase tracking-widest bg-brand-blue/10 px-3 py-1 rounded-full">{step.subtitle}</span>
-            <h4 className="text-2xl font-black text-brand-dark tracking-tighter mt-2">{step.title}</h4>
+            <span className="text-[10px] font-bold text-primary-container uppercase tracking-widest bg-primary-container/10 px-3 py-1 rounded-full">{step.subtitle}</span>
+            <h4 className="text-2xl font-bold text-on-surface tracking-tighter mt-2">{step.title}</h4>
         </div>
-        <p className="text-[13px] font-medium text-slate-500 leading-relaxed max-w-[280px] whitespace-pre-line text-left">
+        <p className="text-[13px] font-medium text-on-surface-variant leading-relaxed max-w-[280px] whitespace-pre-line text-left">
             {step.desc}
         </p>
     </div>

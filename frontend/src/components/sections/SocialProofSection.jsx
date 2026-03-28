@@ -22,10 +22,10 @@ const SocialProofSection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 relative">
                     {stats.map((stat, idx) => (
                         <div key={idx} className="flex flex-col items-center group cursor-default">
-                            <h4 className="text-6xl md:text-8xl font-black text-white italic serif-font tracking-tighter mb-4 group-hover:scale-110 transition-transform duration-700">
+                            <h4 className="text-6xl md:text-8xl font-bold text-white italic serif-font tracking-tighter mb-4 group-hover:scale-110 transition-transform duration-700">
                                 {stat.value}
                             </h4>
-                            <p className="text-xs font-black uppercase tracking-[0.3em] text-[#0462C3]">
+                            <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#0462C3]">
                                 {stat.label}
                             </p>
                         </div>

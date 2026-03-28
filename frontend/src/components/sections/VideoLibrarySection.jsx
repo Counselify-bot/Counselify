@@ -33,9 +33,9 @@ const VideoLibrarySection = () => {
     };
 
     return (
-        <section id="videos" className="py-32 bg-transparent relative overflow-hidden">
+        <section id="videos" className="py-32 bg-background relative overflow-hidden">
             {/* Background design */}
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-transparent -z-10"></div>
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-background -z-10"></div>
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10">
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-8">
@@ -45,7 +45,7 @@ const VideoLibrarySection = () => {
                             Latest <span className="serif-font italic capitalize">Insights</span><br />
                             from our Channel
                         </h2>
-                        <p className="text-lg text-slate-500 font-medium italic">
+                        <p className="text-lg text-on-surface-variant font-medium italic">
                             Stay updated with tactical admission strategies and campus reviews from JEC Experts.
                         </p>
                     </div>
@@ -54,19 +54,22 @@ const VideoLibrarySection = () => {
                             href="https://www.youtube.com/@counselify"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-12 py-5 border border-slate-200 text-slate-800 font-bold text-[13px] uppercase tracking-[0.2em] bg-white shadow-xl hover:bg-slate-50 transition-all flex items-center gap-3 group"
+                            className="px-10 py-4 bg-[#FF0000] text-white font-bold text-[13px] uppercase tracking-[0.15em] rounded-full shadow-lg hover:bg-[#cc0000] hover:shadow-xl transition-all flex items-center gap-3 group"
                         >
-                            YouTube Channel <ExternalLink size={16} className="transition-transform group-hover:translate-x-1" />
+                            <svg viewBox="0 0 28 20" className="w-7 h-5 fill-white shrink-0">
+                                <path d="M27.4 3.1c-.3-1.2-1.2-2.1-2.4-2.4C22.8 0 14 0 14 0S5.2 0 3 .7C1.8 1 .9 1.9.6 3.1 0 5.3 0 10 0 10s0 4.7.6 6.9c.3 1.2 1.2 2.1 2.4 2.4C5.2 20 14 20 14 20s8.8 0 11-.7c1.2-.3 2.1-1.2 2.4-2.4.6-2.2.6-6.9.6-6.9s0-4.7-.6-6.9zM11.2 14.3V5.7L18.5 10l-7.3 4.3z"/>
+                            </svg>
+                            YouTube Channel
                         </a>
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border border-slate-100 shadow-2xl">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {videos.map((video, index) => (
                         <div
                             key={index}
                             onClick={() => openVideo(video.videoId)}
-                            className="bg-white border-b md:border-b-0 md:border-r border-slate-100 transition-all duration-500 hover:bg-[#fcfdfe] group cursor-pointer relative last:border-r-0"
+                            className="bg-white rounded-2xl overflow-hidden group editorial-shadow cursor-pointer relative transition-transform duration-500 hover:-translate-y-2"
                         >
                             <div className="relative aspect-video overflow-hidden">
                                 <img
@@ -79,25 +82,22 @@ const VideoLibrarySection = () => {
                                         <PlayCircle size={32} className="text-[#0462C3] fill-[#0462C3]/10" />
                                     </div>
                                 </div>
-                                <div className="absolute bottom-4 right-4 bg-slate-900/90 text-white text-[11px] font-bold uppercase tracking-widest px-2 py-1 shadow-lg">
+                                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[0.65rem] font-bold text-[#0462C3] uppercase tracking-widest z-10">
                                     {video.duration}
                                 </div>
                             </div>
 
                             <div className="p-8 text-left">
-                                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-slate-400 mb-3 flex items-center gap-2">
+                                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
                                     <Clock size={12} /> {video.time}
                                 </p>
-                                <h3 className="text-xl font-medium serif-font italic text-slate-800 mb-6 group-hover:text-[#0462C3] transition-colors line-clamp-2">
+                                <h3 className="text-xl font-medium serif-font italic text-on-surface mb-6 group-hover:text-[#0462C3] transition-colors line-clamp-2">
                                     {video.title}
                                 </h3>
-                                <div className="flex items-center gap-2 text-slate-400 text-xs font-bold uppercase tracking-widest">
+                                <div className="flex items-center gap-2 text-outline text-xs font-bold uppercase tracking-widest">
                                     <Eye size={14} /> {video.views} Views
                                 </div>
                             </div>
-
-                            {/* Decorative line */}
-                            <div className="absolute top-0 left-0 w-0 h-1 bg-[#0462C3] group-hover:w-full transition-all duration-700"></div>
                         </div>
                     ))}
                 </div>
