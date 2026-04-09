@@ -2,10 +2,14 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import RankPredictor from './pages/RankPredictor';
+import CollegePredictorSelection from './pages/CollegePredictor/CollegePredictorSelection';
+import CSABPredictor from './pages/CollegePredictor/CSABPredictor';
+import JacDelhiPredictor from './pages/CollegePredictor/JacDelhiPredictor';
 import PercentileToRank from './pages/PercentileToRank';
 import Services from './pages/Services/Services';
 import Resources from './pages/Resources/Resources';
 import About from './pages/About/About';
+import News from './pages/News/News';
 import Contact from './pages/Contact/Contact';
 import Advisor from './pages/Advisor/Advisor';
 import Login from './pages/Auth/Login';
@@ -18,6 +22,8 @@ import Checklists from './pages/Resources/SubPages/Checklists';
 import CounsellingCalendar from './pages/Resources/SubPages/CounsellingCalendar';
 import FAQ from './pages/Resources/SubPages/FAQ';
 import IITColleges from './pages/Colleges/IITColleges';
+import NITColleges from './pages/Colleges/NITColleges';
+import IIITColleges from './pages/Colleges/IIITColleges';
 import CollegeProfile from './pages/Colleges/CollegeProfile';
 import Footer from './components/Footer';
 import FloatingContactButton from './components/FloatingContactButton';
@@ -59,11 +65,14 @@ function AppContent() {
       <main className="flex-grow bg-transparent">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/rank-predictor" element={<RankPredictor />} />
+          <Route path="/college-predictor" element={<CollegePredictorSelection />} />
+          <Route path="/college-predictor/josaa" element={<RankPredictor />} />
+          <Route path="/college-predictor/csab" element={<CSABPredictor />} />
+          <Route path="/college-predictor/jac-delhi" element={<JacDelhiPredictor />} />
           <Route path="/percentile-to-rank" element={<PercentileToRank />} />
           <Route path="/services" element={<Services />} />
           <Route path="/resources" element={<Resources />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/news" element={<News />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/advisor" element={
             <ProtectedRoute>
@@ -84,7 +93,11 @@ function AppContent() {
           <Route path="/resources/calendar" element={<CounsellingCalendar />} />
           <Route path="/resources/faq" element={<FAQ />} />
           <Route path="/colleges/iit" element={<IITColleges />} />
-          <Route path="/colleges/iit/:slug" element={<CollegeProfile />} />
+          <Route path="/colleges/iit/:slug" element={<CollegeProfile instituteType="iit" />} />
+          <Route path="/colleges/nit" element={<NITColleges />} />
+          <Route path="/colleges/nit/:slug" element={<CollegeProfile instituteType="nit" />} />
+          <Route path="/colleges/iiit" element={<IIITColleges />} />
+          <Route path="/colleges/iiit/:slug" element={<CollegeProfile instituteType="iiit" />} />
         </Routes>
       </main>
       <Footer />

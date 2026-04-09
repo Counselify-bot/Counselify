@@ -23,7 +23,7 @@ const Footer = () => {
                         <h4 className="text-xs uppercase tracking-[0.3em] font-bold text-primary-fixed-dim mb-6">Information</h4>
                         <ul className="space-y-4 text-[12px] font-semibold text-surface-container-high">
                             <li><Link to="/" className="hover:text-primary-fixed transition-all">Home</Link></li>
-                            <li><Link to="/rank-predictor" className="hover:text-primary-fixed transition-all">Rank Predictor</Link></li>
+                            <li><Link to="/college-predictor" className="hover:text-primary-fixed transition-all">College Predictor</Link></li>
                             <li><Link to="/services" className="hover:text-primary-fixed transition-all">Services</Link></li>
                             <li><Link to="/resources" className="hover:text-primary-fixed transition-all">Resources</Link></li>
                         </ul>

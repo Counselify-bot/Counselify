@@ -47,21 +47,35 @@ const HeroSection = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
-                            className="flex flex-wrap items-center gap-6 w-full sm:w-auto"
+                            className="flex flex-col sm:flex-row items-center sm:items-start gap-7 w-full sm:w-auto relative"
                         >
-                            <Link
-                                to="/rank-predictor"
-                                className="px-10 py-5 bg-gradient-brand text-on-primary font-bold text-[12px] uppercase tracking-[0.2em] shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 rounded-xl flex items-center gap-4 group"
-                            >
-                                Check My College Options
-                                <Target size={18} className="group-hover:rotate-45 transition-transform" />
-                            </Link>
+                            {/* Premium AI Predictor Button */}
+                            <div className="flex flex-col items-center sm:items-start w-full sm:w-auto relative group">
+                                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-6 bg-[#E6F0FF] text-[#0462C3] border border-blue-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest z-10 shadow-[0_2px_8px_rgba(4,98,195,0.15)] flex items-center gap-1.5 transition-all duration-300 group-hover:-translate-y-0.5">
+                                    <Sparkles size={11} className="text-[#0462C3]" strokeWidth={2.5} />
+                                    FREE AI TOOL
+                                </div>
+                                <Link
+                                    to="/college-predictor"
+                                    className="w-full sm:w-auto px-10 py-[22px] bg-gradient-to-r from-[#0462C3] to-blue-600 text-white font-extrabold text-[12px] uppercase tracking-[0.2em] shadow-[0_8px_24px_rgba(4,98,195,0.35)] transition-all duration-300 hover:scale-[1.03] hover:from-[#0351a0] hover:to-blue-700 hover:shadow-[0_12px_32px_rgba(4,98,195,0.45)] rounded-full flex items-center justify-center sm:justify-start gap-4 relative overflow-hidden"
+                                >
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"></div>
+                                    Predict My College With AI
+                                    <Zap size={18} className="transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                                </Link>
+                                <p className="mt-3.5 text-[11px] font-extrabold uppercase tracking-widest text-slate-400 flex items-center gap-2 px-1">
+                                    <ShieldCheck size={14} className="text-[#0462C3] opacity-80" />
+                                    Instant results based on real data
+                                </p>
+                            </div>
+
+                            {/* Secondary Outline Button */}
                             <Link
                                 to="/advisor"
-                                className="px-10 py-5 border-2 border-outline-variant/30 text-primary font-bold text-[12px] uppercase tracking-[0.2em] bg-white hover:bg-primary-fixed/20 transition-all flex items-center gap-4 rounded-xl group"
+                                className="w-full sm:w-auto mt-2 sm:mt-[21px] px-8 py-5 border border-slate-200/80 text-slate-500 font-bold text-[11px] uppercase tracking-[0.2em] hover:bg-slate-50 hover:border-slate-300 hover:text-slate-800 transition-all duration-300 flex items-center justify-center sm:justify-start gap-3 rounded-full group"
                             >
-                                Speak to a Counselling Advisor
-                                <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
+                                Speak to an Advisor
+                                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                             </Link>
                         </motion.div>
 

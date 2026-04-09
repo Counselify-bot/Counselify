@@ -4,7 +4,8 @@ const iitColleges = [
         location: "Mumbai, Maharashtra",
         nirf: 3,
         established: 1958,
-        campus: "/colleges/campus1.png",
+        campus: "/colleges/iit-bombay-campus.jpg",
+        logo: "/colleges/iit-bombay-logo.png",
         color: "#1a5276"
     },
     {
@@ -13,6 +14,7 @@ const iitColleges = [
         nirf: 2,
         established: 1961,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_delhi.png",
         color: "#0d47a1"
     },
     {
@@ -21,6 +23,7 @@ const iitColleges = [
         nirf: 1,
         established: 1959,
         campus: "/colleges/campus3.png",
+        logo: "/colleges/iit_madras.png",
         color: "#880e4f"
     },
     {
@@ -29,6 +32,7 @@ const iitColleges = [
         nirf: 4,
         established: 1959,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_kanpur.png",
         color: "#e65100"
     },
     {
@@ -37,6 +41,7 @@ const iitColleges = [
         nirf: 5,
         established: 1951,
         campus: "/colleges/campus1.png",
+        logo: "/colleges/iit_kharagpur.png",
         color: "#1b5e20"
     },
     {
@@ -45,6 +50,7 @@ const iitColleges = [
         nirf: 6,
         established: 1847,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_roorkee.png",
         color: "#004d40"
     },
     {
@@ -53,6 +59,7 @@ const iitColleges = [
         nirf: 7,
         established: 1994,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_guwahati.png",
         color: "#1565c0"
     },
     {
@@ -61,6 +68,7 @@ const iitColleges = [
         nirf: 8,
         established: 2008,
         campus: "/colleges/campus3.png",
+        logo: "/colleges/iit_hyderabad.png",
         color: "#6a1b9a"
     },
     {
@@ -69,6 +77,7 @@ const iitColleges = [
         nirf: 10,
         established: 1919,
         campus: "/colleges/campus1.png",
+        logo: "/colleges/iit_bhu_varanasi.png",
         color: "#b71c1c"
     },
     {
@@ -77,6 +86,7 @@ const iitColleges = [
         nirf: 11,
         established: 2009,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_indore.png",
         color: "#0277bd"
     },
     {
@@ -85,6 +95,7 @@ const iitColleges = [
         nirf: 14,
         established: 1926,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_ism_dhanbad.png",
         color: "#33691e"
     },
     {
@@ -93,6 +104,7 @@ const iitColleges = [
         nirf: 21,
         established: 2008,
         campus: "/colleges/campus3.png",
+        logo: "/colleges/iit_bhubaneswar.png",
         color: "#ff6f00"
     },
     {
@@ -101,6 +113,7 @@ const iitColleges = [
         nirf: 22,
         established: 2008,
         campus: "/colleges/campus1.png",
+        logo: "/colleges/iit_ropar.png",
         color: "#ad1457"
     },
     {
@@ -109,6 +122,7 @@ const iitColleges = [
         nirf: 16,
         established: 2008,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_gandhinagar.png",
         color: "#f57f17"
     },
     {
@@ -117,6 +131,7 @@ const iitColleges = [
         nirf: 25,
         established: 2008,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_patna.png",
         color: "#4527a0"
     },
     {
@@ -125,6 +140,7 @@ const iitColleges = [
         nirf: 26,
         established: 2008,
         campus: "/colleges/campus3.png",
+        logo: "/colleges/iit_jodhpur.png",
         color: "#c62828"
     },
     {
@@ -133,6 +149,7 @@ const iitColleges = [
         nirf: 24,
         established: 2009,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_mandi.png",
         color: "#2e7d32"
     },
     {
@@ -141,6 +158,7 @@ const iitColleges = [
         nirf: 30,
         established: 2015,
         campus: "/colleges/campus1.png",
+        logo: "/colleges/iit_tirupati.png",
         color: "#00838f"
     },
     {
@@ -149,6 +167,7 @@ const iitColleges = [
         nirf: 34,
         established: 2015,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_palakkad.png",
         color: "#558b2f"
     },
     {
@@ -157,6 +176,7 @@ const iitColleges = [
         nirf: 46,
         established: 2016,
         campus: "/colleges/campus3.png",
+        logo: "/colleges/iit_bhilai.png",
         color: "#d84315"
     },
     {
@@ -165,6 +185,7 @@ const iitColleges = [
         nirf: 51,
         established: 2016,
         campus: "/colleges/campus4.png",
+        logo: "/colleges/iit_dharwad.png",
         color: "#283593"
     },
     {
@@ -173,6 +194,7 @@ const iitColleges = [
         nirf: 47,
         established: 2016,
         campus: "/colleges/campus1.png",
+        logo: "/colleges/iit_jammu.png",
         color: "#01579b"
     },
     {
@@ -181,6 +203,7 @@ const iitColleges = [
         nirf: 52,
         established: 2016,
         campus: "/colleges/campus2.png",
+        logo: "/colleges/iit_goa.png",
         color: "#00695c"
     }
 ];

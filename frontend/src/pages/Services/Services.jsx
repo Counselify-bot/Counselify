@@ -1,4 +1,4 @@
-import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, X, ChevronDown, Crown } from 'lucide-react';
+import { CheckCircle2, Star, Zap, Trophy, MessageSquare, ShieldCheck, Minus, ChevronDown, Crown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -317,9 +317,9 @@ const Services = () => {
                 {/* Header */}
                 <div className="text-center mb-32 space-y-6 max-w-4xl mx-auto">
                     <div className="inline-flex items-center justify-center gap-3 mb-4 group cursor-default">
-                        <div className="h-px w-12 bg-[#0462C3]"></div>
-                        <span className="text-xs uppercase tracking-[0.4em] font-bold text-[#0462C3] bg-[#0462C3]/10 px-4 py-2 rounded-full">Clear & Simple Pricing</span>
-                        <div className="h-px w-12 bg-[#0462C3]"></div>
+                        <div className="h-px w-12 bg-blue-500/50"></div>
+                        <span className="text-[10px] sm:text-xs uppercase tracking-[0.4em] font-bold text-[#0462C3] bg-blue-50 px-4 py-2 rounded-full border border-blue-100">Clear & Flexible Pricing</span>
+                        <div className="h-px w-12 bg-blue-500/50"></div>
                     </div>
                     <h1 className="text-5xl md:text-[80px] font-bold leading-[1] text-on-surface tracking-tighter">
                         Choose Your <br />
@@ -330,35 +330,37 @@ const Services = () => {
                     </p>
                 </div>
 
-                {/* Plans Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center relative z-10">
                     {plans.map((plan, idx) => (
-                        <div key={idx} className={`relative flex flex-col bg-white p-10 md:p-12 rounded-2xl ${plan.popular ? 'border-2 border-[#0462C3] shadow-[0_20px_60px_-15px_rgba(4,98,195,0.3)] ring-4 ring-[#0462C3]/10 scale-[1.02] md:scale-105 z-10 editorial-shadow' : 'border border-transparent hover:border-[#0462C3]/30 editorial-shadow hover:-translate-y-2'} transition-all duration-500 group`}>
+                        <div key={idx} className={`relative flex flex-col bg-white p-8 md:p-10 rounded-[20px] transition-all duration-300 ease-out hover:-translate-y-[6px] hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] cursor-default group ${plan.popular ? 'border-none shadow-[0_0_0_2px_#0462C3,0_20px_60px_-15px_rgba(4,98,195,0.4)] scale-100 lg:scale-[1.03] z-20' : 'border border-black/5 shadow-[0_10px_30px_rgba(0,0,0,0.04)] z-10'}`}>
                             {plan.popular && (
-                                <div className="absolute top-0 right-10 bg-[#0462C3] text-white px-6 py-2 rounded-b-[16px] text-[10px] font-bold uppercase tracking-[0.2em] shadow-lg">
-                                    ⭐ Most Popular
+                                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-[#0462C3] to-[#0474e8] text-white px-5 py-1.5 rounded-full text-[10px] font-extrabold uppercase tracking-[0.2em] shadow-[0_4px_12px_rgba(4,98,195,0.4)] flex items-center gap-1">
+                                    🔥 MOST POPULAR
                                 </div>
                             )}
 
-                            <div className="flex items-center gap-6 mb-8">
-                                <div className={`w-16 h-16 rounded-2xl flex items-center justify-center p-3 shadow-inner ${plan.popular ? 'bg-[#0462C3]/10 border border-[#0462C3]/20' : 'bg-primary-container/5 group-hover:bg-[#0462C3] group-hover:text-white transition-colors duration-300 border border-transparent'} `}>
+                            <div className="flex items-center gap-5 mb-8 mt-2">
+                                <div className={`w-14 h-14 rounded-[14px] flex items-center justify-center p-3 shadow-sm ${plan.popular ? 'bg-blue-50 text-[#0462C3] border border-blue-100' : 'bg-slate-50 text-slate-500 group-hover:bg-[#0462C3] group-hover:text-white transition-colors duration-300'} `}>
                                     {plan.icon}
                                 </div>
-                                <div>
-                                    <h3 className="text-2xl font-bold text-on-surface tracking-tighter">{plan.name}</h3>
-                                    <p className="text-4xl font-bold text-[#0462C3] serif-font tracking-tighter mt-1">{plan.price}</p>
+                                <div className="flex-1">
+                                    <h3 className={`text-xl font-extrabold tracking-tight ${plan.popular ? 'text-slate-900' : 'text-slate-800'}`}>{plan.name}</h3>
+                                    <p className="text-[32px] md:text-[36px] font-black tracking-tighter mt-1 bg-gradient-to-r from-[#0462C3] to-blue-500 bg-clip-text text-transparent">{plan.price}</p>
+                                    {plan.popular && (
+                                        <p className="text-[10px] font-bold text-blue-600 tracking-wide mt-1 uppercase">Best value for serious aspirants</p>
+                                    )}
                                 </div>
                             </div>
 
-                            <p className="text-[13px] font-bold text-on-surface-variant italic mb-8 min-h-[40px]">{plan.desc}</p>
+                            <p className="text-[14px] font-medium text-slate-500 leading-relaxed mb-8 min-h-[42px] border-b border-black/5 pb-8">{plan.desc}</p>
 
-                            <ul className="space-y-4 mb-12 flex-grow">
+                            <ul className="space-y-4 mb-10 flex-grow">
                                 {plan.features.map((feature, fidx) => (
-                                    <li key={fidx} className="flex items-start gap-3">
-                                        <div className={`mt-0.5 shrink-0 ${feature.inc ? 'text-[#0462C3]' : 'text-red-400'}`}>
-                                            {feature.inc ? <CheckCircle2 size={16} /> : <X size={16} />}
+                                    <li key={fidx} className={`flex items-start gap-3 transition-opacity ${feature.inc ? 'opacity-100' : 'opacity-40 grayscale'}`}>
+                                        <div className={`mt-[2px] shrink-0 ${feature.inc ? 'text-[#0462C3]' : 'text-slate-400'}`}>
+                                            {feature.inc ? <CheckCircle2 size={18} strokeWidth={2.5} /> : <Minus size={18} strokeWidth={2} />}
                                         </div>
-                                        <span className={`text-[13px] font-bold leading-relaxed ${feature.inc ? 'text-on-surface-variant' : 'text-outline line-through'}`}>
+                                        <span className={`text-[13px] leading-relaxed ${feature.inc ? 'font-bold text-slate-700' : 'font-medium text-slate-500'}`}>
                                             {feature.text}
                                         </span>
                                     </li>
@@ -368,13 +370,13 @@ const Services = () => {
                             <button
                                 onClick={() => handlePlanClick(plan, idx)}
                                 disabled={processingIdx === idx}
-                                className={`w-full py-5 rounded-[32px] font-bold text-[11px] uppercase tracking-[0.25em] transition-all shadow-md mt-auto ${
+                                className={`w-full py-4 rounded-full font-extrabold text-[12px] uppercase tracking-[0.2em] transition-all duration-300 mt-auto hover:scale-[1.02] ${
                                     purchasedPlans.includes(plan.name)
-                                        ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-emerald-900/20'
+                                        ? 'bg-emerald-500 text-white hover:bg-emerald-600 shadow-[0_4px_14px_rgba(16,185,129,0.3)]'
                                         : plan.popular
-                                            ? 'bg-[#0462C3] text-white hover:bg-[#005536] shadow-blue-900/20'
-                                            : 'bg-surface-container-low text-on-surface hover:bg-slate-200 border border-outline-variant/30'
-                                } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                                            ? 'bg-gradient-to-r from-[#0462C3] to-blue-600 text-white hover:from-[#0351a0] hover:to-blue-700 shadow-[0_8px_20px_rgba(4,98,195,0.35)]'
+                                            : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200/80 shadow-sm hover:shadow-[0_4px_12px_rgba(0,0,0,0.05)]'
+                                } ${processingIdx === idx ? 'opacity-50 cursor-not-allowed scale-100 hover:scale-100' : ''}`}>
                                 {processingIdx === idx
                                     ? 'Processing...'
                                     : purchasedPlans.includes(plan.name)
@@ -385,10 +387,27 @@ const Services = () => {
                     ))}
                 </div>
 
+                {/* Trust & Urgency Anchors */}
+                <div className="mt-20 flex flex-col items-center justify-center gap-6">
+                    {/* Urgency Pill */}
+                    <div className="inline-flex items-center gap-2.5 bg-orange-50 border border-orange-100 text-orange-700 px-6 py-2.5 rounded-full text-[11px] font-extrabold uppercase tracking-widest shadow-sm">
+                        <span className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-orange-500"></span>
+                        </span>
+                        Limited seats for guided plans. Counselling season is live.
+                    </div>
+                    {/* Trust Pillar */}
+                    <div className="flex items-center gap-2 text-slate-500 font-medium text-[13px]">
+                        <ShieldCheck size={16} className="text-[#0462C3]" />
+                        <span>Trusted by 1000+ JEE Aspirants — Focused strictly on JoSAA & CSAB data trends.</span>
+                    </div>
+                </div>
+
                 {/* No Refund Policy */}
-                <div className="mt-20 text-center max-w-2xl mx-auto">
-                    <div className="inline-flex items-center gap-2 bg-error-container border border-red-200 text-red-700 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.15em]">
-                        <ShieldCheck size={16} />
+                <div className="mt-24 text-center max-w-2xl mx-auto border-t border-slate-200 pt-16">
+                    <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-600 px-6 py-2.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.15em]">
+                        <ShieldCheck size={14} className="opacity-80" />
                         Strict No Refund Policy
                     </div>
                     <p className="text-sm text-on-surface-variant font-medium mt-4 leading-relaxed">

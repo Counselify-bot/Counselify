@@ -1,13 +1,12 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import EducationalTip from '../components/EducationalTip';
 import {
     Calculator, Search, Building2,
     GraduationCap, Target, ShieldCheck,
     MapPin, Briefcase, ChevronRight,
-    User, Lock, ArrowRight,
+    User, ArrowRight,
     AlertTriangle, FileText,
     MessageSquare, Sparkles, Home, Globe
 } from 'lucide-react';
@@ -24,11 +23,9 @@ const RankPredictor = () => {
         branch: 'Any'
     });
 
-    const { user } = useAuth();
-
     const [prediction, setPrediction] = useState(null);
     const [loading, setLoading] = useState(false);
-    const isLocked = !user; // Show all 25 if logged in, only 5 if not
+    const [instituteFilter, setInstituteFilter] = useState('all'); // 'all' | 'NIT' | 'IIIT' | 'GFTI'
 
     const categories = ['General', 'OBC-NCL', 'SC', 'ST', 'EWS', 'General-PwD'];
     const exams = ['JEE Main', 'JEE Advanced'];
@@ -42,64 +39,139 @@ const RankPredictor = () => {
     ];
     const branches = ['Any', 'Computer Science', 'IT', 'ECE', 'Electrical', 'Mechanical', 'Civil', 'Chemical'];
 
+    /* ─── State name to dataset state mapping ─── */
+    const stateMapping = {
+        'Andhra Pradesh': 'Andhra Pradesh',
+        'Arunachal Pradesh': 'Arunachal Pradesh',
+        'Assam': 'Assam',
+        'Bihar': 'Bihar',
+        'Chhattisgarh': 'Chhattisgarh',
+        'Delhi': 'Delhi',
+        'Goa': 'Goa',
+        'Gujarat': 'Gujarat',
+        'Haryana': 'Haryana',
+        'Himachal Pradesh': 'Himachal Pradesh',
+        'Jharkhand': 'Jharkhand',
+        'Karnataka': 'Karnataka',
+        'Kerala': 'Kerala',
+        'Madhya Pradesh': 'Madhya Pradesh',
+        'Maharashtra': 'Maharashtra',
+        'Manipur': 'Manipur',
+        'Meghalaya': 'Meghalaya',
+        'Mizoram': 'Mizoram',
+        'Nagaland': 'Nagaland',
+        'Odisha': 'Odisha',
+        'Punjab': 'Punjab',
+        'Rajasthan': 'Rajasthan',
+        'Sikkim': 'Sikkim',
+        'Tamil Nadu': 'Tamil Nadu',
+        'Telangana': 'Telangana',
+        'Tripura': 'Tripura',
+        'Uttar Pradesh': 'Uttar Pradesh',
+        'Uttarakhand': 'Uttarakhand',
+        'West Bengal': 'West Bengal'
+    };
+
+    /* ─── Branch filter helper ─── */
+    const matchesBranch = (itemBranch, selectedBranch) => {
+        if (selectedBranch === 'Any') return true;
+        const sb = selectedBranch.toLowerCase();
+        const b = (itemBranch || '').toLowerCase();
+        if (sb === 'it' && !b.includes('information technology')) return false;
+        else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
+        else if (sb === 'computer science' && !b.includes('computer science')) return false;
+        else if (sb !== 'it' && sb !== 'ece' && sb !== 'computer science' && !b.includes(sb)) return false;
+        return true;
+    };
+
     const handlePredict = (e) => {
         e.preventDefault();
         setLoading(true);
+        setInstituteFilter('all'); // reset filter on new prediction
 
         setTimeout(() => {
             const userRank = parseInt(formData.rank);
             const relaxedRank = Math.floor(userRank * 0.95); // -5% relaxation
+            const isAdvanced = formData.examType === 'JEE Advanced';
 
-            // Step 1: Filter by category, gender, exam, branch
-            const filtered = josaaData.filter(item => {
+            // ─── BASE FILTER: category, gender, branch, exam type ───
+            const baseFiltered = josaaData.filter(item => {
                 if (item.category !== formData.category) return false;
                 if (formData.gender === 'Gender-Neutral' && item.gender === 'Female Only') return false;
 
                 const isIIT = item.institute_type === 'IIT';
-                if (formData.examType === 'JEE Advanced' && !isIIT) return false;
-                if (formData.examType === 'JEE Main' && isIIT) return false;
+                if (isAdvanced && !isIIT) return false;
+                if (!isAdvanced && isIIT) return false;
 
-                if (formData.branch !== 'Any') {
-                    const sb = formData.branch?.toLowerCase() || '';
-                    const b = item.branch?.toLowerCase() || '';
-                    if (sb === 'it' && !b.includes('information technology')) return false;
-                    else if (sb === 'ece' && !b.includes('electronics and communication')) return false;
-                    else if (sb === 'computer science' && !b.includes('computer science')) return false;
-                    else if (sb !== 'it' && sb !== 'ece' && sb !== 'computer science' && !b.includes(sb)) return false;
-                }
-
+                if (!matchesBranch(item.branch, formData.branch)) return false;
                 return true;
             });
 
-            // Step 2: Separate HS (Home State) and AI (All India) eligible colleges
-            const hsEligible = filtered.filter(item => {
-                const cr = item.closing_rank || 0;
-                return cr >= relaxedRank && item.home_state === 'HS';
-            });
+            // ─── RANK FILTER: closing_rank >= relaxedRank ───
+            const rankFiltered = baseFiltered.filter(item => (item.closing_rank || 0) >= relaxedRank);
 
-            const aiEligible = filtered.filter(item => {
-                const cr = item.closing_rank || 0;
-                return cr >= relaxedRank && item.home_state === 'AI';
-            });
-
-            // Step 3: Sort both by closeness to user rank (best matches first)
             const sortByCloseness = (arr) => [...arr].sort((a, b) => {
                 const diffA = Math.abs(a.closing_rank - userRank);
                 const diffB = Math.abs(b.closing_rank - userRank);
                 return diffA - diffB;
             });
 
-            const sortedHS = sortByCloseness(hsEligible).slice(0, 25);
-            const sortedAI = sortByCloseness(aiEligible).slice(0, 25);
+            if (isAdvanced) {
+                // ════════════════════════════════════════════
+                // JEE ADVANCED — UNCHANGED LOGIC
+                // ════════════════════════════════════════════
+                const aiEligible = rankFiltered.filter(item => item.home_state === 'AI');
+                const sortedAI = sortByCloseness(aiEligible).slice(0, 25);
 
-            setPrediction({
-                rank: userRank,
-                relaxedRank,
-                hsColleges: sortedHS,
-                aiColleges: sortedAI,
-                totalHsEligible: hsEligible.length,
-                totalAiEligible: aiEligible.length
-            });
+                setPrediction({
+                    rank: userRank,
+                    relaxedRank,
+                    isAdvanced: true,
+                    hsColleges: [],
+                    aiColleges: sortedAI,
+                    allFiltered: rankFiltered, // for institute type filter
+                    totalHsEligible: 0,
+                    totalAiEligible: aiEligible.length
+                });
+            } else {
+                // ════════════════════════════════════════════
+                // JEE MAIN — FIXED LOGIC
+                // ════════════════════════════════════════════
+                const userState = stateMapping[formData.homeState] || formData.homeState;
+
+                // HOME STATE: NIT + GFTI only, where college state matches user's home state
+                // AND home_state field = 'HS'
+                // IIITs are EXCLUDED from Home State
+                const hsEligible = rankFiltered.filter(item => {
+                    if (item.home_state !== 'HS') return false;
+                    if (item.institute_type !== 'NIT' && item.institute_type !== 'GFTI') return false;
+                    // Check that the college is actually in the user's home state
+                    if (item.state !== userState) return false;
+                    return true;
+                });
+
+                // ALL INDIA / OTHER STATE: NITs + IIITs + GFTIs with OS quota
+                const aiEligible = rankFiltered.filter(item => {
+                    if (item.home_state !== 'OS') return false;
+                    const t = item.institute_type;
+                    if (t !== 'NIT' && t !== 'IIIT' && t !== 'GFTI') return false;
+                    return true;
+                });
+
+                const sortedHS = sortByCloseness(hsEligible).slice(0, 25);
+                const sortedAI = sortByCloseness(aiEligible).slice(0, 25);
+
+                setPrediction({
+                    rank: userRank,
+                    relaxedRank,
+                    isAdvanced: false,
+                    hsColleges: sortedHS,
+                    aiColleges: sortedAI,
+                    allFiltered: rankFiltered, // for institute type filter
+                    totalHsEligible: hsEligible.length,
+                    totalAiEligible: aiEligible.length
+                });
+            }
 
             setLoading(false);
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -109,23 +181,34 @@ const RankPredictor = () => {
     const downloadReport = () => alert("Generating your Personalized Strategy Report (PDF)...");
     const callMentor = () => alert("Connecting you with an IIT/NIT Mentor...");
 
-    // How many to show: teaser shows 5, unlocked shows all
+    /* ─── Visible colleges: support institute type filter ─── */
     const visibleHsColleges = useMemo(() => {
         if (!prediction) return [];
-        return isLocked ? prediction.hsColleges.slice(0, 5) : prediction.hsColleges;
-    }, [prediction, isLocked]);
+        return prediction.hsColleges;
+    }, [prediction]);
 
     const visibleAiColleges = useMemo(() => {
         if (!prediction) return [];
-        return isLocked ? prediction.aiColleges.slice(0, 5) : prediction.aiColleges;
-    }, [prediction, isLocked]);
+        return prediction.aiColleges;
+    }, [prediction]);
+
+    /* ─── Institute-type filtered list (NIT/IIIT/GFTI buttons) ─── */
+    const filteredByInstituteType = useMemo(() => {
+        if (!prediction || instituteFilter === 'all') return null;
+        const userRank = prediction.rank;
+        const filtered = prediction.allFiltered
+            .filter(item => item.institute_type === instituteFilter)
+            .sort((a, b) => Math.abs(a.closing_rank - userRank) - Math.abs(b.closing_rank - userRank))
+            .slice(0, 25);
+        return filtered;
+    }, [prediction, instituteFilter]);
 
     const isAdvanced = formData.examType === 'JEE Advanced';
 
     // Reusable college table component
     const CollegeTable = ({ title, icon: Icon, iconColor, colleges, visibleColleges, totalEligible, quotaTag, emptyMessage }) => (
         <div className="relative">
-            <div className={`bg-white rounded-2xl editorial-shadow border border-transparent overflow-hidden ${isLocked && visibleColleges.length > 0 ? 'max-h-[700px] overflow-hidden' : ''}`}>
+            <div className="bg-white rounded-2xl editorial-shadow border border-transparent overflow-hidden">
                 {/* Table Title */}
                 <div className="px-6 py-5 border-b border-outline-variant/30 flex items-center justify-between">
                     <div className="flex items-center gap-3">
@@ -135,7 +218,7 @@ const RankPredictor = () => {
                         <div>
                             <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">{title}</h3>
                             <p className="text-[10px] font-bold text-outline uppercase tracking-widest mt-0.5">
-                                {colleges.length} shown · {totalEligible} eligible
+                                {visibleColleges.length} shown · {totalEligible} eligible
                             </p>
                         </div>
                     </div>
@@ -177,6 +260,11 @@ const RankPredictor = () => {
                                 <p className="text-xs font-bold text-on-surface leading-tight group-hover:text-primary-container transition-colors line-clamp-2" title={college.college_name}>
                                     {college.college_name}
                                 </p>
+                                {college.institute_type && (
+                                    <span className="text-[8px] font-bold uppercase tracking-widest text-outline-variant mt-0.5 inline-block">
+                                        {college.institute_type}
+                                    </span>
+                                )}
                             </div>
                             <div className="col-span-3">
                                 <p className="text-[10px] font-bold text-on-surface-variant line-clamp-2" title={college.branch}>
@@ -206,39 +294,39 @@ const RankPredictor = () => {
                     </div>
                 )}
             </div>
-
-            {/* Lock Overlay */}
-            {isLocked && colleges.length > 5 && (
-                <div className="absolute inset-x-0 bottom-0 h-[350px] bg-gradient-to-t from-bg-light via-bg-light/95 to-transparent z-50 flex items-end justify-center p-4 pb-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-white p-8 rounded-2xl editorial-shadow border border-transparent max-w-sm w-full text-center relative z-10"
-                    >
-                        <div className="w-12 h-12 bg-primary-fixed rounded-2xl flex items-center justify-center text-primary-container mx-auto mb-4 shadow-inner">
-                            <Lock size={22} />
-                        </div>
-                        <h3 className="text-xl font-bold text-on-surface mb-2 tracking-tighter">
-                            {colleges.length - 5} More Hidden
-                        </h3>
-                        <p className="text-outline font-bold mb-6 leading-relaxed italic uppercase tracking-[0.12em] text-[10px]">
-                            Sign up to see all {colleges.length} predicted colleges.
-                        </p>
-
-                        <Link
-                            to="/signup"
-                            className="w-full inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-brand text-white rounded-2xl font-bold text-[10px] uppercase tracking-[0.25em] shadow-lg shadow-primary/10 hover:shadow-xl transition-all duration-500 group/btn bg-[length:200%_auto] hover:bg-right"
-                        >
-                            Unlock All <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                        </Link>
-                        <Link to="/login" className="block mt-3 text-[10px] font-bold text-outline uppercase tracking-widest hover:text-primary-container transition-colors py-2">
-                            I have an account
-                        </Link>
-                    </motion.div>
-                </div>
-            )}
         </div>
     );
+
+    /* ─── Institute Filter — Premium Segmented Control ─── */
+    const InstituteFilterBar = () => {
+        const filters = [
+            { key: 'all', label: 'ALL RESULTS' },
+            { key: 'NIT', label: 'NIT' },
+            { key: 'IIIT', label: 'IIIT' },
+            { key: 'GFTI', label: 'GFTI' },
+        ];
+        return (
+            <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-slate-100/80 backdrop-blur-sm rounded-[20px] p-1.5 inline-flex items-center gap-1 editorial-shadow border border-slate-200/60"
+            >
+                {filters.map(f => (
+                    <button
+                        key={f.key}
+                        onClick={() => setInstituteFilter(f.key)}
+                        className={`relative px-7 py-3 rounded-[16px] text-[11px] font-semibold uppercase tracking-[0.15em] transition-all duration-300 ease-out ${
+                            instituteFilter === f.key
+                                ? 'bg-[#0462C3] text-white shadow-[0_4px_16px_rgba(4,98,195,0.35)] scale-[1.02]'
+                                : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-white/60 hover:scale-[1.02]'
+                        }`}
+                    >
+                        {f.label}
+                    </button>
+                ))}
+            </motion.div>
+        );
+    };
 
     return (
         <div className="pt-24 md:pt-32 pb-32 mesh-gradient-hero min-h-screen">
@@ -298,21 +386,6 @@ const RankPredictor = () => {
                                     </div>
                                 </div>
 
-                                {/* CRL Rank */}
-                                <div className="space-y-3">
-                                    <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-outline opacity-80">
-                                        <Target size={12} className="text-primary-fixed-dim" /> Total Rank (CRL)
-                                    </label>
-                                    <input
-                                        type="number"
-                                        placeholder="e.g. 15000"
-                                        className="w-full px-7 py-4 bg-primary-fixed/20 border-2 border-transparent rounded-[20px] outline-none focus:border-primary-container/30 focus:bg-white transition-all text-lg font-bold text-on-surface placeholder:text-outline-variant"
-                                        value={formData.rank}
-                                        onChange={(e) => setFormData({ ...formData, rank: e.target.value })}
-                                        required
-                                    />
-                                </div>
-
                                 {/* Category */}
                                 <div className="space-y-3">
                                     <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-outline opacity-80">
@@ -326,6 +399,21 @@ const RankPredictor = () => {
                                         {categories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                                     </select>
                                 </div>
+                                {/* CRL Rank */}
+                                <div className="space-y-3">
+                                    <label className="flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] font-bold text-outline opacity-80">
+                                        <Target size={12} className="text-primary-fixed-dim" /> Enter your Category Rank
+                                    </label>
+                                    <input
+                                        type="number"
+                                        placeholder="e.g. 15000"
+                                        className="w-full px-7 py-4 bg-primary-fixed/20 border-2 border-transparent rounded-[20px] outline-none focus:border-primary-container/30 focus:bg-white transition-all text-lg font-bold text-on-surface placeholder:text-outline-variant"
+                                        value={formData.rank}
+                                        onChange={(e) => setFormData({ ...formData, rank: e.target.value })}
+                                        required
+                                    />
+                                </div>
+
 
                                 {/* Home State */}
                                 <div className="space-y-3">
@@ -399,7 +487,7 @@ const RankPredictor = () => {
                                         </div>
                                         <div className="w-1 h-1 bg-slate-200 rounded-full"></div>
                                         <div className="flex items-center gap-2 text-xs font-bold text-outline uppercase tracking-widest">
-                                            <Lock size={14} className="text-primary-container" /> End-to-End Encrypted
+                                            <ShieldCheck size={14} className="text-primary-container" /> End-to-End Encrypted
                                         </div>
                                     </div>
                                 </div>
@@ -419,7 +507,7 @@ const RankPredictor = () => {
                             />
                             <EducationalTip
                                 title="HS vs AI Quota"
-                                content="Home State (HS) quota offers lower cutoffs at NITs for students from that state. All India (AI) quota is open to everyone. We show both lists side by side."
+                                content="Home State (HS) quota offers lower cutoffs at NITs and GFTIs for students from that state. Other State (OS) / All India quota is open to everyone. IIITs only have OS quota."
                             />
 
                             <div className="p-8 bg-primary rounded-2xl text-white space-y-5 relative editorial-shadow group">
@@ -442,7 +530,7 @@ const RankPredictor = () => {
                             exit={{ opacity: 0 }}
                             className="space-y-12 text-left"
                         >
-                            {/* Summary Header */}
+                            {/* ─── Summary Dashboard ─── */}
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
@@ -450,95 +538,168 @@ const RankPredictor = () => {
                             >
                                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-container/[0.02] rounded-full -mr-64 -mt-64 blur-3xl"></div>
 
-                                <div className="flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
-                                    <div className="space-y-4 text-center lg:text-left">
-                                        <span className="text-xs font-bold uppercase tracking-[0.4em] text-primary-container/70">Computation Complete</span>
+                                <div className="flex flex-col lg:flex-row items-start justify-between gap-12 relative z-10">
+                                    {/* Left: Rank + Tags */}
+                                    <div className="space-y-5 text-center lg:text-left">
+                                        <span className="text-xs font-bold uppercase tracking-[0.4em] text-primary-container/70">Your Entered Rank</span>
                                         <h2 className="text-7xl md:text-9xl font-bold serif-font italic text-on-surface tracking-tighter leading-none">
-                                            #{prediction.rank.toLocaleString()}
+                                            #{parseInt(formData.rank).toLocaleString()}
                                         </h2>
-                                        <div className="flex flex-wrap gap-4 pt-4 justify-center lg:justify-start">
+                                        <div className="flex flex-wrap gap-3 pt-2 justify-center lg:justify-start">
                                             {['category', 'homeState', 'examType'].map(key => (
-                                                <div key={key} className="px-5 py-2 bg-primary-fixed/30 rounded-full text-xs font-bold text-primary-container/70 uppercase tracking-widest border border-outline-variant/30">
+                                                <div key={key} className="px-4 py-1.5 bg-primary-fixed/30 rounded-full text-[10px] font-bold text-primary-container/70 uppercase tracking-widest border border-outline-variant/30">
                                                     {formData[key]}
                                                 </div>
                                             ))}
                                         </div>
+
+                                        {/* ─── Counters ─── */}
+                                        <div className="flex flex-wrap gap-4 pt-4">
+                                            {!prediction.isAdvanced ? (
+                                                <>
+                                                    <div className="bg-blue-50 border border-blue-100 rounded-2xl px-6 py-4 text-center min-w-[140px]">
+                                                        <div className="text-3xl font-bold text-[#0462C3] serif-font italic">{prediction.totalAiEligible}</div>
+                                                        <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Other State / AI</div>
+                                                    </div>
+                                                    <div className="bg-emerald-50 border border-emerald-100 rounded-2xl px-6 py-4 text-center min-w-[140px]">
+                                                        <div className="text-3xl font-bold text-emerald-600 serif-font italic">{prediction.totalHsEligible}</div>
+                                                        <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">Home State</div>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="bg-blue-50 border border-blue-100 rounded-2xl px-6 py-4 text-center min-w-[140px]">
+                                                    <div className="text-3xl font-bold text-[#0462C3] serif-font italic">{prediction.totalAiEligible}</div>
+                                                    <div className="text-[9px] font-bold uppercase tracking-widest text-slate-400 mt-1">IIT All India</div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <p className="text-[10px] text-outline italic font-medium leading-relaxed max-w-sm">
+                                            Showing top recommendations. More options are available for your profile.
+                                        </p>
                                     </div>
 
-                                    <div className="w-full lg:w-[420px] space-y-6">
-                                        <div className="bg-primary-fixed/20 p-7 rounded-[28px] border border-primary-fixed shadow-soft relative">
+                                    {/* Right: Summary + Buttons */}
+                                    <div className="w-full lg:w-[400px] space-y-5 flex-shrink-0">
+                                        <div className="bg-primary-fixed/20 p-6 rounded-[24px] border border-primary-fixed shadow-soft relative">
                                             <div className="absolute -top-3 -right-3 w-10 h-10 bg-white shadow-soft rounded-2xl flex items-center justify-center">
                                                 <Sparkles className="text-primary-fixed-dim animate-pulse" size={20} />
                                             </div>
-                                            <h4 className="text-xs font-bold uppercase tracking-widest text-outline mb-3">
+                                            <h4 className="text-[10px] font-bold uppercase tracking-widest text-outline mb-2">
                                                 Prediction Summary
                                             </h4>
                                             <p className="text-sm text-on-surface-variant leading-relaxed font-bold italic">
-                                                "Rank #{prediction.rank.toLocaleString()} with -5% relaxation (down to #{prediction.relaxedRank.toLocaleString()}).
-                                                Found <span className="text-gradient-brand">{prediction.totalHsEligible}</span> Home State
-                                                and <span className="text-gradient-brand">{prediction.totalAiEligible}</span> All India eligible seats."
+                                                {prediction.isAdvanced ? (
+                                                    <>"Rank #{parseInt(formData.rank).toLocaleString()} — Found <span className="text-gradient-brand">{prediction.totalAiEligible}</span> All India IIT seats matching your profile."
+                                                    </>
+                                                ) : (
+                                                    <>"Rank #{parseInt(formData.rank).toLocaleString()} — Found <span className="text-gradient-brand">{prediction.totalAiEligible}</span> Other State and <span className="text-gradient-brand">{prediction.totalHsEligible}</span> Home State options."
+                                                    </>
+                                                )}
                                             </p>
                                         </div>
 
-                                        <div className="flex gap-4">
+                                        <div className="flex gap-3">
                                             <button
                                                 onClick={downloadReport}
-                                                className="flex-1 py-4 bg-white border border-outline-variant/20 rounded-2xl text-[11px] font-bold text-outline uppercase tracking-widest hover:border-primary-container/30 transition-all flex items-center justify-center gap-3"
+                                                className="flex-1 py-4 bg-white border border-outline-variant/20 rounded-2xl text-[11px] font-bold text-outline uppercase tracking-widest hover:border-primary-container/30 transition-all flex items-center justify-center gap-2"
                                             >
-                                                <FileText size={16} /> Report
+                                                <FileText size={14} /> Report
                                             </button>
                                             <button
                                                 onClick={callMentor}
-                                                className="flex-1 py-4 bg-gradient-brand text-white rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all duration-500 flex items-center justify-center gap-3 shadow-soft hover:shadow-lg bg-[length:200%_auto] hover:bg-right"
+                                                className="flex-1 py-4 bg-gradient-brand text-white rounded-2xl text-[11px] font-bold uppercase tracking-widest transition-all duration-500 flex items-center justify-center gap-2 shadow-soft hover:shadow-lg bg-[length:200%_auto] hover:bg-right"
                                             >
-                                                <MessageSquare size={16} /> Expert Help
+                                                <MessageSquare size={14} /> Expert Help
                                             </button>
                                             <button
-                                                onClick={() => { setPrediction(null); }}
-                                                className="py-4 px-6 bg-white border border-outline-variant/20 rounded-2xl text-[11px] font-bold text-outline uppercase tracking-widest hover:border-primary-container/30 transition-all flex items-center justify-center gap-2"
+                                                onClick={() => { setPrediction(null); setInstituteFilter('all'); }}
+                                                className="py-4 px-5 bg-white border border-outline-variant/20 rounded-2xl text-[11px] font-bold text-outline uppercase tracking-widest hover:border-primary-container/30 transition-all flex items-center justify-center gap-2"
                                             >
-                                                <Search size={16} /> New
+                                                <Search size={14} /> New
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                             </motion.div>
 
-                            {/* Dual College Tables — Side by Side */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2 }}
-                                className="grid grid-cols-1 lg:grid-cols-2 gap-8"
-                            >
-                                {/* Home State Table */}
-                                <CollegeTable
-                                    title="Home State Colleges"
-                                    icon={Home}
-                                    iconColor="bg-emerald-50 text-emerald-600"
-                                    colleges={prediction.hsColleges}
-                                    visibleColleges={visibleHsColleges}
-                                    totalEligible={prediction.totalHsEligible}
-                                    quotaTag="HS Quota"
-                                    emptyMessage={
-                                        isAdvanced
-                                            ? "IITs only have All India (AI) quota. Home State quota applies to NITs, IIITs & GFTIs via JEE Main."
-                                            : "No Home State colleges found for your rank & filters. Try adjusting your selections."
-                                    }
-                                />
+                            {/* ─── Institute Type Filter Buttons (JEE Main only) ─── */}
+                            {!prediction.isAdvanced && <InstituteFilterBar />}
 
-                                {/* All India Table */}
-                                <CollegeTable
-                                    title="All India Colleges"
-                                    icon={Globe}
-                                    iconColor="bg-primary-fixed/30 text-blue-600"
-                                    colleges={prediction.aiColleges}
-                                    visibleColleges={visibleAiColleges}
-                                    totalEligible={prediction.totalAiEligible}
-                                    quotaTag="AI Quota"
-                                    emptyMessage="No All India colleges found for your rank & filters. Try adjusting your selections."
-                                />
-                            </motion.div>
+                            {/* ─── FILTERED VIEW (NIT / IIIT / GFTI selected) ─── */}
+                            {instituteFilter !== 'all' && filteredByInstituteType ? (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                >
+                                    <CollegeTable
+                                        title={`${instituteFilter} Colleges — Best Matches`}
+                                        icon={Building2}
+                                        iconColor="bg-primary-fixed/30 text-blue-600"
+                                        colleges={filteredByInstituteType}
+                                        visibleColleges={filteredByInstituteType}
+                                        totalEligible={filteredByInstituteType.length}
+                                        quotaTag={instituteFilter}
+                                        emptyMessage={`No ${instituteFilter} colleges found for your rank & filters. Try adjusting your selections.`}
+                                    />
+                                </motion.div>
+                            ) : (
+                                /* ─── DEFAULT VIEW ─── */
+                                <motion.div
+                                    initial={{ opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.2 }}
+                                >
+                                    {prediction.isAdvanced ? (
+                                        /* ═══ JEE Advanced: Full-width IIT results ═══ */
+                                        <div className="space-y-4">
+                                            {/* Compact info note */}
+                                            <div className="flex items-center gap-3 px-5 py-3 bg-blue-50/80 border border-blue-100 rounded-2xl">
+                                                <Home size={16} className="text-[#0462C3] flex-shrink-0" />
+                                                <p className="text-[11px] font-medium text-slate-500 leading-relaxed">
+                                                    IIT admissions are based on <span className="font-bold text-slate-700">All India quota only</span>. Home State quota does not apply to IITs.
+                                                </p>
+                                            </div>
+                                            {/* Full-width table */}
+                                            <CollegeTable
+                                                title="All India IIT Colleges"
+                                                icon={Globe}
+                                                iconColor="bg-primary-fixed/30 text-blue-600"
+                                                colleges={prediction.aiColleges}
+                                                visibleColleges={visibleAiColleges}
+                                                totalEligible={prediction.totalAiEligible}
+                                                quotaTag="AI Quota"
+                                                emptyMessage="No IIT colleges found for your rank & filters. Try adjusting your selections."
+                                            />
+                                        </div>
+                                    ) : (
+                                        /* ═══ JEE Main: OS/AI LEFT, HS RIGHT ═══ */
+                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                                            {/* Left: Other State / All India */}
+                                            <CollegeTable
+                                                title="Other State / All India"
+                                                icon={Globe}
+                                                iconColor="bg-primary-fixed/30 text-blue-600"
+                                                colleges={prediction.aiColleges}
+                                                visibleColleges={visibleAiColleges}
+                                                totalEligible={prediction.totalAiEligible}
+                                                quotaTag="OS Quota"
+                                                emptyMessage="No Other State / All India colleges found for your rank & filters. Try adjusting your selections."
+                                            />
+                                            {/* Right: Home State */}
+                                            <CollegeTable
+                                                title="Home State Colleges"
+                                                icon={Home}
+                                                iconColor="bg-emerald-50 text-emerald-600"
+                                                colleges={prediction.hsColleges}
+                                                visibleColleges={visibleHsColleges}
+                                                totalEligible={prediction.totalHsEligible}
+                                                quotaTag="HS Quota"
+                                                emptyMessage="No Home State options available for your current profile."
+                                            />
+                                        </div>
+                                    )}
+                                </motion.div>
+                            )}
 
                             {/* CTA Banner */}
                             <div className="mt-16 relative rounded-[48px] overflow-hidden">

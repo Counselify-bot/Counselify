@@ -1,10 +1,37 @@
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, MapPin, Calendar, Award } from 'lucide-react';
+import { ArrowLeft, MapPin, Calendar, Award, GraduationCap, Building2, Cpu, Globe, Clock } from 'lucide-react';
 import iitColleges from '../../data/iit_colleges';
 
 const IITColleges = () => {
+    const [showGftiModal, setShowGftiModal] = useState(false);
+
     return (
         <div className="pt-36 pb-32 mesh-gradient-hero min-h-screen">
+            {/* GFTI Coming Soon Modal */}
+            {showGftiModal && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm" onClick={() => setShowGftiModal(false)}></div>
+                    <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-md p-8 md:p-10 text-center animate-in fade-in zoom-in-95 duration-200">
+                        <div className="w-16 h-16 bg-blue-50 text-[#0462C3] rounded-full flex items-center justify-center mx-auto mb-6">
+                            <Clock size={32} strokeWidth={1.5} />
+                        </div>
+                        <h3 className="text-2xl font-bold text-slate-800 mb-3">GFTI Data Coming Soon</h3>
+                        <p className="text-slate-500 mb-8 leading-relaxed">
+                            We are currently compiling verified data for Government Funded Technical Institutes. This section will be available very soon.
+                        </p>
+                        <div className="flex flex-col gap-3">
+                            <button onClick={() => setShowGftiModal(false)} className="w-full bg-[#0462C3] text-white font-bold py-3.5 rounded-xl hover:bg-[#034a94] transition-colors shadow-lg shadow-blue-500/20">
+                                Got It
+                            </button>
+                            <button onClick={() => setShowGftiModal(false)} className="w-full bg-slate-50 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-100 transition-colors border border-slate-200">
+                                Explore IITs Instead
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="section-container">
                 {/* Breadcrumb */}
                 <Link
@@ -48,6 +75,46 @@ const IITColleges = () => {
                     </div>
                 </div>
 
+                {/* Category Switcher Segmented Control */}
+                <div className="flex justify-center mb-16 px-4">
+                    <div className="inline-flex items-center gap-2 p-1.5 bg-slate-100/90 backdrop-blur-md rounded-full border border-slate-200/60 shadow-[inset_0_2px_6px_rgba(0,0,0,0.03)] overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-w-full">
+                        {[
+                            { id: 'iit', label: 'IITs', icon: GraduationCap, path: '/colleges/iit' },
+                            { id: 'nit', label: 'NITs', icon: Building2, path: '/colleges/nit' },
+                            { id: 'iiit', label: 'IIITs', icon: Cpu, path: '/colleges/iiit' },
+                            { id: 'gfti', label: 'GFTIs', icon: Globe, path: '#' }
+                        ].map((cat) => {
+                            const isActive = cat.id === 'iit'; // IIT Listing is always IIT active
+                            const Icon = cat.icon;
+                            return (
+                                <Link
+                                    key={cat.id}
+                                    to={cat.path}
+                                    onClick={(e) => {
+                                        if (cat.id === 'gfti') {
+                                            e.preventDefault();
+                                            setShowGftiModal(true);
+                                        }
+                                    }}
+                                    className={`relative flex items-center gap-2.5 px-6 py-2.5 rounded-full text-[14px] font-extrabold transition-all duration-300 shrink-0 select-none overflow-hidden ${
+                                        isActive
+                                            ? 'text-white shadow-[0_6px_16px_rgba(4,98,195,0.3)] pointer-events-none hover:-translate-y-0'
+                                            : 'text-slate-500 hover:text-[#0462C3] hover:bg-white hover:shadow-sm hover:-translate-y-0.5 active:scale-95'
+                                    }`}
+                                >
+                                    {isActive && (
+                                        <div className="absolute inset-0 bg-gradient-to-br from-[#0c4da2] to-cyan-500 z-0"></div>
+                                    )}
+                                    <div className="relative z-10 flex items-center gap-2">
+                                        <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-cyan-100/90" : "opacity-70"} />
+                                        <span className="tracking-wide">{cat.label}</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
+
                 {/* College Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {iitColleges.map((college, idx) => {
@@ -84,17 +151,21 @@ const IITColleges = () => {
                                 {/* Logo Circle - overlapping the image */}
                                 <div className="absolute -top-9 left-1/2 -translate-x-1/2">
                                     <div
-                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider"
-                                        style={{ backgroundColor: college.color }}
+                                        className={`w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider overflow-hidden ${college.logo ? 'bg-white p-[3px]' : ''}`}
+                                        style={!college.logo ? { backgroundColor: college.color } : {}}
                                     >
-                                        {college.name
-                                            .replace('IIT ', '')
-                                            .replace('IIT (', '')
-                                            .replace(')', '')
-                                            .replace('ISM', 'ISM')
-                                            .replace('BHU', 'BHU')
-                                            .substring(0, 3)
-                                            .toUpperCase()}
+                                        {college.logo ? (
+                                            <img src={college.logo} alt={`${college.name} Logo`} className="w-full h-full object-contain" />
+                                        ) : (
+                                            college.name
+                                                .replace('IIT ', '')
+                                                .replace('IIT (', '')
+                                                .replace(')', '')
+                                                .replace('ISM', 'ISM')
+                                                .replace('BHU', 'BHU')
+                                                .substring(0, 3)
+                                                .toUpperCase()
+                                        )}
                                     </div>
                                 </div>
 

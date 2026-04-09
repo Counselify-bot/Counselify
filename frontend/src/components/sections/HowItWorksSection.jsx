@@ -42,13 +42,17 @@ const HowItWorksSection = () => {
                     {stepDetails(steps[2], "3")}
                 </div>
 
-                <div className="mt-28 flex justify-center">
-                    <Link
-                        to="/rank-predictor"
-                        className="btn-primary flex items-center gap-6 group hover:px-14 px-10 transition-all"
-                    >
-                        Check My College Options <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
-                    </Link>
+                <div className="mt-28 flex justify-center relative group">
+                    <div className="flex flex-col items-center">
+                        <Link
+                            to="/college-predictor"
+                            className="px-10 py-[22px] bg-gradient-to-r from-[#0462C3] to-blue-600 text-white font-extrabold text-[12px] uppercase tracking-[0.2em] shadow-[0_8px_24px_rgba(4,98,195,0.35)] transition-all duration-300 hover:scale-[1.03] hover:from-[#0351a0] hover:to-blue-700 hover:shadow-[0_12px_32px_rgba(4,98,195,0.45)] rounded-full flex items-center justify-center gap-4 cursor-pointer relative overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"></div>
+                            Predict My College With AI
+                            <Zap size={18} className="transition-transform group-hover:scale-110 group-hover:rotate-12" />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>
