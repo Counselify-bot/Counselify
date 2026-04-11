@@ -11,6 +11,50 @@
   }
 }
 
+/* ── Floating Buttons Fix (Mobile Only) ─────────────────────────── */
+@media (max-width: 768px) {
+  /* Extra bottom padding so floating buttons don't block content */
+  main.flex-grow, #root > div.min-h-screen {
+    padding-bottom: 90px !important;
+  }
+
+  /* Chatbot trigger */
+  .chatbot-trigger {
+    bottom: 16px !important;
+    right: 16px !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-width: 1px !important;
+  }
+  .chatbot-trigger .trigger-icon svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  /* Chatbot window placement */
+  .chatbot-window {
+    bottom: 76px !important;
+    right: 16px !important;
+    width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 100px) !important;
+  }
+
+  /* Sticky Predict My College CTA */
+  .sticky-cta-btn {
+    bottom: 16px !important;
+    right: 76px !important; /* 16px right margin + 50px chatbot + 10px gap */
+    height: 50px !important;
+    padding: 0 18px !important;
+    font-size: 13.5px !important;
+    border-radius: 999px !important;
+    transform: translateY(0) scale(1) !important; /* Block inline transforms */
+  }
+  .sticky-cta-btn svg {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
 /* ══════════════════════════════════════════════════════════════════════
    TABLET (max-width: 1024px)
    ══════════════════════════════════════════════════════════════════════ */
