@@ -15,6 +15,7 @@ const formatVideoDate = (dateStr) => {
 const News = () => {
     const [activeFilter, setActiveFilter] = useState('All');
     const [videos, setVideos] = useState([]);
+    const [loadingVideos, setLoadingVideos] = useState(false);
     const [starred, setStarred] = useState(new Set());
     const { toasts, show: showToast } = useToast();
 
@@ -27,12 +28,30 @@ const News = () => {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
+                // Only set loading if it's strictly empty so we don't flash UI on bg refresh
+                if (videos.length === 0) setLoadingVideos(true);
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/api/youtube-videos`);
                 const data = await res.json();
-                if (data.success && data.videos?.length) setVideos(data.videos);
-            } catch { /* silently fail */ }
+                if (data.success && data.videos) {
+                    setVideos(data.videos);
+                }
+            } catch {
+                console.warn('YouTube feed fetch failed');
+            } finally {
+                setLoadingVideos(false);
+            }
         };
+
         fetchVideos();
+        const intervalId = setInterval(fetchVideos, 5 * 60 * 1000); // 5 mins
+        
+        const handleFocus = () => fetchVideos();
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            clearInterval(intervalId);
+            window.removeEventListener('focus', handleFocus);
+        };
     }, []);
 
     const handleStarClick = async (item) => {
@@ -183,6 +202,21 @@ const News = () => {
 
                 {/* Feed Items */}
                 <div className="flex flex-col gap-6">
+                    {/* Videos Tab Fallbacks */}
+                    {activeFilter === 'Videos' && loadingVideos && videos.length === 0 && (
+                        <div className="flex justify-center items-center py-20">
+                            <div className="animate-spin border-4 border-slate-200 border-t-red-500 rounded-full w-12 h-12"></div>
+                        </div>
+                    )}
+                    
+                    {activeFilter === 'Videos' && !loadingVideos && videos.length === 0 && (
+                        <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                            <Youtube size={48} className="mx-auto text-slate-300 mb-4" />
+                            <h3 className="text-xl font-bold text-slate-700">Videos temporarily unavailable</h3>
+                            <p className="text-slate-500 mt-2">We are currently fetching the latest videos. Please check back later.</p>
+                        </div>
+                    )}
+
                     {displayItems.map((item) => {
                         const isStarred = starred.has(String(item.id));
                         return (
@@ -241,7 +275,7 @@ const News = () => {
                     })}
                 </div>
 
-                {displayItems.length === 0 && (
+                {displayItems.length === 0 && activeFilter !== 'Videos' && (
                     <div className="text-center py-20">
                         <AlertCircle size={40} className="mx-auto text-slate-300 mb-4" />
                         <h3 className="text-lg font-bold text-slate-600">No updates found</h3>

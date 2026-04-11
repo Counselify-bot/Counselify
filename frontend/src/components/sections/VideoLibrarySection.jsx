@@ -40,21 +40,41 @@ const formatDate = (dateStr) => {
 };
 
 const VideoLibrarySection = () => {
-    const [videos, setVideos] = useState(fallbackVideos);
+    const [videos, setVideos] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const fetchVideos = async () => {
+        try {
+            setLoading(true);
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/api/youtube-videos`);
+            const data = await res.json();
+            if (data.success && data.videos && data.videos.length > 0) {
+                setVideos(data.videos.slice(0, 3));
+            } else {
+                setVideos(fallbackVideos);
+            }
+        } catch (err) {
+            console.warn('YouTube API unavailable, using fallback videos', err);
+            setVideos(fallbackVideos);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchVideos = async () => {
-            try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/youtube-videos`);
-                const data = await res.json();
-                if (data.success && data.videos?.length) {
-                    setVideos(data.videos.slice(0, 3));
-                }
-            } catch (err) {
-                console.warn('YouTube API unavailable, using fallback videos');
-            }
-        };
         fetchVideos();
+
+        // Auto-refresh every 5 minutes
+        const intervalId = setInterval(fetchVideos, 5 * 60 * 1000);
+
+        // Refetch on window focus
+        const handleFocus = () => fetchVideos();
+        window.addEventListener('focus', handleFocus);
+
+        return () => {
+            clearInterval(intervalId);
+            window.removeEventListener('focus', handleFocus);
+        };
     }, []);
 
     const openVideo = (id) => {
@@ -92,42 +112,59 @@ const VideoLibrarySection = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {videos.map((video, index) => (
-                        <div
-                            key={video.videoId || index}
-                            onClick={() => openVideo(video.videoId)}
-                            className="bg-white rounded-2xl overflow-hidden group editorial-shadow cursor-pointer relative transition-transform duration-500 hover:-translate-y-2"
-                        >
-                            <div className="relative aspect-video overflow-hidden">
-                                <img
-                                    src={video.thumbnail}
-                                    alt={video.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-[#0462C3]/20 transition-all duration-500 flex items-center justify-center">
-                                    <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl transform scale-0 group-hover:scale-100 transition-transform duration-500">
-                                        <PlayCircle size={32} className="text-[#0462C3] fill-[#0462C3]/10" />
+                {loading && videos.length === 0 ? (
+                    <div className="flex justify-center items-center py-20">
+                        <div className="animate-spin border-4 border-slate-200 border-t-[#0462C3] rounded-full w-12 h-12"></div>
+                    </div>
+                ) : videos.length === 0 ? (
+                    <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                        <PlayCircle size={48} className="mx-auto text-slate-300 mb-4" />
+                        <h3 className="text-xl font-bold text-slate-700">Videos temporarily unavailable</h3>
+                        <p className="text-slate-500 mt-2">Please check back later or visit our YouTube channel directly.</p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {videos.map((video, index) => (
+                            <div
+                                key={video.videoId || index}
+                                onClick={() => openVideo(video.videoId)}
+                                className="bg-white rounded-2xl overflow-hidden group editorial-shadow cursor-pointer relative transition-transform duration-500 hover:-translate-y-2"
+                            >
+                                <div className="relative aspect-video overflow-hidden">
+                                    <img
+                                        src={video.thumbnail}
+                                        alt={video.title}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        onError={(e) => {
+                                            if (e.target.src !== 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600&auto=format&fit=crop') {
+                                                e.target.src = 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600&auto=format&fit=crop';
+                                            }
+                                        }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-[#0462C3]/20 transition-all duration-500 flex items-center justify-center">
+                                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl transform scale-0 group-hover:scale-100 transition-transform duration-500">
+                                            <PlayCircle size={32} className="text-[#0462C3] fill-[#0462C3]/10" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="p-8 text-left h-full">
+                                    {video.published && (
+                                        <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
+                                            <Clock size={12} /> {formatDate(video.published)}
+                                        </p>
+                                    )}
+                                    <h3 className="text-xl font-medium serif-font italic text-on-surface mb-4 group-hover:text-[#0462C3] transition-colors line-clamp-2">
+                                        {video.title}
+                                    </h3>
+                                    <div className="flex items-center gap-2 text-[#0462C3] text-xs font-bold uppercase tracking-widest mt-auto shrink-0 mb-4">
+                                        <ExternalLink size={14} /> Watch on YouTube
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="p-8 text-left">
-                                {video.published && (
-                                    <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
-                                        <Clock size={12} /> {formatDate(video.published)}
-                                    </p>
-                                )}
-                                <h3 className="text-xl font-medium serif-font italic text-on-surface mb-4 group-hover:text-[#0462C3] transition-colors line-clamp-2">
-                                    {video.title}
-                                </h3>
-                                <div className="flex items-center gap-2 text-[#0462C3] text-xs font-bold uppercase tracking-widest">
-                                    <ExternalLink size={14} /> Watch on YouTube
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

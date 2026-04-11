@@ -347,23 +347,31 @@ const parseYTFeed = (xml) => {
 };
 
 app.get('/api/youtube-videos', async (req, res) => {
+    // Add aggressive caching for Vercel Serverless/Edge
+    res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate=43200');
+
     try {
         const now = Date.now();
-        if (ytCache.videos.length && (now - ytCache.fetchedAt) < YT_CACHE_MS) {
+        // If memory cache exists and isn't older than max age, use it
+        if (ytCache.videos && ytCache.videos.length > 0 && (now - ytCache.fetchedAt) < YT_CACHE_MS) {
             return res.json({ success: true, videos: ytCache.videos, cached: true });
         }
         const response = await fetch(YT_RSS);
         if (!response.ok) throw new Error(`RSS fetch failed: ${response.status}`);
         const xml = await response.text();
         const videos = parseYTFeed(xml);
-        if (videos.length) {
+        
+        if (videos && videos.length > 0) {
             ytCache = { videos, fetchedAt: now };
+            res.json({ success: true, videos: ytCache.videos, cached: false });
+        } else {
+            // Empty RSS response fallback
+            res.json({ success: true, videos: ytCache.videos || [], cached: true, warning: 'empty_feed' });
         }
-        res.json({ success: true, videos: ytCache.videos, cached: false });
     } catch (err) {
-        console.error('YouTube RSS error:', err.message);
-        // Return stale cache if available, otherwise empty
-        res.json({ success: true, videos: ytCache.videos, cached: true, stale: true });
+        console.error('[YouTube API Error]:', err.message);
+        // Fallback to cache safely or empty array
+        res.json({ success: true, videos: ytCache.videos || [], cached: true, stale: true, error: err.message });
     }
 });
 
