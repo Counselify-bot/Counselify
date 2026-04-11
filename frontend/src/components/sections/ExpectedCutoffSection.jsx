@@ -45,8 +45,30 @@ const ExpectedCutoffSection = () => {
                         {/* Decorative Blob */}
                         <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-primary-container/5 rounded-full blur-[60px] pointer-events-none"></div>
 
-                        <div className="overflow-x-auto relative z-10 w-full no-scrollbar">
-                            <table className="w-full text-left border-collapse min-w-[400px]">
+                        <div className="overflow-x-hidden md:overflow-x-auto relative z-10 w-full no-scrollbar">
+                            {/* --- MOBILE ONLY LIST (flex, no clip) --- */}
+                            <div className="flex md:hidden flex-col w-full">
+                                <div className="flex justify-between items-center pb-3 pt-2 px-1 border-b border-primary-fixed/80 mb-2">
+                                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-outline">Category</span>
+                                    <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-outline text-right">Expected Cutoff</span>
+                                </div>
+                                {cutoffData.map((item, index) => (
+                                    <div key={index} className="flex justify-between items-center gap-3 w-full py-4 px-1 border-b border-primary-fixed/40 last:border-0 hover:bg-white/50 transition-colors">
+                                        <div className="flex-1 min-w-0 flex items-center gap-3">
+                                            <div className={`w-3 h-3 rounded-full ${item.color.split(' ')[0]} border border-black/5 shrink-0`}></div>
+                                            <span className="font-bold text-on-surface text-[14px] truncate">{item.category}</span>
+                                        </div>
+                                        <div className="shrink-0 ml-2">
+                                            <div className={`inline-flex px-3 py-1.5 rounded-[12px] text-[13px] font-bold border ${item.color} shadow-sm`}>
+                                                {item.cutoff} <span className="text-[8px] font-bold ml-1 opacity-60 self-center tracking-widest uppercase">%ile</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* --- DESKTOP ONLY TABLE (original) --- */}
+                            <table className="hidden md:table w-full text-left border-collapse min-w-[400px]">
                                 <thead>
                                     <tr>
                                         <th className="pb-5 pt-2 px-6 text-[10px] font-bold tracking-[0.2em] uppercase text-outline border-b border-primary-fixed/80">Category</th>
