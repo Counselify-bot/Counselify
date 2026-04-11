@@ -4,8 +4,8 @@ const iitColleges = [
         location: "Mumbai, Maharashtra",
         nirf: 3,
         established: 1958,
-        campus: "/colleges/iit-bombay-campus.jpg",
-        logo: "/colleges/iit-bombay-logo.png",
+        campus: "/colleges/campus/iit_bombay.jpg",
+        logo: "/colleges/logos/iit_bombay.png",
         color: "#1a5276"
     },
     {
@@ -13,8 +13,8 @@ const iitColleges = [
         location: "New Delhi, Delhi",
         nirf: 2,
         established: 1961,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_delhi.png",
+        campus: "/colleges/campus/iit_delhi.jpg",
+        logo: "/colleges/logos/iit_delhi.png",
         color: "#0d47a1"
     },
     {
@@ -22,8 +22,8 @@ const iitColleges = [
         location: "Chennai, Tamil Nadu",
         nirf: 1,
         established: 1959,
-        campus: "/colleges/campus3.png",
-        logo: "/colleges/iit_madras.png",
+        campus: "/colleges/campus/iit_madras.jpg",
+        logo: "/colleges/logos/iit_madras.png",
         color: "#880e4f"
     },
     {
@@ -31,8 +31,8 @@ const iitColleges = [
         location: "Kanpur, Uttar Pradesh",
         nirf: 4,
         established: 1959,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_kanpur.png",
+        campus: "/colleges/campus/iit_kanpur.jpg",
+        logo: "/colleges/logos/iit_kanpur.png",
         color: "#e65100"
     },
     {
@@ -40,8 +40,8 @@ const iitColleges = [
         location: "Kharagpur, West Bengal",
         nirf: 5,
         established: 1951,
-        campus: "/colleges/campus1.png",
-        logo: "/colleges/iit_kharagpur.png",
+        campus: "/colleges/campus/iit_kharagpur.jpg",
+        logo: "/colleges/logos/iit_kharagpur.png",
         color: "#1b5e20"
     },
     {
@@ -49,8 +49,8 @@ const iitColleges = [
         location: "Roorkee, Uttarakhand",
         nirf: 6,
         established: 1847,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_roorkee.png",
+        campus: "/colleges/campus/iit_roorkee.jpg",
+        logo: "/colleges/logos/iit_roorkee.png",
         color: "#004d40"
     },
     {
@@ -58,8 +58,8 @@ const iitColleges = [
         location: "Guwahati, Assam",
         nirf: 7,
         established: 1994,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_guwahati.png",
+        campus: "/colleges/campus/iit_guwahati.jpg",
+        logo: "/colleges/logos/iit_guwahati.png",
         color: "#1565c0"
     },
     {
@@ -67,8 +67,8 @@ const iitColleges = [
         location: "Hyderabad, Telangana",
         nirf: 8,
         established: 2008,
-        campus: "/colleges/campus3.png",
-        logo: "/colleges/iit_hyderabad.png",
+        campus: "/colleges/campus/iit_hyderabad.jpg",
+        logo: "/colleges/logos/iit_hyderabad.png",
         color: "#6a1b9a"
     },
     {
@@ -76,8 +76,8 @@ const iitColleges = [
         location: "Varanasi, Uttar Pradesh",
         nirf: 10,
         established: 1919,
-        campus: "/colleges/campus1.png",
-        logo: "/colleges/iit_bhu_varanasi.png",
+        campus: "/colleges/campus/iit_bhu_varanasi.jpg",
+        logo: "/colleges/logos/iit_bhu_varanasi.png",
         color: "#b71c1c"
     },
     {
@@ -85,8 +85,8 @@ const iitColleges = [
         location: "Indore, Madhya Pradesh",
         nirf: 11,
         established: 2009,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_indore.png",
+        campus: "/colleges/campus/iit_indore.jpg",
+        logo: "/colleges/logos/iit_indore.png",
         color: "#0277bd"
     },
     {
@@ -94,8 +94,8 @@ const iitColleges = [
         location: "Dhanbad, Jharkhand",
         nirf: 14,
         established: 1926,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_ism_dhanbad.png",
+        campus: "/colleges/campus/iit_ism_dhanbad.jpg",
+        logo: "/colleges/logos/iit_ism_dhanbad.png",
         color: "#33691e"
     },
     {
@@ -103,8 +103,8 @@ const iitColleges = [
         location: "Bhubaneswar, Odisha",
         nirf: 21,
         established: 2008,
-        campus: "/colleges/campus3.png",
-        logo: "/colleges/iit_bhubaneswar.png",
+        campus: "/colleges/campus/iit_bhubaneswar.jpg",
+        logo: "/colleges/logos/iit_bhubaneswar.png",
         color: "#ff6f00"
     },
     {
@@ -112,8 +112,8 @@ const iitColleges = [
         location: "Rupnagar, Punjab",
         nirf: 22,
         established: 2008,
-        campus: "/colleges/campus1.png",
-        logo: "/colleges/iit_ropar.png",
+        campus: "/colleges/campus/iit_ropar.jpg",
+        logo: "/colleges/logos/iit_ropar.png",
         color: "#ad1457"
     },
     {
@@ -121,8 +121,8 @@ const iitColleges = [
         location: "Gandhinagar, Gujarat",
         nirf: 16,
         established: 2008,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_gandhinagar.png",
+        campus: "/colleges/campus/iit_gandhinagar.jpg",
+        logo: "/colleges/logos/iit_gandhinagar.png",
         color: "#f57f17"
     },
     {
@@ -130,8 +130,8 @@ const iitColleges = [
         location: "Patna, Bihar",
         nirf: 25,
         established: 2008,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_patna.png",
+        campus: "/colleges/campus/iit_patna.jpg",
+        logo: "/colleges/logos/iit_patna.png",
         color: "#4527a0"
     },
     {
@@ -139,8 +139,8 @@ const iitColleges = [
         location: "Jodhpur, Rajasthan",
         nirf: 26,
         established: 2008,
-        campus: "/colleges/campus3.png",
-        logo: "/colleges/iit_jodhpur.png",
+        campus: "/colleges/campus/iit_jodhpur.jpg",
+        logo: "/colleges/logos/iit_jodhpur.png",
         color: "#c62828"
     },
     {
@@ -148,8 +148,8 @@ const iitColleges = [
         location: "Mandi, Himachal Pradesh",
         nirf: 24,
         established: 2009,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_mandi.png",
+        campus: "/colleges/campus/iit_mandi.jpg",
+        logo: "/colleges/logos/iit_mandi.png",
         color: "#2e7d32"
     },
     {
@@ -157,8 +157,8 @@ const iitColleges = [
         location: "Tirupati, Andhra Pradesh",
         nirf: 30,
         established: 2015,
-        campus: "/colleges/campus1.png",
-        logo: "/colleges/iit_tirupati.png",
+        campus: "/colleges/campus/iit_tirupati.jpg",
+        logo: "/colleges/logos/iit_tirupati.png",
         color: "#00838f"
     },
     {
@@ -166,8 +166,8 @@ const iitColleges = [
         location: "Palakkad, Kerala",
         nirf: 34,
         established: 2015,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_palakkad.png",
+        campus: "/colleges/campus/iit_palakkad.jpg",
+        logo: "/colleges/logos/iit_palakkad.png",
         color: "#558b2f"
     },
     {
@@ -175,8 +175,8 @@ const iitColleges = [
         location: "Bhilai, Chhattisgarh",
         nirf: 46,
         established: 2016,
-        campus: "/colleges/campus3.png",
-        logo: "/colleges/iit_bhilai.png",
+        campus: "/colleges/campus/iit_bhilai.jpg",
+        logo: "/colleges/logos/iit_bhilai.png",
         color: "#d84315"
     },
     {
@@ -184,8 +184,8 @@ const iitColleges = [
         location: "Dharwad, Karnataka",
         nirf: 51,
         established: 2016,
-        campus: "/colleges/campus4.png",
-        logo: "/colleges/iit_dharwad.png",
+        campus: "/colleges/campus/iit_dharwad.jpg",
+        logo: "/colleges/logos/iit_dharwad.png",
         color: "#283593"
     },
     {
@@ -193,8 +193,8 @@ const iitColleges = [
         location: "Jammu, J&K",
         nirf: 47,
         established: 2016,
-        campus: "/colleges/campus1.png",
-        logo: "/colleges/iit_jammu.png",
+        campus: "/colleges/campus/iit_jammu.jpg",
+        logo: "/colleges/logos/iit_jammu.png",
         color: "#01579b"
     },
     {
@@ -202,8 +202,8 @@ const iitColleges = [
         location: "Ponda, Goa",
         nirf: 52,
         established: 2016,
-        campus: "/colleges/campus2.png",
-        logo: "/colleges/iit_goa.png",
+        campus: "/colleges/campus/iit_goa.jpg",
+        logo: "/colleges/logos/iit_goa.png",
         color: "#00695c"
     }
 ];

@@ -103,13 +103,13 @@ const HeroSection = () => {
                         transition={{ delay: 0.4, type: "spring" }}
                         className="w-full lg:w-2/5 relative mt-12 lg:mt-0"
                     >
-                        <div className="glass-panel p-4 rounded-2xl overflow-hidden group editorial-shadow border border-outline-variant/20 relative z-10">
+                        <div className="relative rounded-[48px] overflow-hidden border-8 border-white shadow-2xl transform rotate-2 hover:rotate-0 transition-transform duration-700 group">
                             <img
-                                src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1470&auto=format&fit=crop"
+                                src="/hero-counselify.jpg"
                                 alt="Counselling Intelligence"
-                                className="w-full grayscale group-hover:grayscale-0 transition-all duration-1000 rounded-xl"
+                                className="w-full h-[400px] object-cover"
                             />
-                            <div className="absolute inset-0 bg-primary-container/5 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div className="absolute inset-0 bg-[#0462C3]/10 mix-blend-multiply transition-opacity hover:opacity-0 duration-700"></div>
                         </div>
 
                         {/* Floating Badges */}

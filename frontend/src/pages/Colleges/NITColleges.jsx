@@ -18,7 +18,7 @@ const extractNirf = (profile) => {
 };
 
 const nitColleges = Object.keys(collegeData)
-    .filter((key) => key.startsWith('nit_'))
+    .filter((key) => key.startsWith('nit_') || key === 'iiest_shibpur')
     .sort((a, b) => {
         const aName = collegeData[a]?.institute?.also_known_as?.[0] || collegeData[a]?.institute?.name || a;
         const bName = collegeData[b]?.institute?.also_known_as?.[0] || collegeData[b]?.institute?.name || b;
@@ -34,7 +34,8 @@ const nitColleges = Object.keys(collegeData)
             location: institute.location || 'Location not available',
             established: institute.established || 'NA',
             nirf: extractNirf(profile),
-            campus: campusPalette[idx % campusPalette.length],
+            campus: `/colleges/campus/${key}.jpg`,
+            logo: `/colleges/logos/${key}.png`,
             color: colorPalette[idx % colorPalette.length]
         };
     });
@@ -174,10 +175,22 @@ const NITColleges = () => {
                             <div className="relative px-6 pb-6 pt-0">
                                 <div className="absolute -top-9 left-1/2 -translate-x-1/2">
                                     <div
-                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider"
-                                        style={{ backgroundColor: college.color }}
+                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center bg-white overflow-hidden"
                                     >
-                                        {college.name.replace(/^NIT\s*/i, '').slice(0, 3).toUpperCase() || 'NIT'}
+                                        <img
+                                            src={college.logo}
+                                            alt={`${college.name} Logo`}
+                                            className="w-full h-full object-contain p-1.5"
+                                            onError={(e) => {
+                                                e.target.style.display = 'none';
+                                                e.target.parentElement.style.backgroundColor = college.color;
+                                                e.target.parentElement.style.color = '#fff';
+                                                e.target.parentElement.style.fontSize = '11px';
+                                                e.target.parentElement.style.fontWeight = '700';
+                                                e.target.parentElement.style.letterSpacing = '0.05em';
+                                                e.target.parentElement.textContent = college.name.replace(/^(NIT|IIEST|MNIT|VNIT|SVNIT|MNNIT)\s*/i, '').slice(0, 3).toUpperCase();
+                                            }}
+                                        />
                                     </div>
                                 </div>
 

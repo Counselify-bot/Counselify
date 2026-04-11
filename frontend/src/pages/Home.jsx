@@ -2,6 +2,7 @@ import HeroSection from '../components/sections/HeroSection';
 import PercentileToRankSection from '../components/sections/PercentileToRankSection';
 import ExpectedCutoffSection from '../components/sections/ExpectedCutoffSection';
 import StatsStrip from '../components/sections/StatsStrip';
+import LiveCountersSection from '../components/sections/LiveCountersSection';
 import ProblemSection from '../components/sections/ProblemSection';
 import HowItWorksSection from '../components/sections/HowItWorksSection';
 import ServicesSection from '../components/sections/ServicesSection';
@@ -16,6 +17,7 @@ const Home = () => {
             <PercentileToRankSection />
             <ExpectedCutoffSection />
             <StatsStrip />
+            <LiveCountersSection />
             <ProblemSection />
             <HowItWorksSection />
             <ServicesSection />

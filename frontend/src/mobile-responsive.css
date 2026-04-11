@@ -1,0 +1,520 @@
+/* ══════════════════════════════════════════════════════════════════════
+   COUNSELIFY — MOBILE RESPONSIVE OVERRIDES
+   Desktop styles remain 100% unchanged.
+   These rules ONLY activate on screens <= 1024px.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── GLOBAL: Prevent horizontal overflow (mobile only) ────────────── */
+@media (max-width: 1024px) {
+  html, body {
+    overflow-x: hidden;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   TABLET (max-width: 1024px)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  /* Reduce section padding globally — but NOT the navbar */
+  .section-container:not(nav .section-container) {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PHONE + LARGE PHONE (max-width: 768px)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* ── Navbar fix ─────────────────────────────────────────────────── */
+  nav .section-container {
+    height: auto;
+    min-height: 3.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  nav img[alt="Counselify Logo"] {
+    height: 3.5rem;
+  }
+
+  /* ── Hero Section ──────────────────────────────────────────────── */
+  section[class*="min-h-[90vh]"] {
+    min-height: auto;
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+
+  /* ── Footer: reduce gap + padding on mobile ─────────────────── */
+  footer .section-container > div:first-child {
+    gap: 2.5rem;
+    margin-bottom: 3rem;
+  }
+  footer {
+    padding-top: 3rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* ── Services page top padding ────────────────────────────────── */
+  div[class*="pt-48"] {
+    padding-top: 7rem;
+  }
+
+  /* ── Services header spacing ──────────────────────────────────── */
+  div[class*="mb-32"] {
+    margin-bottom: 3rem;
+  }
+
+  /* ── Stats strip padding ───────────────────────────────────────── */
+  section[class*="py-24"] {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  /* ── Predictor result summary dashboard ────────────────────────── */
+  div[class*="p-10"][class*="md:p-14"][class*="editorial-shadow"] {
+    padding: 1.5rem;
+  }
+
+  /* ── Predictor form padding ────────────────────────────────────── */
+  div[class*="glass-panel"][class*="editorial-shadow"][class*="p-10"] {
+    padding: 1.5rem;
+  }
+
+  /* ── Predictor result table grid: make full width ──────────────── */
+  .grid.grid-cols-12 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* ── College Profile hero height ───────────────────────────────── */
+  div[class*="h-[450px]"] {
+    height: 320px;
+  }
+
+  /* ── College listing top padding ───────────────────────────────── */
+  div[class*="pt-36"] {
+    padding-top: 6rem;
+  }
+
+  /* ── CTA Banner at bottom of predictor ─────────────────────────── */
+  div[class*="rounded-[48px]"] {
+    border-radius: 1.5rem;
+  }
+  div[class*="rounded-[48px]"] > div[class*="p-12"] {
+    padding: 2rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SMALL PHONE (max-width: 480px)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+  /* ── Global padding tighten ─────────────────────────────────────── */
+  .section-container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* ── Navbar compact ─────────────────────────────────────────────── */
+  nav img[alt="Counselify Logo"] {
+    height: 3rem;
+  }
+
+  /* ── Hero heading scale ─────────────────────────────────────────── */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.1 !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.15 !important;
+  }
+
+  /* ── Hero subtitle ──────────────────────────────────────────────── */
+  section[class*="min-h-[90vh]"] p[class*="text-base"] {
+    font-size: 0.875rem;
+  }
+
+  /* ── Hero floating badge — prevent overflow off-left ────────────── */
+  section[class*="min-h-[90vh]"] [class*="absolute"][class*="-bottom-6"][class*="-left-6"] {
+    left: 0;
+    bottom: -0.5rem;
+    border-radius: 1rem;
+    padding: 1rem;
+  }
+  section[class*="min-h-[90vh]"] [class*="absolute"][class*="-bottom-6"][class*="-left-6"] span[class*="text-[12px]"] {
+    font-size: 10px;
+  }
+
+  /* ── Trust proof strip below hero ───────────────────────────────── */
+  div[class*="mt-20"][class*="flex-wrap"][class*="gap-12"] {
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  /* ── Stats numbers scale ────────────────────────────────────────── */
+  section[class*="border-y"] h3[class*="text-5xl"] {
+    font-size: 2rem !important;
+  }
+  section[class*="border-y"] div[class*="w-16"][class*="h-16"] {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Percentile-to-Rank calculator card ─────────────────────────── */
+  div[class*="glass-panel"][class*="p-10"][class*="md:p-14"][class*="editorial-shadow"][class*="max-w-xl"] {
+    padding: 1.25rem;
+  }
+
+  /* ── Percentile section heading ─────────────────────────────────── */
+  section[class*="overflow-hidden"] h2[class*="text-5xl"] {
+    font-size: 1.75rem !important;
+  }
+
+  /* ── Services pricing cards grid → single column ────────────────── */
+  div[class*="grid-cols-1"][class*="md:grid-cols-2"][class*="lg:grid-cols-3"][class*="gap-8"] {
+    gap: 1.25rem;
+  }
+
+  /* ── Service card internal padding ──────────────────────────────── */
+  div[class*="grid-cols-1"][class*="md:grid-cols-2"][class*="lg:grid-cols-3"] > div[class*="bg-white"][class*="p-8"] {
+    padding: 1.25rem;
+  }
+
+  /* ── Service plan price size ────────────────────────────────────── */
+  p[class*="text-[32px]"] {
+    font-size: 1.5rem !important;
+  }
+
+  /* ── Modal fit on small screens ─────────────────────────────────── */
+  div[class*="rounded-[32px]"][class*="max-w-lg"] {
+    border-radius: 1.5rem;
+    padding: 1.25rem;
+    max-height: 85vh;
+  }
+
+  /* ── College listing cards ──────────────────────────────────────── */
+  div[class*="grid-cols-1"][class*="md:grid-cols-2"][class*="lg:grid-cols-3"][class*="gap-8"] > a {
+    border-radius: 1.25rem;
+  }
+
+  /* ── College cards image height ─────────────────────────────────── */
+  div[class*="h-52"] {
+    height: 10rem;
+  }
+
+  /* ── College profile hero ──────────────────────────────────────── */
+  div[class*="h-[450px]"] {
+    height: 260px;
+  }
+  div[class*="h-[450px]"] h1,
+  div[class*="h-[550px]"] h1 {
+    font-size: 1.5rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* ── College profile tab pills — show icon only on tiny screens ── */
+  div[class*="sticky"][class*="top-[73px]"] button span[class*="tracking-wide"] {
+    display: none;
+  }
+  div[class*="sticky"][class*="top-[73px]"] button {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  /* ── College profile header strip compact ──────────────────────── */
+  header[class*="sticky"][class*="h-[73px]"] {
+    height: 56px;
+  }
+  /* Adjust tab nav sticky offset to match smaller header */
+  div[class*="sticky"][class*="top-[73px]"] {
+    top: 56px;
+  }
+
+  /* ── College profile overview cards ─────────────────────────────── */
+  div[class*="grid-cols-1"][class*="sm:grid-cols-2"][class*="md:grid-cols-4"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  div[class*="grid-cols-1"][class*="sm:grid-cols-2"][class*="md:grid-cols-4"] > div {
+    padding: 1rem;
+  }
+  div[class*="grid-cols-1"][class*="sm:grid-cols-2"][class*="md:grid-cols-4"] p[class*="text-xl"] {
+    font-size: 0.875rem;
+  }
+
+  /* ── Placement stat cards ──────────────────────────────────────── */
+  div[class*="grid-cols-2"][class*="lg:grid-cols-4"] > div {
+    padding: 1rem;
+  }
+  div[class*="grid-cols-2"][class*="lg:grid-cols-4"] p[class*="text-3xl"] {
+    font-size: 1.25rem !important;
+  }
+
+  /* ── Fee structure cards padding ────────────────────────────────── */
+  div[class*="rounded-[32px]"][class*="border-slate-200/70"][class*="shadow-sm"][class*="flex-col"] > div[class*="p-6"] {
+    padding: 1rem;
+  }
+
+  /* ── Predictor result rank display ──────────────────────────────── */
+  h2[class*="text-7xl"] {
+    font-size: 2.5rem !important;
+  }
+
+  /* ── Predictor counter cards ────────────────────────────────────── */
+  div[class*="min-w-[140px]"] {
+    min-width: 100px;
+    padding: 0.75rem 1rem;
+  }
+  div[class*="min-w-[140px]"] div[class*="text-3xl"] {
+    font-size: 1.25rem;
+  }
+
+  /* ── Predictor result table — card-like layout ──────────────────── */
+  /* Override the 12-col grid to become stacked cards */
+  div[class*="grid-cols-12"][class*="px-5"][class*="py-4"] {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+    align-items: flex-start;
+  }
+  div[class*="grid-cols-12"][class*="px-5"][class*="py-4"] > div[class*="col-span-1"] {
+    width: auto;
+    font-size: 10px;
+  }
+  div[class*="grid-cols-12"][class*="px-5"][class*="py-4"] > div[class*="col-span-4"] {
+    width: calc(100% - 2rem);
+    flex: 1;
+  }
+  div[class*="grid-cols-12"][class*="px-5"][class*="py-4"] > div[class*="col-span-3"] {
+    width: 100%;
+  }
+  div[class*="grid-cols-12"][class*="px-5"][class*="py-4"] > div[class*="col-span-2"] {
+    width: auto;
+  }
+
+  /* ── Predictor table header — hide on tiny screens ──────────────── */
+  div[class*="grid-cols-12"][class*="bg-primary-fixed"] {
+    display: none;
+  }
+
+  /* ── Institute filter pills compact ─────────────────────────────── */
+  div[class*="rounded-[20px]"][class*="inline-flex"][class*="editorial-shadow"] button {
+    padding: 0.5rem 1rem;
+    font-size: 10px;
+  }
+
+  /* ── CTA banner bottom ─────────────────────────────────────────── */
+  div[class*="rounded-[48px]"] {
+    border-radius: 1.25rem;
+  }
+  div[class*="rounded-[48px]"] h4 {
+    font-size: 1.5rem !important;
+  }
+  div[class*="rounded-[48px]"] button[class*="px-14"] {
+    padding: 1rem 2rem;
+    width: 100%;
+  }
+
+  /* ── College category switcher (IIT/NIT/IIIT/GFTI bar) ─────────── */
+  div[class*="inline-flex"][class*="rounded-full"][class*="border-slate-200/60"][class*="shadow-[inset"] a {
+    padding: 0.5rem 1rem;
+    font-size: 12px;
+  }
+
+  /* ── Breadcrumb on college pages ────────────────────────────────── */
+  a[class*="inline-flex"][class*="gap-2"][class*="mb-8"] {
+    margin-bottom: 1rem;
+    font-size: 12px;
+  }
+
+  /* ── College listing header ────────────────────────────────────── */
+  div[class*="mb-20"][class*="space-y-6"] {
+    margin-bottom: 2rem;
+  }
+
+  /* ── Contact/About page top padding ─────────────────────────────── */
+  div[class*="pt-32"] {
+    padding-top: 5.5rem;
+  }
+
+  /* ── Courses branch pills ──────────────────────────────────────── */
+  div[class*="flex-wrap"][class*="gap-3"][class*="md:gap-4"] > div[class*="rounded-full"] {
+    font-size: 12px;
+    padding: 0.4rem 0.75rem;
+  }
+
+  /* ── News/resources cards padding ───────────────────────────────── */
+  div[class*="pt-40"] {
+    padding-top: 6rem;
+  }
+
+  /* ── Footer columns → full width stacking ──────────────────────── */
+  footer .section-container > div:first-child {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* ── Footer bottom bar ─────────────────────────────────────────── */
+  footer div[class*="pt-12"][class*="border-t"] {
+    padding-top: 1rem;
+    gap: 0.75rem;
+  }
+
+  /* ── Urgency pill on services page ──────────────────────────────── */
+  div[class*="inline-flex"][class*="bg-orange-50"] {
+    font-size: 9px;
+    padding: 0.5rem 0.75rem;
+    text-align: center;
+  }
+
+  /* ── Trust text on services page ────────────────────────────────── */
+  div[class*="flex"][class*="text-slate-500"][class*="text-[13px]"] {
+    font-size: 11px;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* ── No refund policy section ──────────────────────────────────── */
+  div[class*="mt-24"][class*="pt-16"] {
+    margin-top: 3rem;
+    padding-top: 2rem;
+  }
+
+  /* ── CSAB / JAC predictor pages — same issues as JoSAA ─────────── */
+  /* The same grid/table patterns apply, covered by generic selectors above */
+
+  /* ── Admission steps timeline circles ──────────────────────────── */
+  div[class*="w-12"][class*="h-12"][class*="md:w-16"][class*="md:h-16"][class*="rounded-[18px]"] {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  /* ── College profile related colleges section ──────────────────── */
+  div[class*="grid-cols-1"][class*="sm:grid-cols-2"][class*="lg:grid-cols-3"] {
+    gap: 1rem;
+  }
+
+  /* ── Scholarship cards ─────────────────────────────────────────── */
+  div[class*="grid-cols-1"][class*="md:grid-cols-2"][class*="gap-4"] > div[class*="rounded-2xl"] {
+    padding: 0.75rem;
+  }
+
+  /* ── Chatbot trigger ────────────────────────────────────────────── */
+  .chatbot-trigger {
+    bottom: 1rem;
+    right: 1rem;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   EXTRA SMALL (max-width: 360px) — ultra-narrow phones
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 360px) {
+  .section-container {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  h2 {
+    font-size: 1.25rem !important;
+  }
+
+  /* Even smaller predictor rank display */
+  h2[class*="text-7xl"] {
+    font-size: 2rem !important;
+  }
+
+  /* College profile overview → single column on very small */
+  div[class*="grid-cols-1"][class*="sm:grid-cols-2"][class*="md:grid-cols-4"] {
+    grid-template-columns: 1fr;
+  }
+
+  /* Placement stats → single column */
+  div[class*="grid-cols-2"][class*="lg:grid-cols-4"] {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PLACEMENT TABLE — always scrollable container (all sizes)
+   Already has overflow-x-auto in JSX, but ensure min-width is honored
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  table[class*="min-w-[700px]"] {
+    min-width: 500px;
+  }
+  table th, table td {
+    padding: 0.5rem 0.75rem;
+    font-size: 11px;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   EDUCATIONAL TIP CARDS (sidebar in predictor)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  div[class*="lg:col-span-4"][class*="space-y-8"] {
+    margin-top: 1rem;
+  }
+  div[class*="lg:col-span-4"][class*="space-y-8"] > div {
+    padding: 1.25rem;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PREVENT IMAGE OVERFLOW (mobile only — preserve desktop logo sizing)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  img:not(nav img) {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   ENSURE ALL BUTTONS ARE TAP-FRIENDLY (44px min)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Exclude nav buttons/links from min-height to preserve desktop navbar */
+  button:not(nav button), a[class*="btn-primary"]:not(nav a), a[class*="rounded-xl"]:not(nav a), a[class*="rounded-full"]:not(nav a) {
+    min-height: 44px;
+  }
+  select {
+    min-height: 44px;
+  }
+  input[type="text"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="password"] {
+    min-height: 44px;
+    font-size: 16px; /* prevent iOS zoom */
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   SCROLLBAR HIDE on horizontal-scroll containers (mobile)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  [class*="overflow-x-auto"] {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  [class*="overflow-x-auto"]::-webkit-scrollbar {
+    display: none;
+  }
+}

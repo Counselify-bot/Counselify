@@ -26,9 +26,11 @@ import NITColleges from './pages/Colleges/NITColleges';
 import IIITColleges from './pages/Colleges/IIITColleges';
 import CollegeProfile from './pages/Colleges/CollegeProfile';
 import Footer from './components/Footer';
-import FloatingContactButton from './components/FloatingContactButton';
+import Chatbot from './components/Chatbot';
+import StickyCTA from './components/StickyCTA';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useEffect } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -101,18 +103,22 @@ function AppContent() {
         </Routes>
       </main>
       <Footer />
-      <FloatingContactButton />
+      <StickyCTA />
+      <Chatbot />
     </div>
   );
 }
 
 function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </Router>
+    <>
+      <Router>
+        <AuthProvider>
+          <AppContent />
+        </AuthProvider>
+      </Router>
+      <Analytics />
+    </>
   );
 }
 

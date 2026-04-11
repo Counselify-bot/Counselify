@@ -1,32 +1,61 @@
 import { PlayCircle, Eye, Clock, ExternalLink } from 'lucide-react';
+import { useState, useEffect } from 'react';
+
+// Hardcoded fallback videos in case API fails
+const fallbackVideos = [
+    {
+        videoId: "hDgHJ1HJIXc",
+        thumbnail: "https://img.youtube.com/vi/hDgHJ1HJIXc/maxresdefault.jpg",
+        title: "Marks Vs Percentile JEE Mains 2026 | Morning Shift Analysis",
+        published: ""
+    },
+    {
+        videoId: "Yq1c_ONea58",
+        thumbnail: "https://img.youtube.com/vi/Yq1c_ONea58/maxresdefault.jpg",
+        title: "College Choice & Branch Selection Guide 2024",
+        published: ""
+    },
+    {
+        videoId: "SmHbChsfaVk",
+        thumbnail: "https://img.youtube.com/vi/SmHbChsfaVk/maxresdefault.jpg",
+        title: "AI Probability & Rank Analysis Secrets",
+        published: ""
+    }
+];
+
+const formatDate = (dateStr) => {
+    if (!dateStr) return '';
+    try {
+        const d = new Date(dateStr);
+        const now = new Date();
+        const diffMs = now - d;
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        if (diffDays === 0) return 'Today';
+        if (diffDays === 1) return 'Yesterday';
+        if (diffDays < 7) return `${diffDays} days ago`;
+        if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+        if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+    } catch { return ''; }
+};
 
 const VideoLibrarySection = () => {
-    const videos = [
-        {
-            videoId: "hDgHJ1HJIXc",
-            thumbnail: "https://img.youtube.com/vi/hDgHJ1HJIXc/maxresdefault.jpg",
-            duration: "08:45",
-            title: "Marks Vs Percentile JEE Mains 2026 | Morning Shift Analysis",
-            views: "64K",
-            time: "2 days ago"
-        },
-        {
-            videoId: "Yq1c_ONea58",
-            thumbnail: "https://img.youtube.com/vi/Yq1c_ONea58/maxresdefault.jpg",
-            duration: "11:45",
-            title: "College Choice & Branch Selection Guide 2024",
-            views: "38K",
-            time: "2 weeks ago"
-        },
-        {
-            videoId: "SmHbChsfaVk",
-            thumbnail: "https://img.youtube.com/vi/SmHbChsfaVk/maxresdefault.jpg",
-            duration: "13:10",
-            title: "AI Probability & Rank Analysis Secrets",
-            views: "29K",
-            time: "3 weeks ago"
-        }
-    ];
+    const [videos, setVideos] = useState(fallbackVideos);
+
+    useEffect(() => {
+        const fetchVideos = async () => {
+            try {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/api/youtube-videos`);
+                const data = await res.json();
+                if (data.success && data.videos?.length) {
+                    setVideos(data.videos.slice(0, 3));
+                }
+            } catch (err) {
+                console.warn('YouTube API unavailable, using fallback videos');
+            }
+        };
+        fetchVideos();
+    }, []);
 
     const openVideo = (id) => {
         window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
@@ -34,7 +63,6 @@ const VideoLibrarySection = () => {
 
     return (
         <section id="videos" className="py-32 bg-background relative overflow-hidden">
-            {/* Background design */}
             <div className="absolute top-0 left-0 w-full h-1/2 bg-background -z-10"></div>
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10">
@@ -67,7 +95,7 @@ const VideoLibrarySection = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {videos.map((video, index) => (
                         <div
-                            key={index}
+                            key={video.videoId || index}
                             onClick={() => openVideo(video.videoId)}
                             className="bg-white rounded-2xl overflow-hidden group editorial-shadow cursor-pointer relative transition-transform duration-500 hover:-translate-y-2"
                         >
@@ -82,20 +110,19 @@ const VideoLibrarySection = () => {
                                         <PlayCircle size={32} className="text-[#0462C3] fill-[#0462C3]/10" />
                                     </div>
                                 </div>
-                                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[0.65rem] font-bold text-[#0462C3] uppercase tracking-widest z-10">
-                                    {video.duration}
-                                </div>
                             </div>
 
                             <div className="p-8 text-left">
-                                <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
-                                    <Clock size={12} /> {video.time}
-                                </p>
-                                <h3 className="text-xl font-medium serif-font italic text-on-surface mb-6 group-hover:text-[#0462C3] transition-colors line-clamp-2">
+                                {video.published && (
+                                    <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
+                                        <Clock size={12} /> {formatDate(video.published)}
+                                    </p>
+                                )}
+                                <h3 className="text-xl font-medium serif-font italic text-on-surface mb-4 group-hover:text-[#0462C3] transition-colors line-clamp-2">
                                     {video.title}
                                 </h3>
-                                <div className="flex items-center gap-2 text-outline text-xs font-bold uppercase tracking-widest">
-                                    <Eye size={14} /> {video.views} Views
+                                <div className="flex items-center gap-2 text-[#0462C3] text-xs font-bold uppercase tracking-widest">
+                                    <ExternalLink size={14} /> Watch on YouTube
                                 </div>
                             </div>
                         </div>
