@@ -11,16 +11,28 @@
   }
 }
 
+/* ── Hide Floatings When Premium Drawer Open ────────────── */
+body.mobile-menu-active {
+  overflow: hidden !important;
+}
+
+body.mobile-menu-active .chatbot-trigger,
+body.mobile-menu-active .sticky-cta-btn {
+  display: none !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
 /* ── Floating Buttons Fix (Mobile Only) ─────────────────────────── */
 @media (max-width: 768px) {
   /* Extra bottom padding so floating buttons don't block content */
   main.flex-grow, #root > div.min-h-screen {
-    padding-bottom: 90px !important;
+    padding-bottom: 110px !important;
   }
 
-  /* Chatbot trigger */
+  /* Chatbot trigger (Stacked top) */
   .chatbot-trigger {
-    bottom: 16px !important;
+    bottom: 82px !important;  /* 16px + 50px pill height + 16px gap */
     right: 16px !important;
     width: 50px !important;
     height: 50px !important;
@@ -33,25 +45,23 @@
 
   /* Chatbot window placement */
   .chatbot-window {
-    bottom: 76px !important;
+    bottom: 142px !important;
     right: 16px !important;
     width: calc(100vw - 32px) !important;
-    max-height: calc(100vh - 100px) !important;
+    max-height: calc(100vh - 160px) !important;
   }
 
-  /* Sticky Predict My College CTA */
+  /* Sticky Predict My College CTA (Stacked bottom) */
   .sticky-cta-btn {
     bottom: 16px !important;
-    right: 76px !important; /* 16px right margin + 50px chatbot + 10px gap */
+    right: 16px !important;
     height: 50px !important;
-    padding: 0 18px !important;
     font-size: 13.5px !important;
-    border-radius: 999px !important;
     transform: translateY(0) scale(1) !important; /* Block inline transforms */
   }
   .sticky-cta-btn svg {
-    width: 18px !important;
-    height: 18px !important;
+    width: 22px !important;
+    height: 22px !important;
   }
 }
 

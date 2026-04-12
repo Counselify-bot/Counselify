@@ -404,6 +404,37 @@ const Services = () => {
                     </div>
                 </div>
 
+                {/* Advisory Guidance Strip (Relocated from Home) */}
+                <div id="guidance" className="mt-24 mb-6 relative overflow-hidden bg-white border border-outline/10 rounded-3xl p-8 lg:p-12 text-left max-w-5xl mx-auto shadow-sm">
+                    <div className="absolute top-0 right-0 w-1/2 h-full bg-primary-fixed/5 -z-10 skew-x-[-12deg] translate-x-12 blur-2xl"></div>
+                    <div className="flex flex-col md:flex-row gap-8 lg:gap-16 items-center flex-wrap md:flex-nowrap">
+                        <div className="w-full md:w-1/2 space-y-4">
+                            <div className="inline-flex items-center gap-3">
+                                <div className="w-1.5 h-4 bg-primary-container rounded-full"></div>
+                                <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-outline">Navigating Admission Risk</span>
+                            </div>
+                            <h3 className="text-2xl md:text-3xl font-bold text-on-surface leading-tight">
+                                One choice can diverge your <br />
+                                <span className="serif-font italic font-medium text-primary-container">engineering career.</span>
+                            </h3>
+                            <p className="text-sm font-medium text-surface-container-high leading-relaxed max-w-md">
+                                Official counsel minimizes mistakes with documents and freeze/float decisions. Our personalized strategies ensure robust choice filling and risk mitigation until final seat confirmation.
+                            </p>
+                        </div>
+                        <div className="w-full md:w-1/2">
+                            <div className="bg-surface-container-lowest border border-outline-variant/30 rounded-2xl p-6 shadow-sm flex items-start gap-4 transition-transform hover:-translate-y-1 duration-300">
+                                <ShieldCheck size={28} className="text-[#0462C3] shrink-0 mt-1" />
+                                <div>
+                                    <h4 className="text-sm font-bold text-on-surface mb-2 uppercase tracking-widest">Complete Guidance</h4>
+                                    <p className="text-[13px] font-medium text-surface-container-high leading-relaxed">
+                                        We support you from rank analysis to final admission. Stop guessing probabilities and rely on algorithmic data and human oversight.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 {/* No Refund Policy */}
                 <div className="mt-24 text-center max-w-2xl mx-auto border-t border-slate-200 pt-16">
                     <div className="inline-flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-600 px-6 py-2.5 rounded-full text-[11px] font-extrabold uppercase tracking-[0.15em]">

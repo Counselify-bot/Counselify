@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Globe } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, ShieldCheck } from 'lucide-react';
 import logo from '../assets/logo.svg';
 
 const Footer = () => {
@@ -40,6 +40,12 @@ const Footer = () => {
                             <li className="flex items-center gap-4">
                                 <Phone size={16} className="text-primary-fixed-dim shrink-0" />
                                 <span className="text-xs font-bold">+91-6367352182</span>
+                            </li>
+                            <li className="flex items-center gap-4 mt-6">
+                                <ShieldCheck size={16} className="text-primary-fixed-dim shrink-0" />
+                                <Link to="/services" onClick={() => window.scrollTo(0, 0)} className="text-xs font-bold hover:text-white transition-colors">
+                                    Advisory Guidance
+                                </Link>
                             </li>
                         </ul>
                     </div>

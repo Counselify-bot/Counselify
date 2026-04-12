@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
     return (
-        <section className="relative bg-background pt-32 pb-20 lg:pt-44 lg:pb-32 min-h-[90vh] flex items-center overflow-hidden mesh-gradient-hero">
+        <section className="relative bg-background pt-32 pb-12 lg:pt-44 lg:pb-32 min-h-[90vh] flex items-center overflow-hidden mesh-gradient-hero">
             {/* Soft background accents */}
             <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-fixed/20 -z-10 skew-x-[-12deg] translate-x-32 blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-1/4 h-1/2 bg-primary-container/5 -z-10 rounded-full blur-[120px]"></div>
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10 text-left">
-                <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+                {/* Desktop View (Hidden on Mobile) */}
+                <div className="hidden lg:flex lg:flex-row flex-col lg:items-center gap-12 lg:gap-20">
 
                     {/* Left Content */}
                     <div className="w-full lg:w-3/5 flex flex-col items-start ">
@@ -132,7 +133,85 @@ const HeroSection = () => {
                             </div>
                         </motion.div>
                     </motion.div>
+                </div>
 
+                {/* Mobile View (Hidden on Desktop) */}
+                <div className="flex lg:hidden flex-col items-center text-center w-full max-w-[400px] mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-8 bg-blue-50 border border-blue-100 px-4 py-1.5 rounded-full"
+                    >
+                        <span className="text-[9px] uppercase tracking-[0.2em] font-extrabold text-[#0462C3]">Trusted JEE Counselling</span>
+                    </motion.div>
+
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-[42px] leading-[1.05] font-extrabold mb-5 text-on-surface tracking-tighter"
+                    >
+                        JEE Counselling <br />
+                        <span className="italic font-medium serif-font text-gradient-brand">Made Simple</span>
+                    </motion.h1>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-[14px] text-on-surface-variant font-medium mb-12 leading-relaxed px-2"
+                    >
+                        Get clear guidance on colleges, branches, and choice filling — tailored exactly to your rank.
+                    </motion.p>
+
+                    <motion.div className="flex flex-col w-full gap-4 mb-10 px-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        <Link to="/college-predictor" className="w-full px-6 py-[20px] bg-gradient-to-r from-[#0462C3] to-blue-600 shadow-[0_8px_24px_rgba(4,98,195,0.3)] font-extrabold text-[12px] uppercase tracking-[0.2em] text-white rounded-[20px] flex justify-center items-center gap-3">
+                            Predict My College With AI
+                            <Zap size={16} />
+                        </Link>
+                        <Link to="/advisor" className="w-full px-6 py-[18px] border-2 border-slate-200 text-slate-500 font-bold text-[12px] uppercase tracking-[0.2em] rounded-[20px] flex justify-center items-center gap-2">
+                            Speak to an Advisor
+                            <ArrowRight size={16} />
+                        </Link>
+                    </motion.div>
+
+                    <motion.div className="flex justify-center flex-wrap gap-x-8 gap-y-4 mb-20 w-full px-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                        <div className="flex flex-col items-center gap-1.5 opacity-60">
+                            <Sparkles size={16} className="text-[#0462C3]" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0462C3]">20k+ Success</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1.5 opacity-60">
+                            <ShieldCheck size={16} className="text-[#0462C3]" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0462C3]">Mentor Verified</span>
+                        </div>
+                        <div className="flex flex-col items-center gap-1.5 opacity-60">
+                            <Target size={16} className="text-[#0462C3]" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#0462C3]">Data Driven</span>
+                        </div>
+                    </motion.div>
+
+                    <motion.div className="w-full relative px-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+                        <div className="relative rounded-[32px] overflow-hidden border-4 border-white shadow-2xl">
+                            <img src="/hero-counselify.jpg" alt="Counselling Intelligence" className="w-full h-[320px] object-cover" />
+                            <div className="absolute inset-0 bg-[#0462C3]/10 mix-blend-multiply"></div>
+                        </div>
+
+                        {/* Shrunk Mobile Stats Overlay */}
+                        <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-[85%] bg-primary p-4 text-white shadow-[0_12px_30px_rgba(4,98,195,0.4)] rounded-[20px] flex justify-around">
+                            <div className="flex flex-col items-center">
+                                <span className="text-[22px] mb-1">🎓</span>
+                                <span className="text-[8.5px] font-bold uppercase tracking-widest opacity-90 text-center">40k+ Guided</span>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <span className="text-[22px] mb-1">📊</span>
+                                <span className="text-[8.5px] font-bold uppercase tracking-widest opacity-90 text-center">Data Based</span>
+                            </div>
+                            <div className="flex flex-col items-center">
+                                <span className="text-[22px] mb-1">📞</span>
+                                <span className="text-[8.5px] font-bold uppercase tracking-widest opacity-90 text-center">Call Support</span>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </div>
         </section>

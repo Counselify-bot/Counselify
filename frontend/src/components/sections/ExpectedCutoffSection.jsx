@@ -12,12 +12,13 @@ const ExpectedCutoffSection = () => {
     ];
 
     return (
-        <section className="py-20 bg-surface-container-low relative overflow-hidden">
+        <section className="py-12 lg:py-20 bg-surface-container-low relative overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-fixed to-transparent"></div>
 
             <div className="section-container relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                {/* Desktop Layout */}
+                <div className="hidden lg:grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     {/* Left: Content */}
                     <div className="text-left space-y-8">
                         <div className="inline-flex items-center gap-3 cursor-default">
@@ -93,6 +94,60 @@ const ExpectedCutoffSection = () => {
                                     ))}
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Mobile Layout (Premium App Structure) */}
+                <div className="flex lg:hidden flex-col gap-10 items-center w-full max-w-[420px] mx-auto text-center px-4">
+                    
+                    {/* Mobile Eyebrow */}
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#eef5fc] border border-blue-900/5 rounded-full mx-auto shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+                        <TrendingUp size={10} className="text-[#0462C3]" />
+                        <span className="text-[9px] uppercase tracking-[0.25em] font-extrabold text-[#0462C3]">JEE Adv. Eligibility</span>
+                    </div>
+
+                    {/* Mobile Header */}
+                    <div className="flex flex-col space-y-4">
+                        <h2 className="text-[38px] font-bold serif-font text-on-surface leading-[1.05] tracking-tight">
+                            Expected 2026<br />
+                            <span className="italic font-normal text-primary-container">Cutoffs</span>
+                        </h2>
+                        <p className="text-[14px] text-on-surface-variant font-medium leading-relaxed max-w-[300px] mx-auto">
+                            NTA releases the minimum category-wise percentile needed to be eligible for the JEE Advanced exam.
+                        </p>
+                    </div>
+
+                    {/* Mobile Compact Alert Banner */}
+                    <div className="flex items-center justify-start gap-4 w-full bg-amber-50/80 border border-amber-100 rounded-3xl p-5 text-left shadow-[0_4px_12px_rgba(245,158,11,0.03)]">
+                        <div className="w-10 h-10 rounded-full bg-amber-100/80 flex items-center justify-center text-amber-600 shrink-0">
+                            <AlertCircle size={20} strokeWidth={2.5} />
+                        </div>
+                        <p className="text-[9.5px] font-bold text-amber-700/90 uppercase tracking-[0.1em] leading-relaxed">
+                            Projected algorithmic estimates. Official cutoffs released with final results.
+                        </p>
+                    </div>
+
+                    {/* Mobile Cutoffs Table Box */}
+                    <div className="w-full bg-white rounded-[24px] p-2 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-blue-50/50">
+                        <div className="flex flex-col w-full">
+                            <div className="flex justify-between items-center pb-3 pt-3 px-3 border-b border-slate-100 mb-1">
+                                <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-slate-400">Category</span>
+                                <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-slate-400 text-right">Expected Cutoff</span>
+                            </div>
+                            {cutoffData.map((item, index) => (
+                                <div key={index} className="flex justify-between items-center gap-3 w-full py-4 px-3 border-b border-slate-50 last:border-0 hover:bg-[#F8FAFC] transition-colors rounded-[16px]">
+                                    <div className="flex-1 min-w-0 flex items-center gap-3">
+                                        <div className={`w-3 h-3 rounded-full ${item.color.split(' ')[0]} border border-black/5 shrink-0`}></div>
+                                        <span className="font-extrabold text-slate-800 text-[14px] truncate">{item.category}</span>
+                                    </div>
+                                    <div className="shrink-0 ml-2">
+                                        <div className={`inline-flex px-3 py-2 rounded-[12px] text-[12px] font-extrabold border ${item.color} shadow-sm bg-white`}>
+                                            {item.cutoff} <span className="text-[8px] font-black ml-1 text-slate-400 self-center tracking-widest uppercase">%ile</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </div>

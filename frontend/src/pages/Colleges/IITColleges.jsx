@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Calendar, Award, GraduationCap, Building2, Cpu, Globe, Clock } from 'lucide-react';
 import iitColleges from '../../data/iit_colleges';
+import { getCollegeAssetPaths, handleCampusError, handleLogoError } from '../../utils/collegeAssets';
 
 const IITColleges = () => {
     const [showGftiModal, setShowGftiModal] = useState(false);
@@ -122,6 +123,17 @@ const IITColleges = () => {
                         if (college.name.includes('(BHU)')) slug = 'iit-bhu-varanasi';
                         if (college.name.includes('(ISM)')) slug = 'iit-ism-dhanbad';
 
+                        const { image: campusImg, logo: logoImg } = getCollegeAssetPaths(college.name);
+                        
+                        const logoFallbackText = college.name
+                            .replace('IIT ', '')
+                            .replace('IIT (', '')
+                            .replace(')', '')
+                            .replace('ISM', 'ISM')
+                            .replace('BHU', 'BHU')
+                            .substring(0, 3)
+                            .toUpperCase();
+
                         return (
                             <Link
                                 to={`/colleges/iit/${slug}`}
@@ -131,7 +143,8 @@ const IITColleges = () => {
                             {/* Campus Image */}
                             <div className="relative h-52 overflow-hidden">
                                 <img
-                                    src={college.campus}
+                                    src={campusImg}
+                                    onError={handleCampusError}
                                     alt={`${college.name} Campus`}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
@@ -151,21 +164,14 @@ const IITColleges = () => {
                                 {/* Logo Circle - overlapping the image */}
                                 <div className="absolute -top-9 left-1/2 -translate-x-1/2">
                                     <div
-                                        className={`w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider overflow-hidden ${college.logo ? 'bg-white p-[3px]' : ''}`}
-                                        style={!college.logo ? { backgroundColor: college.color } : {}}
+                                        className="w-[72px] h-[72px] rounded-full border-4 border-white shadow-lg flex items-center justify-center text-white font-bold text-[11px] tracking-wider overflow-hidden bg-white p-[3px]"
                                     >
-                                        {college.logo ? (
-                                            <img src={college.logo} alt={`${college.name} Logo`} className="w-full h-full object-contain" />
-                                        ) : (
-                                            college.name
-                                                .replace('IIT ', '')
-                                                .replace('IIT (', '')
-                                                .replace(')', '')
-                                                .replace('ISM', 'ISM')
-                                                .replace('BHU', 'BHU')
-                                                .substring(0, 3)
-                                                .toUpperCase()
-                                        )}
+                                        <img 
+                                            src={logoImg} 
+                                            onError={handleLogoError(logoFallbackText, college.color)}
+                                            alt={`${college.name} Logo`} 
+                                            className="w-full h-full object-contain" 
+                                        />
                                     </div>
                                 </div>
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Calendar, Award, GraduationCap, Building2, Cpu, Globe, Clock } from 'lucide-react';
 import collegeData from '../../data/college_profiles.json';
+import { getCollegeAssetPaths, handleCampusError, handleLogoError } from '../../utils/collegeAssets';
 
 const campusPalette = ['/colleges/campus1.png', '/colleges/campus2.png', '/colleges/campus3.png', '/colleges/campus4.png'];
 const colorPalette = ['#0b5fff', '#0a4da8', '#125cab', '#0f766e', '#3b82f6', '#1d4ed8'];
@@ -34,8 +35,8 @@ const iiitColleges = Object.keys(collegeData)
             location: institute.location || 'Location not available',
             established: institute.established || 'NA',
             nirf: extractNirf(profile),
-            campus: `/colleges/campus/${key}.jpg`,
-            logo: `/colleges/logos/${key}.png`,
+            campus: getCollegeAssetPaths(key).image,
+            logo: getCollegeAssetPaths(key).logo,
             color: colorPalette[idx % colorPalette.length]
         };
     });
@@ -160,6 +161,7 @@ const IIITColleges = () => {
                             <div className="relative h-52 overflow-hidden">
                                 <img
                                     src={college.campus}
+                                    onError={handleCampusError}
                                     alt={`${college.name} Campus`}
                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                 />
@@ -181,15 +183,7 @@ const IIITColleges = () => {
                                             src={college.logo}
                                             alt={`${college.name} Logo`}
                                             className="w-full h-full object-contain p-1.5"
-                                            onError={(e) => {
-                                                e.target.style.display = 'none';
-                                                e.target.parentElement.style.backgroundColor = college.color;
-                                                e.target.parentElement.style.color = '#fff';
-                                                e.target.parentElement.style.fontSize = '11px';
-                                                e.target.parentElement.style.fontWeight = '700';
-                                                e.target.parentElement.style.letterSpacing = '0.05em';
-                                                e.target.parentElement.textContent = college.name.replace(/^IIIT\s*/i, '').slice(0, 3).toUpperCase();
-                                            }}
+                                            onError={handleLogoError(college.name.replace(/^IIIT\s*/i, '').slice(0, 3).toUpperCase(), college.color)}
                                         />
                                     </div>
                                 </div>

@@ -15,11 +15,12 @@ const SocialProofSection = () => {
     ];
 
     return (
-        <section className="py-24 bg-slate-900 relative border-t border-slate-800 overflow-hidden">
+        <section className="py-12 lg:py-24 bg-slate-900 relative border-t border-slate-800 overflow-hidden">
             <div className="absolute top-0 right-0 w-1/4 h-full bg-[#0462C3]/[0.05] rounded-full blur-3xl -mr-32 -mt-32"></div>
 
             <div className="container mx-auto px-6 max-w-7xl relative z-10 text-center">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-24 relative">
+                {/* Desktop Layout */}
+                <div className="hidden md:grid grid-cols-3 gap-24 relative">
                     {stats.map((stat, idx) => (
                         <div key={idx} className="flex flex-col items-center group cursor-default">
                             <h4 className="text-6xl md:text-8xl font-bold text-white italic serif-font tracking-tighter mb-4 group-hover:scale-110 transition-transform duration-700">
@@ -31,6 +32,8 @@ const SocialProofSection = () => {
                         </div>
                     ))}
                 </div>
+
+
             </div>
         </section>
     );

@@ -6,6 +6,9 @@ const StickyCTA = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [visible, setVisible] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isAtBottom, setIsAtBottom] = useState(false);
 
     // Hidden on college-predictor pages
     const hiddenPaths = ['/college-predictor'];
@@ -17,23 +20,62 @@ const StickyCTA = () => {
         return () => clearTimeout(timer);
     }, []);
 
+    // Check bounds and scrolling logic
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        const handleScroll = () => {
+            // Hide if we've scrolled down really far (near footer)
+            const scrollPos = window.scrollY + window.innerHeight;
+            const threshold = document.documentElement.scrollHeight - 180; 
+            setIsAtBottom(scrollPos > threshold);
+            
+            // Collapse if expanded and scrolling
+            if (isMobile && isExpanded) {
+                setIsExpanded(false);
+            }
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [isMobile, isExpanded]);
+
     if (isHidden) return null;
+
+    const handleClick = () => {
+        if (isMobile && !isExpanded) {
+            setIsExpanded(true);
+        } else {
+            navigate('/college-predictor');
+        }
+    };
+
+    // Calculate dynamic styles
+    const shouldHide = !visible || isAtBottom;
 
     return (
         <button
-            onClick={() => navigate('/college-predictor')}
+            onClick={handleClick}
             aria-label="Predict My College"
             className="sticky-cta-btn"
             style={{
                 /* ── Core positioning ──────────────────────────── */
                 position: 'fixed',
+                bottom: '2.25rem',
+                right: '6.5rem',
                 zIndex: 9990,
 
                 /* ── Visual ───────────────────────────────────── */
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px',
                 border: 'none',
                 cursor: 'pointer',
                 fontFamily: "'Manrope', sans-serif",
@@ -43,37 +85,58 @@ const StickyCTA = () => {
                 whiteSpace: 'nowrap',
                 color: '#fff',
                 background: 'linear-gradient(135deg, #0462C3 0%, #0050a0 100%)',
-                transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: '0 8px 28px -4px rgba(4, 98, 195, 0.4), 0 2px 8px rgba(0,0,0,0.08)',
+                
+                // Magic transition for expanding/collapsing and entering/exiting
+                transition: 'all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)',
 
                 /* ── Animation ────────────────────────────────── */
-                opacity: visible ? 1 : 0,
-                transform: visible ? 'translateY(0)' : 'translateY(20px)',
+                opacity: shouldHide ? 0 : 1,
+                transform: shouldHide ? 'translateY(20px) scale(0.95)' : 'translateY(0) scale(1)',
+                pointerEvents: shouldHide ? 'none' : 'auto',
 
-                /* ── Desktop defaults ─────────────────────────── */
-                bottom: '2.25rem',
-                right: '6.5rem',  /* offset left of chatbot (60px icon + 2.25rem gap + spacing) */
-                padding: '12px 24px',
+                /* ── Dynamic Sizing ─────────────────────────── */
+                // On mobile, if not expanded, it collapses into a perfect circle width
+                // padding left/right is driven by whether there is text
+                width: (isMobile && !isExpanded) ? '50px' : 'auto',
+                padding: (isMobile && !isExpanded) ? '0' : '12px 24px',
+                gap: (isMobile && !isExpanded) ? '0' : '8px',
+                
+                // Fallbacks so css resets don't override unexpectedly
                 borderRadius: '60px',
                 fontSize: '12px',
-                boxShadow: '0 8px 28px -4px rgba(4, 98, 195, 0.4), 0 2px 8px rgba(0,0,0,0.08)',
             }}
             onMouseEnter={e => {
+                if (isMobile) return;
                 e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
                 e.currentTarget.style.boxShadow = '0 12px 36px -4px rgba(4, 98, 195, 0.5), 0 4px 12px rgba(0,0,0,0.1)';
             }}
             onMouseLeave={e => {
+                if (isMobile) return;
                 e.currentTarget.style.transform = 'translateY(0) scale(1)';
                 e.currentTarget.style.boxShadow = '0 8px 28px -4px rgba(4, 98, 195, 0.4), 0 2px 8px rgba(0,0,0,0.08)';
             }}
             onMouseDown={e => {
-                e.currentTarget.style.transform = 'scale(0.97)';
+                e.currentTarget.style.transform = 'scale(0.95)';
             }}
             onMouseUp={e => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                if (isMobile) {
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                } else {
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.05)';
+                }
             }}
         >
-            <Sparkles size={15} strokeWidth={2.5} />
-            Predict My College
+            <Sparkles size={isMobile ? 22 : 15} strokeWidth={2.5} />
+            <span style={{ 
+                opacity: (isMobile && !isExpanded) ? 0 : 1, 
+                maxWidth: (isMobile && !isExpanded) ? 0 : '200px',
+                overflow: 'hidden',
+                display: 'inline-block',
+                transition: 'all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)'
+             }}>
+                Predict My College
+            </span>
         </button>
     );
 };

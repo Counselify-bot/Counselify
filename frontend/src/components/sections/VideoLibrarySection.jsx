@@ -1,4 +1,4 @@
-import { PlayCircle, Eye, Clock, ExternalLink } from 'lucide-react';
+import { PlayCircle, Eye, Clock, ExternalLink, Play } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 // Hardcoded fallback videos in case API fails
@@ -63,14 +63,9 @@ const VideoLibrarySection = () => {
 
     useEffect(() => {
         fetchVideos();
-
-        // Auto-refresh every 5 minutes
         const intervalId = setInterval(fetchVideos, 5 * 60 * 1000);
-
-        // Refetch on window focus
         const handleFocus = () => fetchVideos();
         window.addEventListener('focus', handleFocus);
-
         return () => {
             clearInterval(intervalId);
             window.removeEventListener('focus', handleFocus);
@@ -82,13 +77,13 @@ const VideoLibrarySection = () => {
     };
 
     return (
-        <section id="videos" className="py-32 bg-background relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-background -z-10"></div>
-
-            <div className="container mx-auto px-6 max-w-7xl relative z-10">
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-24 gap-8">
-                    <div className="max-w-xl">
-                        <div className="h-px w-20 bg-[#0462C3] mb-8"></div>
+        <section id="videos" className="py-12 lg:py-32 bg-background relative overflow-hidden">
+            <div className="section-container relative z-10">
+                
+                {/* Desktop Header Layout */}
+                <div className="hidden lg:flex lg:flex-row items-end justify-between mb-24 gap-8">
+                    <div className="max-w-xl text-left">
+                        <div className="h-[2px] w-12 bg-[#0462C3] mb-8 rounded-full"></div>
                         <h2 className="text-5xl md:text-6xl font-medium text-slate-900 mb-8 leading-[1.1] tracking-tight">
                             Latest <span className="serif-font italic capitalize">Insights</span><br />
                             from our Channel
@@ -112,59 +107,95 @@ const VideoLibrarySection = () => {
                     </div>
                 </div>
 
+                {/* Mobile Header Layout (Premium Redesign) */}
+                <div className="flex lg:hidden flex-col items-center justify-center text-center mb-10 space-y-4 px-4">
+                    {/* YouTube Branded Eyebrow */}
+                    <div className="inline-flex items-center gap-2.5 px-3 py-1.5 bg-red-50 border border-red-100/50 rounded-full mx-auto shadow-[0_2px_12px_rgba(255,0,0,0.04)] mb-2">
+                        <div className="w-5 h-5 bg-[#FF0000] rounded-md flex items-center justify-center shadow-[0_2px_8px_rgba(255,0,0,0.3)]">
+                            <Play size={10} className="text-white fill-white ml-0.5" />
+                        </div>
+                        <span className="text-[10px] uppercase tracking-[0.2em] font-black text-[#FF0000]">Official Channel</span>
+                    </div>
+
+                    <div className="text-center">
+                        <h2 className="text-[34px] font-black text-slate-900 leading-[1.05] tracking-tight mb-2">
+                             Latest <span className="text-[#0462C3] italic serif-font font-medium">Insights</span><br />
+                            <span className="text-[14px] text-slate-400 font-black uppercase tracking-[0.25em]">From our Channel</span>
+                        </h2>
+                        <p className="text-[13px] text-slate-500 font-medium leading-relaxed max-w-[280px] mx-auto opacity-80 mt-4">
+                            Stay updated with tactical admission strategies and campus reviews from JEC Experts.
+                        </p>
+                    </div>
+                </div>
+
                 {loading && videos.length === 0 ? (
                     <div className="flex justify-center items-center py-20">
                         <div className="animate-spin border-4 border-slate-200 border-t-[#0462C3] rounded-full w-12 h-12"></div>
                     </div>
-                ) : videos.length === 0 ? (
-                    <div className="text-center py-20 bg-white rounded-3xl border border-slate-100 shadow-sm">
-                        <PlayCircle size={48} className="mx-auto text-slate-300 mb-4" />
-                        <h3 className="text-xl font-bold text-slate-700">Videos temporarily unavailable</h3>
-                        <p className="text-slate-500 mt-2">Please check back later or visit our YouTube channel directly.</p>
-                    </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="flex flex-col gap-6 lg:grid lg:grid-cols-3 lg:gap-8 px-2">
                         {videos.map((video, index) => (
                             <div
                                 key={video.videoId || index}
                                 onClick={() => openVideo(video.videoId)}
-                                className="bg-white rounded-2xl overflow-hidden group editorial-shadow cursor-pointer relative transition-transform duration-500 hover:-translate-y-2"
+                                className="bg-white rounded-[24px] overflow-hidden group shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-slate-100 cursor-pointer relative transition-all duration-500 hover:-translate-y-2 flex flex-col"
                             >
                                 <div className="relative aspect-video overflow-hidden">
                                     <img
                                         src={video.thumbnail}
                                         alt={video.title}
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        onError={(e) => {
-                                            if (e.target.src !== 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600&auto=format&fit=crop') {
-                                                e.target.src = 'https://images.unsplash.com/photo-1616469829581-73993eb86b02?q=80&w=600&auto=format&fit=crop';
-                                            }
-                                        }}
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-[#0462C3]/20 transition-all duration-500 flex items-center justify-center">
-                                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-2xl transform scale-0 group-hover:scale-100 transition-transform duration-500">
-                                            <PlayCircle size={32} className="text-[#0462C3] fill-[#0462C3]/10" />
+                                    {/* Thumbnail Gradient Overlay */}
+                                    <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-black/20 to-transparent pointer-events-none"></div>
+                                    
+                                    {/* Play Button Overlay */}
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                        <div className="w-14 h-14 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center shadow-xl transform scale-100 lg:scale-0 lg:group-hover:scale-100 transition-all duration-500 border border-white">
+                                            <Play size={24} className="text-[#0462C3] fill-[#0462C3] ml-1" />
                                         </div>
                                     </div>
+
+                                    {/* Mobile Duration/Date Badge */}
+                                    {video.published && (
+                                        <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-[10px] font-bold text-white flex items-center gap-1.5 border border-white/10">
+                                            <Clock size={10} /> {formatDate(video.published)}
+                                        </div>
+                                    )}
                                 </div>
 
-                                <div className="p-8 text-left h-full">
-                                    {video.published && (
-                                        <p className="text-[11px] uppercase tracking-[0.2em] font-bold text-outline mb-3 flex items-center gap-2">
-                                            <Clock size={12} /> {formatDate(video.published)}
-                                        </p>
-                                    )}
-                                    <h3 className="text-xl font-medium serif-font italic text-on-surface mb-4 group-hover:text-[#0462C3] transition-colors line-clamp-2">
+                                <div className="p-6 text-left flex-1 flex flex-col">
+                                    <h3 className="text-[17px] font-extrabold text-slate-800 leading-tight mb-4 line-clamp-2 pr-4">
                                         {video.title}
                                     </h3>
-                                    <div className="flex items-center gap-2 text-[#0462C3] text-xs font-bold uppercase tracking-widest mt-auto shrink-0 mb-4">
-                                        <ExternalLink size={14} /> Watch on YouTube
+                                    <div className="mt-auto flex items-center justify-between">
+                                        <div className="flex items-center gap-2 text-[#0462C3] text-[11px] font-black uppercase tracking-widest">
+                                            <ExternalLink size={14} strokeWidth={2.5} /> Watch Now
+                                        </div>
+                                        <div className="flex items-center gap-1 text-slate-300 text-[10px] font-bold">
+                                            <Eye size={12} />
+                                            <span>Tutorial</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
+
+                {/* Brand Blue Premium CTA Button for Mobile */}
+                <div className="mt-10 lg:hidden px-4">
+                    <a
+                        href="https://www.youtube.com/@counselify"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-5 bg-gradient-to-r from-[#0462C3] to-blue-600 shadow-[0_8px_24px_rgba(4,98,195,0.3)] font-black text-[12px] uppercase tracking-[0.2em] text-white rounded-full flex justify-center items-center gap-3 active:scale-[0.98] transition-all relative overflow-hidden group"
+                    >
+                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"></div>
+                        Explore Videos on YouTube
+                        <ExternalLink size={16} />
+                    </a>
+                </div>
             </div>
         </section>
     );

@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import collegeData from '../../data/college_profiles.json';
 import iitColleges from '../../data/iit_colleges';
+import { getCollegeAssetPaths, handleCampusError, handleLogoError } from '../../utils/collegeAssets';
 
 const fieldLabelMap = {
     caution_money_one_time_refundable: 'Caution Money (Refundable)',
@@ -30,7 +31,11 @@ const slugFromCollegeName = (name) => {
 };
 
 const iitCardBySlug = iitColleges.reduce((acc, college) => {
-    acc[slugFromCollegeName(college.name)] = college;
+    acc[slugFromCollegeName(college.name)] = {
+        ...college,
+        campus: getCollegeAssetPaths(college.name).image,
+        logo: getCollegeAssetPaths(college.name).logo
+    };
     return acc;
 }, {});
 
@@ -46,7 +51,8 @@ const buildCardMapByPrefix = (prefix) =>
             const slug = key.replace(/_/g, '-');
             acc[slug] = {
                 name: institute.also_known_as?.[0] || institute.also_known_as_short || institute.name || slug.toUpperCase(),
-                campus: campusPalette[idx % campusPalette.length],
+                campus: getCollegeAssetPaths(key).image,
+                logo: getCollegeAssetPaths(key).logo,
                 color: tier2ColorPalette[idx % tier2ColorPalette.length]
             };
             return acc;
@@ -305,12 +311,13 @@ const CollegeProfile = ({ instituteType = 'iit' }) => {
                         {/* Premium BOM Identity Chip */}
                         <div className="relative group/badge shrink-0">
                             <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/40 to-cyan-400/40 rounded-full blur-md opacity-0 group-hover/badge:opacity-100 transition-opacity duration-300"></div>
-                            <div className={`relative h-9 w-9 md:h-11 md:w-11 rounded-[12px] flex items-center justify-center text-[10px] md:text-xs font-black shadow-[0_4px_10px_rgba(4,98,195,0.3)] group-hover/badge:-translate-y-[1px] group-hover/badge:shadow-[0_6px_15px_rgba(4,98,195,0.5)] transition-all duration-300 border border-slate-200/50 overflow-hidden ${card?.logo ? 'bg-white p-[3px]' : 'bg-gradient-to-br from-[#0c4da2] to-cyan-500 text-white border-white/60'}`}>
-                                {card?.logo ? (
-                                    <img src={card.logo} alt={`${instituteLabel} Logo`} className="w-full h-full object-contain" />
-                                ) : (
-                                    (displayName.replace(/^(IIT|NIT|IIIT)\s*/i, '').trim().slice(0, 3).toUpperCase() || instituteLabel)
-                                )}
+                            <div className="relative h-9 w-9 md:h-11 md:w-11 rounded-[12px] flex items-center justify-center text-[10px] md:text-xs font-black shadow-[0_4px_10px_rgba(4,98,195,0.3)] group-hover/badge:-translate-y-[1px] group-hover/badge:shadow-[0_6px_15px_rgba(4,98,195,0.5)] transition-all duration-300 border border-slate-200/50 overflow-hidden bg-white p-[3px]">
+                                <img 
+                                    src={card?.logo} 
+                                    onError={handleLogoError((displayName.replace(/^(IIT|NIT|IIIT)\s*/i, '').trim().slice(0, 3).toUpperCase() || instituteLabel), card?.color)}
+                                    alt={`${instituteLabel} Logo`} 
+                                    className="w-full h-full object-contain" 
+                                />
                             </div>
                         </div>
                         
@@ -357,6 +364,7 @@ const CollegeProfile = ({ instituteType = 'iit' }) => {
             <div className="relative w-full h-[450px] md:h-[550px] mt-0 overflow-hidden bg-slate-900">
                 <img 
                     src={card?.campus || '/colleges/campus1.png'} 
+                    onError={handleCampusError}
                     alt={institute.name}
                     className="absolute inset-0 w-full h-full object-cover scale-105"
                 />

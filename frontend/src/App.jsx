@@ -60,6 +60,7 @@ const ProtectedRoute = ({ children, redirectTo = '/login?redirect=/advisor' }) =
 };
 
 function AppContent() {
+  const { pathname } = useLocation();
   return (
     <div className="min-h-screen flex flex-col bg-transparent text-slate-800 relative">
       <ScrollToTop />
@@ -103,8 +104,12 @@ function AppContent() {
         </Routes>
       </main>
       <Footer />
-      <StickyCTA />
-      <Chatbot />
+      {pathname === '/' && (
+        <>
+          <StickyCTA />
+          <Chatbot />
+        </>
+      )}
     </div>
   );
 }

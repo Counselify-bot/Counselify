@@ -81,6 +81,7 @@ const TestimonialsSection = () => {
     const [startX, setStartX] = useState(0);
     const [startScrollLeft, setStartScrollLeft] = useState(0);
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const checkScrollState = () => {
         if (carouselRef.current) {
@@ -92,6 +93,11 @@ const TestimonialsSection = () => {
             
             const progress = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
             setScrollProgress(Math.min(100, Math.max(0, progress)));
+
+            // Update active dot index
+            const cardWidth = clientWidth;
+            const idx = Math.round(scrollLeft / cardWidth);
+            setActiveIndex(Math.min(idx, testimonials.length - 1));
         }
     };
 
@@ -132,15 +138,23 @@ const TestimonialsSection = () => {
     };
 
     return (
-        <section id="testimonials" className="py-28 bg-[#f8fafd] relative overflow-hidden">
+        <section id="testimonials" className="py-12 lg:py-28 bg-[#f8fafd] relative overflow-hidden">
             {/* Soft decorative background element */}
             <div className="absolute top-1/2 left-0 w-1/4 h-1/2 bg-blue-100/30 -z-10 rounded-r-full blur-3xl opacity-50"></div>
 
             <div className="container mx-auto px-6 max-w-[1400px] relative z-10">
                 
+                {/* Mobile Trust Headline */}
+                <div className="md:hidden text-center mb-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-100">
+                        <div className="w-2 h-2 rounded-full bg-[#0462C3] animate-pulse"></div>
+                        <span className="text-[11px] font-black text-[#0462C3] uppercase tracking-[0.2em]">Trusted by 40,000+ students across India</span>
+                    </div>
+                </div>
+
                 {/* Header Block */}
                 <div className="flex flex-col items-center justify-center text-center mb-20 max-w-2xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 mb-6">
+                    <div className="hidden md:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100 mb-6">
                         <ShieldCheck size={16} />
                         <span className="text-[11px] font-bold uppercase tracking-widest">Based on real counselling experience</span>
                     </div>
@@ -158,11 +172,11 @@ const TestimonialsSection = () => {
                 {/* Horizontal Scroll Carousel */}
                 <div className="relative mt-8 md:mt-12 w-full mx-auto group/carousel">
                     
-                    {/* Premium Navigation Arrows */}
+                    {/* Nav Arrows — Desktop only */}
                     <button 
                         onClick={() => scroll('left')}
                         disabled={!canScrollLeft}
-                        className={`absolute left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 transition-all duration-300 hover:bg-white hover:scale-110 disabled:opacity-0 disabled:translate-x-4 text-slate-800 ${canScrollLeft ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
+                        className={`hidden md:flex absolute left-2 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-white/95 backdrop-blur-md rounded-full items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 transition-all duration-300 hover:bg-white hover:scale-110 disabled:opacity-0 disabled:translate-x-4 text-slate-800 ${canScrollLeft ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'}`}
                         aria-label="Scroll left"
                     >
                         <ChevronLeft size={24} strokeWidth={2.5} />
@@ -171,7 +185,7 @@ const TestimonialsSection = () => {
                     <button 
                         onClick={() => scroll('right')}
                         disabled={!canScrollRight}
-                        className={`absolute right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 transition-all duration-300 hover:bg-white hover:scale-110 disabled:opacity-0 disabled:-translate-x-4 text-[#0462C3] ${canScrollRight ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'}`}
+                        className={`hidden md:flex absolute right-2 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 lg:w-14 lg:h-14 bg-white/95 backdrop-blur-md rounded-full items-center justify-center shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-slate-200 transition-all duration-300 hover:bg-white hover:scale-110 disabled:opacity-0 disabled:-translate-x-4 text-[#0462C3] ${canScrollRight ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'}`}
                         aria-label="Scroll right"
                     >
                         <ChevronRight size={24} strokeWidth={2.5} />
@@ -239,12 +253,32 @@ const TestimonialsSection = () => {
                         ))}
                     </div>
                 
-                    {/* Premium Progress Bar */}
+                    {/* Desktop Progress Bar */}
                     <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-slate-200/50 rounded-full overflow-hidden hidden md:block">
                         <div 
                             className="h-full bg-gradient-to-r from-[#0462C3] to-blue-400 rounded-full transition-all duration-300 ease-out"
                             style={{ width: `${Math.max(scrollProgress, 5)}%` }}
                         />
+                    </div>
+
+                    {/* Mobile: Premium Progress Indicator */}
+                    <div className="flex md:hidden items-center gap-3 mt-5 px-1">
+                        {/* Counter */}
+                        <span className="text-[12px] font-black text-[#0462C3] tabular-nums shrink-0">
+                            {String(activeIndex + 1).padStart(2, '0')}
+                            <span className="text-slate-300 font-medium"> / {String(testimonials.length).padStart(2, '0')}</span>
+                        </span>
+
+                        {/* Thin progress track */}
+                        <div className="flex-1 h-[3px] bg-slate-200 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-[#0462C3] rounded-full transition-all duration-400 ease-out"
+                                style={{ width: `${((activeIndex + 1) / testimonials.length) * 100}%` }}
+                            />
+                        </div>
+
+                        {/* Swipe hint */}
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest shrink-0">Swipe</span>
                     </div>
                 </div>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, LogOut, ChevronDown, GraduationCap, Building2, Cpu, Globe, Clock, ArrowRight } from 'lucide-react';
+import { Menu, X, LogOut, ChevronDown, GraduationCap, Building2, Cpu, Globe, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import logo from '../assets/logo.svg';
 import { useAuth } from '../context/AuthContext';
 
@@ -19,6 +19,15 @@ const Navbar = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.classList.add('mobile-menu-active');
+        } else {
+            document.body.classList.remove('mobile-menu-active');
+        }
+        return () => document.body.classList.remove('mobile-menu-active');
+    }, [isMobileMenuOpen]);
 
     const handleLogout = async () => {
         await logout();
@@ -170,77 +179,123 @@ const Navbar = () => {
 
             {/* Mobile Menu Dropdown */}
             {isMobileMenuOpen && (
-                <div className="lg:hidden absolute top-0 left-0 w-full bg-white h-screen flex flex-col pt-24 px-8 z-40 animate-in fade-in slide-in-from-top duration-300">
-                    <div className="flex flex-col space-y-8 text-lg font-semibold">
-                        {navLinks.map((link) => (
-                            <div key={link.name} className="flex flex-col space-y-4">
-                                {link.submenu ? (
-                                    <>
-                                        <span className="text-on-surface-variant text-xs font-bold uppercase tracking-widest">{link.name}</span>
-                                        <div className="grid grid-cols-1 gap-2">
-                                            {link.submenu.map((sub) => {
-                                                const Icon = sub.icon;
-                                                return (
-                                                <Link
-                                                    key={sub.name}
-                                                    to={sub.path}
-                                                    className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl hover:bg-blue-50 transition-colors"
-                                                    onClick={(e) => {
-                                                        if (sub.isUpcoming) {
-                                                            e.preventDefault();
-                                                            setShowGftiModal(true);
-                                                        } else {
-                                                            setIsMobileMenuOpen(false);
-                                                        }
-                                                    }}
-                                                >
-                                                    <div className="text-[#0462C3] p-1.5 bg-white rounded-lg shadow-sm">
-                                                        <Icon size={16} />
-                                                    </div>
-                                                    <div className="flex flex-col">
-                                                        <span className="text-sm font-bold text-slate-800">{sub.name}</span>
-                                                        <span className="text-[10px] text-slate-500">{sub.subtitle}</span>
-                                                    </div>
-                                                </Link>
-                                            )})}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <Link
-                                        to={link.path}
-                                        className="text-on-surface flex items-center"
-                                        onClick={() => setIsMobileMenuOpen(false)}
-                                    >
-                                        <span className={`${link.isPredictor ? 'font-extrabold text-[#0462C3]' : ''}`}>{link.name}</span>
-                                        {link.isPredictor && (
-                                            <span className="ml-3 px-2.5 py-1 text-[10px] font-black bg-[#E6F0FF] text-[#0462C3] rounded-full uppercase tracking-widest border border-blue-100">
-                                                Free AI Tool
-                                            </span>
-                                        )}
-                                    </Link>
-                                )}
+                <div className="lg:hidden fixed inset-0 w-full h-[100dvh] bg-[#F8FAFC] z-[100] flex flex-col animate-in fade-in slide-in-from-top duration-300 overflow-y-auto pb-10">
+                    
+                    {/* Header Section */}
+                    <div className="flex justify-between items-center px-6 py-6 border-b border-blue-900/5 bg-white shadow-[0_2px_10px_rgba(0,0,0,0.02)] relative z-10">
+                        <div className="flex items-center gap-3">
+                            <img src={logo} alt="Counselify Logo" className="h-8 w-auto object-contain" />
+                            <div className="flex flex-col">
+                                <span className="font-extrabold text-slate-800 text-lg leading-none">Counselify</span>
+                                <span className="text-[9px] uppercase tracking-widest text-[#0462C3] font-bold mt-1">Counselling Simplified</span>
                             </div>
-                        ))}
+                        </div>
+                        <button 
+                            className="p-2.5 bg-slate-100 rounded-full text-slate-500 hover:bg-slate-200 transition-colors"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            <X size={20} strokeWidth={2.5} />
+                        </button>
                     </div>
-                    <div className="flex flex-col w-full space-y-4 mt-12 pt-10 border-t border-outline-variant/20">
 
-
-                        {user ? (
-                            <button
-                                onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
-                                className="w-full py-4 rounded-xl bg-error-container text-error text-center font-bold text-sm uppercase tracking-widest"
-                            >
-                                Logout ({user.name?.split(' ')[0]})
-                            </button>
-                        ) : (
-                            <Link
-                                to="/login"
-                                className="w-full py-4 rounded-xl bg-gradient-brand text-on-primary text-center font-bold text-sm uppercase tracking-widest"
-                                onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                                Login
+                    {/* Content Scroll Area */}
+                    <div className="px-6 py-8 flex flex-col gap-10">
+                        {/* Highlights (AI Predictor CTA) */}
+                        <div className="group cursor-pointer">
+                            <Link to="/college-predictor" onClick={() => setIsMobileMenuOpen(false)} className="w-full bg-white border border-blue-100 shadow-[0_8px_20px_rgba(4,98,195,0.08)] rounded-[20px] p-5 flex items-center justify-between transition-transform active:scale-[0.98]">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-12 h-12 bg-blue-50 text-[#0462C3] rounded-2xl flex items-center justify-center">
+                                        <Sparkles size={20} />
+                                    </div>
+                                    <div className="flex flex-col items-start gap-1">
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-[#0462C3] bg-blue-50 px-2 py-0.5 rounded-full">Free AI Tool</span>
+                                        <span className="font-extrabold text-slate-800 text-lg">Predict My College</span>
+                                    </div>
+                                </div>
+                                <ArrowRight size={18} className="text-[#0462C3]" />
                             </Link>
-                        )}
+                        </div>
+
+                        {/* SECTION 1: MAIN */}
+                        <div className="flex flex-col gap-4">
+                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest ml-2">Main Menu</span>
+                            <div className="flex flex-col gap-1 bg-white rounded-[24px] p-2 shadow-[0_4px_12px_rgba(0,0,0,0.02)] border border-slate-100">
+                                <Link to="/" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-4 font-bold text-slate-700 active:bg-slate-50 transition-colors rounded-xl mx-1 text-base">Home</Link>
+                                <div className="h-px w-full bg-slate-50"></div>
+                                <Link to="/percentile-to-rank" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-4 font-bold text-slate-700 active:bg-slate-50 transition-colors rounded-xl mx-1 text-base">Percentile to Rank</Link>
+                            </div>
+                        </div>
+
+                        {/* SECTION 2: COLLEGES */}
+                        <div className="flex flex-col gap-4">
+                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest ml-2">Colleges</span>
+                            <div className="grid grid-cols-1 gap-3">
+                                {navLinks.find(l => l.name === 'Colleges')?.submenu?.map(sub => {
+                                    const Icon = sub.icon;
+                                    return (
+                                        <Link 
+                                            key={sub.name} 
+                                            to={sub.path} 
+                                            onClick={(e) => {
+                                                if (sub.isUpcoming) { e.preventDefault(); setShowGftiModal(true); }
+                                                else { setIsMobileMenuOpen(false); }
+                                            }}
+                                            className="bg-white border border-slate-100 rounded-[24px] p-4 flex items-center gap-4 transition-transform active:scale-[0.98] shadow-[0_4px_12px_rgba(0,0,0,0.02)]"
+                                        >
+                                            <div className="p-3 bg-slate-50 text-[#0462C3] rounded-[16px]">
+                                                <Icon size={20} />
+                                            </div>
+                                            <div className="flex flex-col flex-1">
+                                                <span className="font-bold text-slate-800 text-[15px]">{sub.name}</span>
+                                                <span className="text-[11px] font-medium text-slate-500 mt-0.5">{sub.subtitle}</span>
+                                            </div>
+                                            <ChevronDown size={16} className="-rotate-90 text-slate-300" />
+                                        </Link>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* SECTION 3: SERVICES */}
+                        <div className="flex flex-col gap-4">
+                            <span className="text-[10px] uppercase font-bold text-slate-400 tracking-widest ml-2">Services & Resources</span>
+                            <div className="flex flex-col gap-1 bg-white rounded-[24px] p-2 shadow-[0_4px_12px_rgba(0,0,0,0.02)] border border-slate-100">
+                                <Link to="/services" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-4 font-bold text-slate-700 active:bg-slate-50 transition-colors rounded-xl mx-1 text-base">Services</Link>
+                                <div className="h-px w-full bg-slate-50"></div>
+                                <Link to="/resources" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-4 font-bold text-slate-700 active:bg-slate-50 transition-colors rounded-xl mx-1 text-base">Resources</Link>
+                                <div className="h-px w-full bg-slate-50"></div>
+                                <Link to="/news" onClick={() => setIsMobileMenuOpen(false)} className="px-4 py-4 font-bold text-slate-700 active:bg-slate-50 transition-colors rounded-xl mx-1 text-base flex justify-between items-center">
+                                    News
+                                    <span className="px-2 py-[2px] bg-blue-50 text-[#0462C3] rounded-full text-[9px] uppercase tracking-widest font-black border border-blue-100 shadow-[0_0_8px_rgba(4,98,195,0.15)] flex gap-1.5 items-center">
+                                        <span className="relative flex h-1.5 w-1.5">
+                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0462C3] opacity-75"></span>
+                                            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#0462C3]"></span>
+                                        </span>
+                                        LIVE
+                                    </span>
+                                </Link>
+                            </div>
+                        </div>
+
+                        {/* AUTH SECTION */}
+                        <div className="mt-8 mb-8">
+                            {user ? (
+                                <button
+                                    onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}
+                                    className="w-full py-5 rounded-[20px] bg-red-50 text-red-600 font-extrabold text-[12px] uppercase tracking-[0.2em] transition-transform active:scale-[0.98]"
+                                >
+                                    Logout ({user.name?.split(' ')[0]})
+                                </button>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    className="w-full py-5 rounded-[20px] bg-gradient-brand text-white text-center font-extrabold text-[12px] uppercase tracking-[0.2em] shadow-[0_8px_24px_rgba(4,98,195,0.3)] transition-transform active:scale-[0.98] block"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Login to Portal
+                                </Link>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
