@@ -45,7 +45,7 @@ const IIITColleges = () => {
     const [showGftiModal, setShowGftiModal] = useState(false);
 
     return (
-        <div className="pt-36 pb-32 mesh-gradient-hero min-h-screen">
+        <div className="pt-28 md:pt-36 pb-12 md:pb-32 mesh-gradient-hero min-h-screen">
             {/* GFTI Coming Soon Modal */}
             {showGftiModal && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -87,23 +87,23 @@ const IIITColleges = () => {
                         </span>
                         <div className="h-px w-12 bg-[#0462C3]"></div>
                     </div>
-                    <h1 className="text-5xl md:text-[72px] font-bold leading-[1] text-on-surface tracking-tighter">
+                    <h1 className="text-4xl md:text-[72px] font-bold leading-[1.1] md:leading-[1] text-on-surface tracking-tighter">
                         All <span className="serif-font italic font-medium text-[#0462C3]">{iiitColleges.length} IIITs</span> in India
                     </h1>
                     <p className="text-base md:text-lg font-bold text-on-surface-variant italic leading-relaxed max-w-2xl mx-auto pt-4">
                         Explore all IIITs with detailed admission, fees, placements, courses, and rankings from official profile data.
                     </p>
-                    <div className="flex items-center justify-center gap-6 pt-4">
+                    <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 pt-4">
                         <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
                             <Award size={16} className="text-primary-container" />
                             <span>{iiitColleges.length} Institutes</span>
                         </div>
-                        <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
+                        <div className="hidden sm:block w-1 h-1 bg-slate-300 rounded-full"></div>
                         <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
                             <MapPin size={16} className="text-primary-container" />
                             <span>Across India</span>
                         </div>
-                        <div className="w-1 h-1 bg-slate-300 rounded-full"></div>
+                        <div className="hidden sm:block w-1 h-1 bg-slate-300 rounded-full"></div>
                         <div className="flex items-center gap-2 text-sm text-on-surface-variant font-bold">
                             <Calendar size={16} className="text-primary-container" />
                             <span>Modern Tech Institutes</span>

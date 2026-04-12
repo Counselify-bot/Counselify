@@ -21,6 +21,8 @@ const extractNirf = (profile) => {
 const nitColleges = Object.keys(collegeData)
     .filter((key) => key.startsWith('nit_') || key === 'iiest_shibpur')
     .sort((a, b) => {
+        if (a === 'iiest_shibpur') return 1;
+        if (b === 'iiest_shibpur') return -1;
         const aName = collegeData[a]?.institute?.also_known_as?.[0] || collegeData[a]?.institute?.name || a;
         const bName = collegeData[b]?.institute?.also_known_as?.[0] || collegeData[b]?.institute?.name || b;
         return aName.localeCompare(bName);
